@@ -40,6 +40,35 @@ function is_timeslot_booked($conn, $homeowner_id, $date, $timeslot_id, $amenity_
     return $count > 0;
 }
 
+// Notify admins about a new appointment
+function notify_admins($conn, $homeowner_id, $user_name, $email, $date, $purpose, $timeslot_id, $amenity_id) {
+    // Prepare the insert statement
+    $sql_notify = "INSERT INTO admin_inbox (admin_id, message, date) VALUES (?, ? , NOW())";
+
+    // Fetch all admins
+    $admins_result = $conn->query("SELECT id FROM admin");
+    while ($admin_row = $admins_result->fetch_assoc()) {
+        $admin_id = $admin_row['id'];
+
+        // Create the message
+        $message = "New appointment request from homeowner ID $homeowner_id: $user_name ($email) on $date for purpose '$purpose' with timeslot ID $timeslot_id and amenity ID $amenity_id.";
+
+        // Prepare the statement
+        $stmt_notify = $conn->prepare($sql_notify);
+        if (!$stmt_notify) {
+            echo "Failed to prepare SQL statement: " . $conn->error;
+            continue;
+        }
+        
+        // Bind parameters and execute
+        $stmt_notify->bind_param("is", $admin_id, $message);
+        
+        if (!$stmt_notify->execute()) {
+            echo "Failed to notify admin: " . $stmt_notify->error;
+        }
+    }
+}
+
 // Handle form submission to book an appointment
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['book_appointment'])) {
     $date = sanitize_input($_POST['date']);
@@ -72,7 +101,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['book_appointment'])) {
         }
         $stmt_insert->bind_param("isssssii", $homeowner_id, $date, $name, $email, $purpose, $status, $timeslot_id, $amenity_id);
 
-        if (!$stmt_insert->execute()) {
+        if ($stmt_insert->execute()) {
+            // Notify admins about the new appointment
+            notify_admins($conn, $homeowner_id, $name, $email, $date, $purpose, $timeslot_id, $amenity_id);
+        } else {
             $errors[] = "Failed to execute SQL statement: " . $stmt_insert->error;
         }
     }
@@ -127,7 +159,6 @@ $row_count = $result_count->fetch_assoc();
 $total_appointments = $row_count['total'];
 $total_pages = max(ceil($total_appointments / $limit), 1);
 
-
 // Fetch accepted appointments
 $sql_accepted_appointments = "SELECT a.id, a.date, a.name, a.email, a.purpose, a.status, t.time_start, t.time_end, am.name AS amenity_name, a.amount
                               FROM accepted_appointments a
@@ -139,8 +170,6 @@ $stmt_accepted_appointments->bind_param("i", $_SESSION['homeowner_id']);
 $stmt_accepted_appointments->execute();
 $result_accepted_appointments = $stmt_accepted_appointments->get_result();
 $accepted_appointments = $result_accepted_appointments->fetch_all(MYSQLI_ASSOC);
-
-
 
 // Fetch booked appointments with pagination
 $sql_booked_appointments = "SELECT a.id, a.date, a.name, a.email, a.purpose, a.status, t.time_start, t.time_end, am.name AS amenity_name
@@ -155,6 +184,7 @@ $stmt_booked_appointments->execute();
 $result_booked_appointments = $stmt_booked_appointments->get_result();
 $booked_appointments = $result_booked_appointments->fetch_all(MYSQLI_ASSOC);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
