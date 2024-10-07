@@ -1,0 +1,223 @@
+/* General Container Styling */
+.container {
+    background-color: #ffffff;  
+    border: 1px solid #ccc; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    padding: 10px; 
+    margin-top: 10px; 
+    width: 105%;
+}
+
+/* Main Content Styling */
+.main-content {
+    margin: 0 auto; /* Center the content horizontally */
+    margin-left: 80px;
+      max-width: 90%; /* Optional: Set a maximum width to prevent it from becoming too wide */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .main-content {
+        width: 90%; /* Increase width for smaller screens */
+        margin-left: 0; /* Reset margin for better alignment */
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        width: 100%; /* Full width for very small screens */
+    }
+}
+
+/* Heading Styling */
+h2 {
+    margin-bottom: 20px;
+    color: #2c3e50; /* Darker shade for better readability */
+    font-size: 24px; /* Increase font size for prominence */
+    font-weight: bold; /* Make heading bold */
+    border-bottom: 2px solid #000000; /* Add a bottom border for a stylish effect */
+    padding-bottom: 10px; /* Space between text and border */
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-family: Arial, sans-serif; /* Use a modern, clean font */
+}
+
+/* Table Borders */
+table,
+th,
+td {
+    border: 1px solid #ddd; /* Light gray border for a cleaner look */
+}
+
+/* Table Header Styling */
+th {
+    background-color: #fd8326; /* Blue background for table headers */
+    color: #fff; /* White text color for contrast */
+    padding: 12px;
+    text-align: center; /* Center align text in headers */
+    font-size: 16px; /* Larger font size for better readability */
+    font-weight: bold; /* Bold text for headers */
+}
+
+/* Table Data Styling */
+td {
+    padding: 12px;
+    text-align: center; /* Center align text in cells */
+    color: #333; /* Dark text color for readability */
+    max-width: 200px; /* Set a max-width for the cells */
+    word-wrap: break-word; /* Allow text to wrap within the cell */
+    white-space: normal; /* Allow text to wrap to the next line */
+}
+
+/* Alternating Row Colors */
+tr:nth-child(even) {
+    background-color: #f5f5f5; /* Subtle light gray background */
+}
+
+/* Row Hover Effect */
+tr:hover {
+    background-color: #eaf2f8; /* Light blue background on hover */
+}
+
+/* No Appointments Message */
+p.no-appointments {
+    color: #e74c3c; /* Use a bright red color for emphasis */
+    font-size: 18px; /* Increase font size for visibility */
+    font-weight: bold; /* Bold text for prominence */
+    text-align: center; /* Center align the message */
+}
+.page-link {
+    display: none;
+}
+.page-link.active {
+    background-color: #007BFF; /* Primary color for active link */
+    color: white; /* White text color */
+    border: 1px solid #007BFF; /* Match border color with active background */
+}
+#pagination {
+    margin-top: 20px;
+    text-align: center; /* Center align pagination controls */
+}
+#pagination a {
+    display: inline-block; /* Ensure pagination links are inline */
+    margin: 0 8px; /* Space between pagination links */
+    text-decoration: none; /* Remove underline from links */
+    color: #007BFF; /* Link color */
+    padding: 8px 12px; /* Padding inside pagination links */
+    border: 1px solid #007BFF; /* Blue border to match theme */
+    border-radius: 4px; /* Rounded corners */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
+}
+#pagination a.active {
+    background-color: #007BFF; /* Active background color */
+    color: white; /* White text color */
+}
+#pagination a:hover {
+    background-color: #f0f0f0; /* Light gray background on hover */
+    color: #fd8326; /* Blue text color */
+}
+
+#pagination input {
+    text-align: center;
+    width: 50px;
+    padding: 8px;
+    color: #007BFF; /* Blue text color */
+    border: 1px solid #007BFF; /* Blue border */
+    border-radius: 4px; /* Rounded corners */
+    margin: 0 8px; /* Space around the input */
+}
+
+/* Button styling */
+#pagination button {
+    background-color: #007BFF; /* Blue background */
+    color: white; /* White text */
+    border: none; /* Remove border */
+    padding: 8px 12px; /* Add padding */
+    text-align: center; /* Center text */
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Display inline */
+    font-size: 16px; /* Font size */
+    margin: 4px 2px; /* Add margin */
+    cursor: pointer; /* Add pointer cursor on hover */
+    border-radius: 4px; /* Rounded corners */
+    transition-duration: 0.4s; /* Add transition effect */
+}
+
+#pagination button:hover {
+    background-color: white; /* White background on hover */
+    color: #007BFF; /* Blue text on hover */
+    border: 1px solid #007BFF; /* Blue border on hover */
+}
+
+#pagination button:disabled {
+    background-color: #ddd; /* Grey background for disabled buttons */
+    color: #999; /* Grey text for disabled buttons */
+    cursor: not-allowed; /* No pointer cursor for disabled buttons */
+}
+
+#pagination input[type="number"] {
+    border: 1px solid #007BFF; /* Blue border */
+    border-radius: 4px; /* Rounded corners */
+    padding: 5px;
+    font-size: 14px;
+    width: 60px;
+}
+
+button {
+    margin: 0 6px; /* Slightly increased margin for better spacing */
+    padding: 10px 15px; /* Added padding inside buttons */
+    border: none; /* Remove default border */
+    border-radius: 4px; /* Rounded corners */
+    background-color: #fd8326; /* Primary button color */
+    color: white; /* Text color */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 16px; /* Larger font size for readability */
+    transition: background-color 0.3s ease; /* Smooth background color transition */
+}
+
+/* Button Hover Effect */
+button:hover {
+    background-color: #b64f00; /* Darker color on hover */
+}
+/* Styles for select elements */
+select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 16px;
+    line-height: 1.5;
+    box-sizing: border-box;
+}
+
+/* Hover and focus states for <select> */
+select:hover,
+select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+}
+@media (max-width: 768px) {
+    h2 {
+        font-size: 20px; /* Smaller heading for mobile */
+    }
+
+    table {
+        font-size: 14px; /* Smaller table font */
+    }
+
+    #pagination a,
+    #pagination button {
+        font-size: 14px; /* Smaller pagination controls */
+    }
+
+    #pagination input {
+        width: 40px; /* Smaller input field */
+    }
+}

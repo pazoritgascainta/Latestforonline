@@ -1,0 +1,179 @@
+#container {
+    display: none;
+}
+
+.container {
+    background-color: #ff7f50;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+    width: 768px; /* Original width for desktop */
+    max-width: 100%;
+    min-height: 480px; /* Original height for desktop */
+    z-index: 10002;
+}
+
+.container p {
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.3px;
+    margin: 20px 0;
+}
+
+.container span {
+    font-size: 12px;
+}
+
+.container a {
+    color: #000;
+    font-size: 13px;
+    text-decoration: none;
+    margin: 15px 0 10px;
+}
+
+.container button {
+    background-color: #ffcba4;
+    color: #fff;
+    font-size: 12px;
+    padding: 10px 45px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    cursor: pointer;
+    border: 1px solid #ffffff;
+}
+
+.container form {
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 40px;
+    height: 100%;
+}
+
+.container input {
+    background-color: #eee;
+    border: none;
+    margin: 8px 0;
+    padding: 10px 15px;
+    font-size: 13px;
+    border-radius: 8px;
+    width: 100%;
+    outline: none;
+}
+
+.form-container {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    transition: all 0.6s ease-in-out;
+}
+
+.sign-in {
+    left: 0;
+    width: 50%;
+    z-index: 2;
+}
+
+.toggle-container {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 998;
+}
+
+.toggle {
+    background-color: #ffcba9;
+    height: 100%;
+    background: linear-gradient(to right,#ffcba4);
+    color: #000000;
+    position: relative;
+    left: -100%;
+    height: 100%;
+    width: 200%;
+    transform: translateX(0);
+}
+
+.toggle-panel {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 30px;
+    text-align: center;
+    top: 0;
+    transform: translateX(0);
+    transition: all 0.6s ease-in-out;
+}
+
+.toggle-right {
+    right: 0;
+    transform: translateX(0);
+}
+
+.exit-btn-container {
+    position: absolute;
+    top: 10px; /* Adjust the top position as needed */
+    right: 10px; /* Adjust the right position as needed */
+    z-index: 1001;
+}
+
+.exit-btn {
+    background-color: red;
+    color: white;
+    font-size: 24px;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 0px;
+}
+
+/* Media Queries for Mobile Devices */
+@media (max-width: 768px) {
+    .container {
+        width: 90%; /* Smaller width for mobile */
+        min-height: 300px; /* Smaller height for mobile */
+    }
+
+    .container p {
+        font-size: 10px; /* Smaller font size for mobile */
+    }
+
+    .container span {
+        font-size: 8px; /* Smaller span font size for mobile */
+    }
+
+    .container a {
+        font-size: 9px; /* Smaller link font size for mobile */
+    }
+    .container h1 {
+        font-size: 16px; /* Smaller link font size for mobile */
+    }
+
+    .container button {
+        font-size: 8px; /* Smaller button font size for mobile */
+    }
+
+    .container input {
+        font-size: 9px; /* Smaller input font size for mobile */
+    }
+}

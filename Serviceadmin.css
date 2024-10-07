@@ -1,0 +1,245 @@
+
+/* Sidebar styles */
+.servicesidebar {
+    width: 100%;
+    background-color: #b67e52;
+    display: flex;
+    flex-direction: row; /* Changed to row for horizontal layout */
+    justify-content: center; /* Center the items horizontally */
+    padding: 10px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.menu-item {
+    background-color: #d08f61;
+    padding: 15px 100px;
+    margin: 0 10px; /* Horizontal margin between buttons */
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+.menu-item:hover {
+    background-color: #e6a378;
+}
+
+/* Content area styles */
+.content-area {
+    flex-grow: 1;
+    padding: 30px;
+    background-color: #f9f9f9;
+    overflow-y: auto;
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+thead th {
+    background-color: #cf722f;
+    color: white;
+    padding: 15px;
+    text-align: left;
+    font-size: 14px;
+}
+
+tbody td {
+    padding: 12px;
+    text-align: left;
+    font-size: 14px;
+    color: #333;
+}
+
+tbody tr {
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.3s ease;
+}
+
+tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Button styles */
+.view-btn, .delete-btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.view-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.delete-btn {
+    background-color: #F44336;
+    color: white;
+}
+
+.view-btn:hover {
+    background-color: #45a049;
+}
+
+.delete-btn:hover {
+    background-color: #e53935;
+}
+
+/* Responsive table - scroll on smaller screens */
+@media screen and (max-width: 768px) {
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    thead {
+        float: left;
+    }
+
+    tbody {
+        width: auto;
+        position: relative;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    tbody tr {
+        display: table-cell;
+    }
+
+    tbody td {
+        display: block;
+        text-align: right;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    tbody td:before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+}
+
+/* Pagination Styling */
+.page-link {
+    display: none;
+}
+.page-link.active {
+    background-color: #ff8b2c; /* Primary color for active link */
+    color: white; /* White text color */
+    border: 1px solid #ff8b2c; /* Match border color with active background */
+}
+#pagination {
+    margin-top: 20px;
+    text-align: center; /* Center align pagination controls */
+}
+#pagination a {
+    display: inline-block; /* Ensure pagination links are inline */
+    margin: 0 8px; /* Space between pagination links */
+    text-decoration: none; /* Remove underline from links */
+    color: #ff8b2c; /* Link color */
+    padding: 8px 12px; /* Padding inside pagination links */
+    border: 1px solid #ff8b2c; /* Blue border to match theme */
+    border-radius: 4px; /* Rounded corners */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
+}
+#pagination a.active {
+    background-color: #ff8b2c; /* Active background color */
+    color: white; /* White text color */
+}
+#pagination a:hover {
+    background-color: #f0f0f0; /* Light gray background on hover */
+    color: #ff8b2c; /* Blue text color */
+}
+
+#pagination input {
+    text-align: center;
+    width: 50px;
+    padding: 8px;
+    color: #ff8b2c; /* Blue text color */
+    border: 1px solid #ff8b2c; /* Blue border */
+    border-radius: 4px; /* Rounded corners */
+    margin: 0 8px; /* Space around the input */
+}
+
+/* Button styling */
+#pagination button {
+    background-color: #ff8b2c; /* Blue background */
+    color: white; /* White text */
+    border: none; /* Remove border */
+    padding: 8px 12px; /* Add padding */
+    text-align: center; /* Center text */
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Display inline */
+    font-size: 16px; /* Font size */
+    margin: 4px 2px; /* Add margin */
+    cursor: pointer; /* Add pointer cursor on hover */
+    border-radius: 4px; /* Rounded corners */
+    transition-duration: 0.4s; /* Add transition effect */
+}
+
+#pagination button:hover {
+    background-color: white; /* White background on hover */
+    color: #ff8b2c; /* Blue text on hover */
+    border: 1px solid #ff8b2c; /* Blue border on hover */
+}
+
+#pagination button:disabled {
+    background-color: #ddd; /* Grey background for disabled buttons */
+    color: #999; /* Grey text for disabled buttons */
+    cursor: not-allowed; /* No pointer cursor for disabled buttons */
+}
+
+#pagination input[type="number"] {
+    border: 1px solid #ff8b2c; /* Blue border */
+    border-radius: 4px; /* Rounded corners */
+    padding: 5px;
+    font-size: 14px;
+    width: 60px;
+}
+.search-form {
+    margin-bottom: 20px; /* Space below the search form */
+    display: flex;
+    align-items: center;
+}
+
+.search-form input[type="number"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 250px; /* Adjust width as needed */
+    margin-right: 10px; /* Space between input and button */
+}
+
+.search-form button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #ff8b2c; /* Bootstrap primary color */
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-form button:hover {
+    background-color: #ff7300; /* Darker shade on hover */
+}

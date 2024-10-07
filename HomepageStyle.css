@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.footer-panel {
+    position: relative;
+    left: 0;
+    bottom: 0;
+    height: 100px;
+    width: 100%;
+    overflow: hidden;
+}
+/* Other styles for the footer content */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+.footer-panel nav {
+    display: inline-block;
+}
+
+.footer-panel ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.footer-panel li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.footer-panel a {
+    text-decoration: none;
+    color: #000000;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.footer {
+    background-color: #ffcba4;
+    color: #000000;
+    padding: 10px;
+    text-align: center;
+    position: relative;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.center{
+    display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top:50px;
+}
+.video-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh; /* Adjust the height as needed */
+    padding: 20px; /* Add padding for small screens */
+
+}
+
+video {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 5px; /* Add some border-radius for a nicer look */
+
+}
+
+@media screen and (max-width: 768px) {
+    .footer-panel li {
+        margin-right: 10px; /* Reduce spacing for smaller screens */
+    }
+
+    .footer-panel a {
+        font-size: 12px; /* Smaller font size for links */
+    }
+
+    .video-container {
+        height: 60vh; /* Reduce height for smaller screens */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .footer-panel li {
+        margin-right: 5px; /* Further reduce spacing on mobile */
+    }
+
+    .footer-panel a {
+        font-size: 10px; /* Smaller font size for mobile */
+    }
+
+    .video-container {
+        height: 50vh; /* Further reduce height for mobile */
+        padding: 10px; /* Less padding on mobile */
+    }
+}
+
+@media (max-width: 768px) {
+    section {
+        padding: 10px;
+    }
+
+    section h2 {
+        font-size: 20px;
+        margin-bottom: 5px;
+    }
+
+    section ul {
+        height: auto;
+        display: block; 
+    }
+
+    section ul li {
+        font-size: 16px;
+        line-height: 1.5;
+        padding: 10px;
+        margin: 5px;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    section ul li img {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 10px;
+    }
+
+    section ul li .text {
+        margin: 0;
+    }
+}

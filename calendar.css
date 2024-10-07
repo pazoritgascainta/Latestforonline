@@ -1,0 +1,187 @@
+/* Calendar container styles */
+#calendar-box {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 100%; /* Ensure it occupies full width of its container */
+}
+
+/* Calendar navigation styling */
+#calendar-nav {
+    flex-shrink: 0; /* Prevent shrinking */
+    background-color: #ff8b2c; /* Adjust background color */
+    color: #fff; /* Adjust text color */
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ccc; /* Optional border to separate from calendar */
+}
+
+/* Calendar navigation buttons styling */
+#calendar-nav button {
+    background: none;
+    border: none;
+    font-size: 2em;
+    cursor: pointer;
+    margin: 0 15px;
+    transition: color 0.3s, transform 0.3s;
+}
+
+#calendar-nav button:hover {
+    color: #fff; /* Change to desired hover color */
+    transform: scale(1.2); /* Slightly increase size on hover */
+}
+
+#calendar-nav #month-year {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #000000;
+    margin: 0 15px;
+    padding: 10px 0;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Calendar grid styling */
+#calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    width: 100%; /* Ensure it occupies full width */
+    margin: 0 auto;
+    padding: 10px; /* Optional padding for spacing */
+}
+
+/* Calendar header cell styling */
+.calendar-header-cell {
+    text-align: center;
+    padding: 10px;
+    background-color: #f4f4f4; /* Light gray background for header */
+    font-weight: bold;
+    /* Remove border from header cells */
+    border: none;
+}
+
+/* Calendar cell styling */
+.calendar-cell {
+    text-align: right;
+    padding: 15px;
+    border: 1px solid #ccc; /* Apply border only to day cells */
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 1.2em;
+    height: 100px;
+    line-height: 60px;
+    cursor: pointer;
+    position: relative; /* Make positioning relative for grid */
+}
+
+/* Hover effect for calendar cells */
+.calendar-cell:hover {
+    background-color: peachpuff; /* Light blue background on hover */
+}
+
+/* Empty date cell styling */
+.calendar-cell.empty {
+    background-color: #f0f0f0; /* Light gray background for empty cells */
+}
+
+/* Color grid inside calendar cell */
+.color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 15px));
+    gap: 10px;
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    right: 5px;
+    top: 5px;
+    overflow: hidden;
+}
+
+/* Individual color cells */
+.color-cell {
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 4px;
+}
+/* Style for the appointment info container */
+.appointment-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); /* Responsive grid for appointment info */
+    gap: 5px;
+    align-items: center;
+    justify-items: center;
+    position: absolute; /* Ensure it overlays properly */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto; /* Handle overflow of grid items */
+    padding: 5px; /* Add padding inside the cell */
+    box-sizing: border-box;
+}
+
+/* Style for individual appointment amenity boxes */
+.appointment-amenity {
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+    font-size: 12px;
+    text-align: center;
+    width: 100%; /* Make sure it occupies full width of grid cell */
+    box-sizing: border-box;
+}
+#refresh-button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+#refresh-button:hover {
+    background-color: #0056b3;
+}
+
+.past-day {
+    background-color: lightgrey;
+    color: #777;
+}
+
+.today {
+    background-color: peachpuff; /* Peach color for today */
+    color: black;
+}
+
+@media (max-width: 768px) {
+    #calendar-nav {
+        flex-direction: column; /* Stack nav items on smaller screens */
+        align-items: stretch; /* Stretch buttons */
+    }
+
+    #calendar-nav button {
+        font-size: 1.5em; /* Smaller button size */
+        margin: 5px 0; /* Adjust margin for vertical layout */
+    }
+
+    #calendar {
+        grid-template-columns: repeat(3, 1fr); /* Fewer columns for smaller screens */
+    }
+
+    .calendar-cell {
+        height: auto; /* Auto height for flexibility */
+        line-height: normal; /* Normal line height for text */
+    }
+}

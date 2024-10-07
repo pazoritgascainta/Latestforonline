@@ -1,0 +1,29 @@
+.HomeLogo{
+    padding: 10px;
+}
+.HomeLogo .logoo{
+    position: fixed;
+    top: 0px;
+    left: 10px;
+    z-index: 1001; /* Ensure the logo appears above the navigation */
+    margin-bottom: 60vh;
+}
+.HomeLogo .logoo img {
+    width: 150px; /* Adjust the width of the logo as needed */
+}
+.HomeLogo a {
+    display: block;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    padding: 13px 20px;
+    text-decoration: none;
+}
+@media (max-width: 768px) {
+    .HomeLogo .logoo img {
+        width: 100px; /* Adjust the width of the logo for smaller screens */
+    }
+
+    .HomeLogo a {
+        padding: 10px 15px; /* Adjust the padding for smaller screens */
+    }
+}
