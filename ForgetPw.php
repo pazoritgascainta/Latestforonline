@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 $servername = "localhost";
 $username = "root";
@@ -18,10 +19,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->store_result();
 
     if ($stmt->num_rows > 0) {
-        // Create reset token (or use session for simplicity in local environment)
-        $_SESSION['reset_email'] = $email;
-        header("Location: reset_password.php"); // Redirect to reset password page
-        exit();
+        // Get homeowner ID
+        $stmt->bind_result($homeowner_id);
+        $stmt->fetch();
+
+        // Generate a reset token
+        $reset_token = bin2hex(random_bytes(16)); // Generates a random token
+        
+        // Insert the reset token into the password_reset_requests table
+        $sqlInsert = "INSERT INTO password_reset_requests (homeowner_id, reset_token) VALUES (?, ?)";
+        $stmtInsert = $conn->prepare($sqlInsert);
+        $stmtInsert->bind_param("is", $homeowner_id, $reset_token);
+        if ($stmtInsert->execute()) {
+            // Email the reset link (for example)
+      
+            // Here, you'd typically use a mail function to send the email
+            // mail($email, "Reset your password", "Click this link to reset your password: " . $reset_link);
+            
+            $_SESSION['reset_email'] = $email; // Store email for the reset password page
+            header("Location: index.php"); // Redirect to reset password page
+            exit();
+        } else {
+            $error = "Could not create reset request.";
+        }
     } else {
         $error = "No account found with that email.";
     }
@@ -32,7 +52,6 @@ $conn->close();
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,33 +59,27 @@ $conn->close();
     <link rel="stylesheet" href="forgetpw.css">
     <title>St. Monique</title>
 </head>
-
 <body>
     <div class="container" id="container">
         <div class="form-container forgetpw">
-        <form method="POST" action="">
-        <h2>Forgot Password</h2>
-    <?php if (!empty($error)) { echo "<p style='color: red;'>$error</p>"; } ?>
-    <form method="POST" action="">
-        <input type="email" name="email" placeholder="Enter your email" required>
-        <button type="submit">Reset Password</button>
-    </form>
-</form>
+            <form method="POST" action="">
+                <h2>Forgot Password</h2>
+                <?php if (!empty($error)) { echo "<p style='color: red;'>$error</p>"; } ?>
+                <input type="email" name="email" placeholder="Enter your email" required>
+                <button type="submit">Reset Password</button>
+            </form>
         </div>
         <div class="toggle-container">
             <div class="toggle">
                 <div class="toggle-panel toggle-right">
                     <h1>Find your St. Monique account</h1>
                     <div class="back-btn-container">
-    <button id="exitBtn" class="exit-btn" onclick="window.location.href='homepage.php';">Back</button>
-</div>
-                    <p></p>
+                        <button id="exitBtn" class="exit-btn" onclick="window.location.href='homepage.php';">Back</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
     <script src="forgetpw.js"></script>
 </body>
-
 </html>

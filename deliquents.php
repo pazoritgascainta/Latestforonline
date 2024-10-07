@@ -12,19 +12,42 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetching overdue records
-function fetchOverdueRecords($conn) {
+// Define how many results you want per page
+$results_per_page = 10;
+
+// Find out the number of results stored in the database
+$sql = "SELECT COUNT(*) AS total FROM billing WHERE status = 'Overdue'";
+$result = $conn->query($sql);
+$row = $result->fetch_assoc();
+$total_results = $row['total'];
+
+// Determine the total number of pages available
+$total_pages = ceil($total_results / $results_per_page);
+
+// Determine which page number visitor is currently on
+if (!isset($_GET['page'])) {
+    $current_page = 1;
+} else {
+    $current_page = (int)$_GET['page'];
+}
+
+// Determine the SQL LIMIT starting number for the results on the current page
+$start_from = ($current_page - 1) * $results_per_page;
+
+// Fetching overdue records with pagination
+function fetchOverdueRecords($conn, $start_from, $results_per_page) {
     $sql = "SELECT billing_id, homeowner_id, total_amount, billing_date, due_date, status, monthly_due, paid_date
             FROM billing 
             WHERE status = 'Overdue'
-            ORDER BY due_date DESC"; // Order by due date
+            ORDER BY due_date DESC
+            LIMIT ?, ?";
     $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $start_from, $results_per_page);
     $stmt->execute();
     return $stmt->get_result();
 }
 
-// Fetching overdue records
-$result_overdue = fetchOverdueRecords($conn);
+$result_overdue = fetchOverdueRecords($conn, $start_from, $results_per_page);
 ?>
 
 <!DOCTYPE html>
@@ -43,6 +66,7 @@ $result_overdue = fetchOverdueRecords($conn);
         <div class="container">
             <section>
                 <h2>Overdue Billing Records</h2>
+                <br>
                 <table class="table">
                     <thead>
                         <tr>
@@ -79,6 +103,37 @@ $result_overdue = fetchOverdueRecords($conn);
                     <?php endif; ?>
                     </tbody>
                 </table>
+
+                <!-- Pagination controls -->
+                <div id="pagination">
+                    <?php
+                    // Previous button
+                    if ($current_page > 1): ?>
+                        <form method="GET" action="deliquents.php" style="display: inline;">
+                            <input type="hidden" name="page" value="<?= $current_page - 1 ?>">
+                            <button type="submit">&lt;</button>
+                        </form>
+                    <?php endif; ?>
+
+                    <!-- Page input for user to change the page -->
+                    <form method="GET" action="deliquents.php" style="display: inline;">
+                        <input type="number" name="page" value="<?= $current_page ?>" min="1" max="<?= $total_pages ?>" style="width: 50px;">
+                    </form>
+
+                    <!-- "of" text and last page link -->
+                    <?php if ($total_pages > 1): ?>
+                        <span>of</span>
+                        <a href="?page=<?= $total_pages ?>" class="<?= ($current_page == $total_pages) ? 'active' : '' ?>"><?= $total_pages ?></a>
+                    <?php endif; ?>
+
+                    <!-- Next button -->
+                    <?php if ($current_page < $total_pages): ?>
+                        <form method="GET" action="deliquents.php" style="display: inline;">
+                            <input type="hidden" name="page" value="<?= $current_page + 1 ?>">
+                            <button type="submit">&gt;</button>
+                        </form>
+                    <?php endif; ?>
+                </div>
             </section>
         </div>
     </div>

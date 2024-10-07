@@ -1,143 +1,150 @@
 /* General table styling */
-.service-requests-table {
-    width: 50%;
-    border-collapse: collapse;
+.container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px;
     background-color: peachpuff;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    overflow: hidden;
-    margin-left: auto; /* Centering the table */
-    margin-right: auto; /* Centering the table */
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}.container h2 {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-.service-requests-table th, 
-.service-requests-table td {
+/* Styling the table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table th, table td {
     padding: 12px 15px;
     text-align: left;
-    font-size: 14px;
+    border-bottom: 1px solid #ddd;
+    word-wrap: break-word; /* Allow long words to break and wrap */
+    white-space: normal;   /* Allow normal text wrapping */
 }
 
-.service-requests-table th {
-    background-color: #f88d3b;
+table th {
+    background-color: #fd8326;
     color: white;
-    font-weight: bold;
+    font-size: 16px;
 }
 
-.service-requests-table td {
-    border-bottom: 1px solid #f0f0f0;
-    color: #333;
+/* Consistent row background color */
+table tr {
+    background-color: #f2f2f2;
 }
-
-/* Hover effect for rows */
-.service-requests-table tbody tr:hover {
-    background-color: rgb(252, 159, 78);
+tr:hover {
+    background-color: peachpuff;
 }
-
-/* Cancel button styling */
+/* Cancel Button Styling */
 .cancel-btn {
-    background-color: #f44336;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    background-color: #f44336; /* Red background */
+    color: white; /* White text */
+    border: none; /* No border */
+    padding: 8px 12px; /* Padding around the button */
+    border-radius: 5px; /* Rounded corners */
+    font-weight: bold; /* Bold text */
+    cursor: pointer; /* Pointer cursor on hover */
+    text-decoration: none; /* Remove underline from the link */
+    transition: background-color 0.3s ease; /* Smooth transition effect for background color */
 }
 
 .cancel-btn:hover {
-    background-color: #e53935;
+    background-color: #e53935; /* Darker red on hover */
 }
 
-/* Pagination styles */
-.pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+a.cancel-btn {
+    color: white; /* Ensure it's white */
+    text-decoration: none; /* Ensure there's no underline */
+}
+
+/* Pagination styling */
+#pagination {
     margin-top: 20px;
-    gap: 15px;
+    text-align: center; /* Center align pagination controls */
 }
 
-.pagination-link {
-    padding: 8px 15px;
-    background-color: #4CAF50;
-    color: white;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
+#pagination a {
+    display: inline-block; /* Ensure pagination links are inline */
+    margin: 0 8px; /* Space between pagination links */
+    text-decoration: none; /* Remove underline from links */
+    color: #ff8b2c; /* Link color */
+    padding: 8px 12px; /* Padding inside pagination links */
+    border: 1px solid #ff8b2c; /* Border to match theme */
+    border-radius: 4px; /* Rounded corners */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
 }
 
-.pagination-link:hover {
-    background-color: #45a049;
+#pagination a.active {
+    background-color: #ff8b2c; /* Active background color */
+    color: white; /* White text color */
 }
 
-.pagination-info {
-    font-size: 16px;
-    color: #333;
-    font-weight: bold;
+#pagination a:hover {
+    background-color: #f0f0f0; /* Light gray background on hover */
+    color: #ff8b2c; /* Text color on hover */
 }
 
-/* Submit request link styling */
-.submit-link {
-    display: inline-block;
+#pagination input {
+    text-align: center;
+    width: 50px;
+    padding: 8px;
+    color: #ff8b2c; /* Text color */
+    border: 1px solid #ff8b2c; /* Border color */
+    border-radius: 4px; /* Rounded corners */
+    margin: 0 8px; /* Space around the input */
+}
+
+/* Button styling */
+#pagination button {
+    background-color: #ff8b2c; /* Button background */
+    color: white; /* Button text */
+    border: none; /* Remove border */
+    padding: 8px 12px; /* Padding inside button */
+    text-align: center; /* Center text */
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Inline display */
+    font-size: 16px; /* Button text size */
+    margin: 4px 2px; /* Margin around button */
+    cursor: pointer; /* Pointer cursor on hover */
+    border-radius: 4px; /* Rounded corners */
+    transition-duration: 0.4s; /* Transition effect */
+}
+
+#pagination button:hover {
+    background-color: white; /* Button background on hover */
+    color: #ff8b2c; /* Text color on hover */
+    border: 1px solid #ff8b2c; /* Border on hover */
+}
+
+#pagination button:disabled {
+    background-color: #ddd; /* Disabled button background */
+    color: #999; /* Disabled button text */
+    cursor: not-allowed; /* No pointer cursor for disabled buttons */
+}
+
+#pagination input[type="number"] {
+    border: 1px solid #ff8b2c; /* Border color */
+    border-radius: 4px; /* Rounded corners */
+    padding: 5px;
+    font-size: 14px;
+    width: 60px;
+}
+
+
+.container a {
+    display: block;
+    text-align: center;
     margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
+    color: #007bff;
     text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: background-color 0.3s ease, transform 0.2s ease;
 }
-
-.submit-link:hover {
-    background-color: #45a049;
-    transform: translateY(-3px);
-}
-
-/* Responsive design */
-@media screen and (max-width: 768px) {
-    .service-requests-table {
-        display: block;
-        overflow-x: auto;
-        width: 100%; /* Full width for smaller screens */
-    }
-
-    .service-requests-table thead, 
-    .service-requests-table tbody, 
-    .service-requests-table th, 
-    .service-requests-table td, 
-    .service-requests-table tr {
-        display: block;
-    }
-
-    .service-requests-table tbody tr {
-        display: table-cell;
-    }
-
-    .service-requests-table td {
-        display: block;
-        text-align: right;
-        padding-left: 50%;
-        position: relative;
-    }
-
-    .service-requests-table td:before {
-        content: attr(data-label);
-        position: absolute;
-        left: 10px;
-        font-weight: bold;
-        text-transform: uppercase;
-    }
-
-    .pagination {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .submit-link {
-        width: 100%; /* Full width for submit link */
-        text-align: center;
-    }
+.container a:hover {
+    text-decoration: underline;
 }

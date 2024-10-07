@@ -167,18 +167,18 @@ $total_pages = ceil($total_appointments / $records_per_page);
 <body>
 <?php include 'sidebar.php'; ?>
     <div class="main-content">
+
     <h1>Pending Appointments</h1>
-        <div class="container">
-      
-            <div class="button-container">
+
+    <br>
+    <div class="button-container">
     <div class="manage-timeslots">
         <a href="manage_timeslots.php" class="btn-manage-timeslots">Manage Timeslots</a>
     </div>
     <div class="view-accepted-appointments">
         <a href="accepted_appointments.php" class="btn-view-accepted">View Accepted Appointments</a>
     </div>
-
-<div class="rejected-appointments">
+    <div class="rejected-appointments">
         <a href="rejected_appointments.php" class="btn-manage-timeslots">Rejected Appointments</a>
     </div>
     <div class="passed-appointments">
@@ -186,17 +186,10 @@ $total_pages = ceil($total_appointments / $records_per_page);
     </div>
 </div>
 
-<div class="legend-container">
-    <h4>Amenity Appointments Legend</h4>
-    <ul>
-        <li><span class="legend-color clubhousecourt"></span> Clubhouse Court </li>
-        <li><span class="legend-color townhousecourt"></span> Townhouse Court </li>
-        <li><span class="legend-color clubhouseswimmingpool"></span> Clubhouse Swimming Pool </li>
-        <li><span class="legend-color townhouseswimmingpool"></span> Townhouse Swimming Pool </li>
-        <li><span class="legend-color consultation"></span>  Consultation </li>
-        <li><span class="legend-color bluehousecourt"></span> Bluehouse Court </li>
-    </ul>
-</div>
+
+        <div class="container">
+      
+
 
            <!-- Calendar section -->
 <div id="calendar-box">

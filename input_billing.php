@@ -104,10 +104,11 @@ while ($row = $result_dates->fetch_assoc()) {
 
                 <button type="submit">Search</button>
             </form>
-            <a href="recordingadmin.php">Back</a>
-            <a href="accepted_appointments_history.php?homeowner_id=<?= htmlspecialchars($homeowner_id); ?>">Appointments</a>
+            <a href="recordingadmin.php" class="btn">Back</a>
+<a href="accepted_appointments_history.php?homeowner_id=<?= htmlspecialchars($homeowner_id); ?>" class="btn">Appointments</a>
+<a href="payment_history_admin.php?homeowner_id=<?= htmlspecialchars($homeowner_id); ?>" class="btn">See Uploaded Images</a>
+<a href="previous_records.php?homeowner_id=<?= htmlspecialchars($homeowner_id); ?>" class="btn">Add Previous Records</a>
 
-            <a href="payment_history_admin.php">Add Previous Records</a>
 
             <!-- Billing History Table -->
             <h3>Billing History</h3>

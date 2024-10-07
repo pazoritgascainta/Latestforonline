@@ -1,23 +1,21 @@
 .container {
-    background-color: #ffffff;  
-    padding: 10px; 
-    margin-top: 10px; 
+  background-color: #ffffff;  
+  border: 1px solid #ccc; 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+  padding: 10px; 
+  margin-top: 10px; 
 }
 
+.current-date {
+    text-align: right; /* Aligns text to the right */
+    margin-top: -25px; /* Optional: Adds some spacing above */
+    color: #000000; /* Optional: Change text color as needed */
+}
 /* Main Content Styling */
 .main-content {
-    margin: 0 auto; /* Center the content horizontally */
+  margin: 0 auto; /* Center the content horizontally */
 margin-left: 80px;
-    max-width: 90%; /* Optional: Set a maximum width to prevent it from becoming too wide */
-}
-   /* CSS for the red dot */
-   .red-dot {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    background-color: red;
-    border-radius: 50%;
-    margin-left: 10px;
+  max-width: 90%; /* Optional: Set a maximum width to prevent it from becoming too wide */
 }
 /* Base styles for the announcement widget */
 .announcement-widget {
@@ -53,7 +51,7 @@ margin-left: 80px;
 
 .announcement-widget button {
     padding: 10px;
-    background-color: #4CAF50;
+    background-color: #ff8b2c;
     color: white;
     border: none;
     border-radius: 5px;
@@ -61,7 +59,7 @@ margin-left: 80px;
 }
 
 .announcement-widget button:hover {
-    background-color: #45a049;
+    background-color: #ffa733; /* Lighter shade for hover */
 }
 
 .announcement-widget table {
@@ -78,12 +76,10 @@ margin-left: 80px;
 }
 
 .announcement-widget thead {
-    background-color: #f4f4f4;
+    background-color: #ff8b2c;
 }
 
-.announcement-widget tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
+
 /* Table styling */
 table {
     width: 100%;
@@ -112,7 +108,7 @@ tbody td {
 }
 
 tbody tr:hover {
-    background-color: #f4f4f4;
+    background-color: peachpuff;
 }
 
 tbody td a {

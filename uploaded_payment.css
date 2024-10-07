@@ -1,24 +1,25 @@
-.container {
-    background-color: #ffffff;  
-
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
-    padding: 10px; 
-    margin-top: 10px; 
-  }
-  
-  /* Main Content Styling */
-  .main-content {
-    margin: 0 auto; /* Center the content horizontally */
-  margin-left: 80px;
-    max-width: 90%; /* Optional: Set a maximum width to prevent it from becoming too wide */
-  }
+/* General body styling */
 body {
     font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
 
+/* General styling for the container */
+.container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: peachpuff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
 }
 
 
-
+body {
+    font-family: Arial, sans-serif;
+}
 
 @media (max-width: 768px) {
     .main-content {
@@ -53,19 +54,23 @@ body {
         padding: 8px; /* Reduce padding in table cells */
     }
 }
+
 /* Pagination Styling */
 .page-link {
     display: none;
 }
+
 .page-link.active {
     background-color: #ff8b2c; /* Primary color for active link */
     color: white; /* White text color */
     border: 1px solid #ff8b2c; /* Match border color with active background */
 }
+
 #pagination {
     margin-top: 20px;
     text-align: center; /* Center align pagination controls */
 }
+
 #pagination a {
     display: inline-block; /* Ensure pagination links are inline */
     margin: 0 8px; /* Space between pagination links */
@@ -76,10 +81,12 @@ body {
     border-radius: 4px; /* Rounded corners */
     transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
 }
+
 #pagination a.active {
     background-color: #ff8b2c; /* Active background color */
     color: white; /* White text color */
 }
+
 #pagination a:hover {
     background-color: #f0f0f0; /* Light gray background on hover */
     color: #ff8b2c; /* Blue text color */
@@ -131,7 +138,6 @@ body {
     width: 60px;
 }
 
-
 .search-form {
     margin-bottom: 20px; /* Space below the search form */
     display: flex;
@@ -161,9 +167,11 @@ body {
 .search-form button:hover {
     background-color: #f87000; /* Darker shade on hover */
 }
+
+/* Recent Payments Section */
 .recent-payments {
     padding: 20px;
-    background-color: peachpuff; /* Change background to pure white for cleaner look */
+    background-color: #ffffff; /* Changed background to white for a cleaner look */
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     font-family: 'Arial', sans-serif; /* Ensure consistent font */
@@ -180,6 +188,7 @@ body {
 .payment {
     display: flex;
     align-items: center;
+    justify-content: center; /* Center the content horizontally */
     background-color: #fff;
     border-bottom: 1px solid #ddd;
     padding: 15px 0; /* Increase padding for better spacing */

@@ -108,12 +108,11 @@ $amenity_names = [
 
             <section class="combined-schedule">
                 <h2>Payments</h2>
-                <a href="payment_history_user.php">View Payment History</a>
                 <table>
                 <thead>
                         <tr>
-                            <th colspan="5">Payment Schedule</th>
-                        </tr>
+
+                        
                         <tr>
                             <th>Billing Date</th>
                             <th>Due Date</th>
@@ -204,6 +203,10 @@ $amenity_names = [
                     </tbody>
                 </table>
             </section>
+            <section class="proof-of-payment">
+    <h3>View Payment History</h3>
+    <a href="payment_history_user.php" id="payment-history-link">Payment History</a>
+</section>
 
             <section class="proof-of-payment">
                 <h3>View Billing Statement</h3>
@@ -225,3 +228,8 @@ $amenity_names = [
     <script src="payment.js"></script>
 </body>
 </html>
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> 18b892dcc885253048b5f1b6badc7b75cf603067

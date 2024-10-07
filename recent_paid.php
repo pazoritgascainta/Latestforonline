@@ -12,59 +12,34 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Function to insert new billing record when a payment is made
-function recordPayment($conn, $homeowner_id, $monthly_due, $billing_date, $due_date) {
-    $sql_insert = "INSERT INTO billing (homeowner_id, monthly_due, billing_date, due_date, status, total_amount, paid_date) 
-                   VALUES (?, ?, ?, ?, 'Paid', ?, ?)";
-    $stmt_insert = $conn->prepare($sql_insert);
-    
-    if ($stmt_insert) {
-        $paid_date = date('Y-m-d'); // Set current date as paid date
-        // Insert the new record
-        $stmt_insert->bind_param("idssds", $homeowner_id, $monthly_due, $billing_date, $due_date, $monthly_due, $paid_date);
-        if (!$stmt_insert->execute()) {
-            throw new Exception("Failed to insert billing record: " . $stmt_insert->error);
-        }
-        $stmt_insert->close();
-        
-        // Move the overdue bill to the history table
-        moveOverdueToHistory($conn, $homeowner_id, $monthly_due, $billing_date, $due_date, $paid_date);
-    } else {
-        throw new Exception("Prepare statement failed: " . $conn->error);
-    }
-}
+// Set pagination variables
+$records_per_page = 10; // Number of records to display per page
+$current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Get current page from query string
+$offset = ($current_page - 1) * $records_per_page;
 
-// Function to move overdue records to a history table
-function moveOverdueToHistory($conn, $homeowner_id, $monthly_due, $billing_date, $due_date, $paid_date) {
-    $sql_move = "INSERT INTO billing_history (homeowner_id, monthly_due, billing_date, due_date, total_amount, paid_date) 
-                 VALUES (?, ?, ?, ?, ?, ?)";
-    $stmt_move = $conn->prepare($sql_move);
-    
-    if ($stmt_move) {
-        $total_amount = $monthly_due; // Assuming total amount is the same as monthly due
-        $stmt_move->bind_param("idssds", $homeowner_id, $monthly_due, $billing_date, $due_date, $total_amount, $paid_date);
-        if (!$stmt_move->execute()) {
-            throw new Exception("Failed to move billing record to history: " . $stmt_move->error);
-        }
-        $stmt_move->close();
-    } else {
-        throw new Exception("Prepare statement for moving record failed: " . $conn->error);
-    }
-}
+// Fetch total number of records for pagination
+$total_result = $conn->query("SELECT COUNT(*) as total FROM billing WHERE status = 'Paid'");
+$total_row = $total_result->fetch_assoc();
+$total_records = $total_row['total'];
+$total_pages = ceil($total_records / $records_per_page); // Calculate total pages
 
-// Fetching paid records
-function fetchPaidRecords($conn) {
+// Fetching paid records with pagination
+function fetchPaidRecords($conn, $offset, $records_per_page) {
     $sql = "SELECT b.billing_id, b.homeowner_id, h.name AS homeowner_name, h.address, 
             b.monthly_due, b.billing_date, b.due_date, b.total_amount, b.paid_date, 
             MONTH(b.paid_date) AS payment_month, YEAR(b.paid_date) AS payment_year
             FROM billing b 
             JOIN homeowners h ON b.homeowner_id = h.id 
             WHERE b.status = 'Paid' 
-            ORDER BY b.paid_date DESC"; // Order by paid date
+            ORDER BY b.paid_date DESC 
+            LIMIT ?, ?";
     $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $offset, $records_per_page);
     $stmt->execute();
     return $stmt->get_result();
 }
+
+$result_paid = fetchPaidRecords($conn, $offset, $records_per_page);
 
 // Handle payment form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['payment_submit'])) {
@@ -85,9 +60,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['payment_submit'])) {
     header("Location: billingadmin.php"); // Redirect after recording payment
     exit();
 }
-
-// Fetching paid records
-$result_paid = fetchPaidRecords($conn);
 ?>
 
 <!DOCTYPE html>
@@ -106,6 +78,7 @@ $result_paid = fetchPaidRecords($conn);
         <div class="container">
             <section>
                 <h2>Recently Paid</h2>
+                <br>
                 <?php if (isset($_SESSION['message'])): ?>
                     <div class="alert">
                         <?php echo htmlspecialchars($_SESSION['message']); ?>
@@ -154,6 +127,40 @@ $result_paid = fetchPaidRecords($conn);
                     <?php endif; ?>
                     </tbody>
                 </table>
+
+                <!-- Pagination controls -->
+                <div id="pagination">
+                    <?php if ($current_page > 1): ?>
+                        <form method="GET" action="recent_paid.php" style="display: inline;">
+                            <input type="hidden" name="search" value="<?= htmlspecialchars($search_query ?? ''); ?>">
+                            <input type="hidden" name="page" value="<?= $current_page - 1 ?>">
+                            <button type="submit">&lt;</button>
+                        </form>
+                    <?php endif; ?>
+
+                    <!-- Page input for user to change the page -->
+                    <form method="GET" action="recent_paid.php" style="display: inline;">
+                        <input type="hidden" name="search" value="<?= htmlspecialchars($search_query ?? ''); ?>">
+                        <input type="number" name="page" value="<?= $current_page ?>" min="1" max="<?= $total_pages ?>" style="width: 50px;">
+                    </form>
+
+                    <!-- "of" text and last page link -->
+                    <?php if ($total_pages > 1): ?>
+                        <span>of</span>
+                        <a href="?search=<?= urlencode($search_query ?? ''); ?>&page=<?= $total_pages ?>" class="<?= ($current_page == $total_pages) ? 'active' : '' ?>"><?= $total_pages ?></a>
+                    <?php endif; ?>
+
+                    <!-- Next button -->
+                    <?php if ($current_page < $total_pages): ?>
+                        <form method="GET" action="recent_paid.php" style="display: inline;">
+                            <input type="hidden" name="search" value="<?= htmlspecialchars($search_query ?? ''); ?>">
+                            <input type="hidden" name="page" value="<?= $current_page + 1 ?>">
+                            <button type="submit">&gt;</button>
+                        </form>
+                    <?php endif; ?>
+
+                    <span> of <?= $total_pages ?></span>
+                </div>
             </section>
         </div>
     </div>

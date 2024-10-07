@@ -118,12 +118,11 @@ button:hover {
 }
 .button-container {
     display: flex;
-    justify-content: center; /* Center buttons horizontally */
-
+    justify-content: flex-start; /* Align buttons to the left */
     gap: 10px; /* Space between buttons */
-    /* Add margin or padding to the container if needed */
 }
 
+/* Button Styling */
 .btn-manage-timeslots, .btn-view-accepted {
     display: inline-block;
     padding: 10px 15px;

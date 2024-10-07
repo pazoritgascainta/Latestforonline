@@ -1,6 +1,5 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: peachpuff;
     margin: 0;
     padding: 0;
 }
@@ -9,14 +8,13 @@ body {
     max-width: 800px;
     margin: auto; /* Centers horizontally */
     padding: 50px;
-    background-color: #fff;
+    background-color: #fff; /* Ensure the background color is white */
     border-radius: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Increased shadow for more visibility */
     position: relative; /* Enables vertical centering */
     top: auto; /* Moves the top edge to the vertical center */
     transform: translateY(20%); /* Adjusts vertically to center */
 }
-
 
 h2 {
     color: #333;
@@ -40,7 +38,7 @@ label {
 .btn {
     padding: 8px 16px;
     border: none;
-    background-color: #007bff;
+    background-color: #ff8b2c; /* Changed button color */
     color: #fff;
     border-radius: 4px;
     cursor: pointer;
@@ -50,17 +48,17 @@ label {
 
 .btn-outline-primary {
     background-color: transparent;
-    border: 1px solid #007bff;
-    color: #007bff;
+    border: 1px solid #e78a25;
+    color: #e78a25;
     font-size: 14px;
 }
 
 .btn:hover {
-    background-color: #0056b3;
+    background-color: #e78a25; /* Darker shade on hover for better visibility */
 }
 
 .btn-outline-primary:hover {
-    background-color: #007bff;
+    background-color: #e78a25;
     color: #fff;
 }
 

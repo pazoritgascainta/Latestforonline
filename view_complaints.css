@@ -1,19 +1,10 @@
+/* General body styling */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
 }
 
-.container {
-    width: 90%;
-    margin: 0 auto;
-    padding: 20px;
-    margin-left: 70px;
-}
-.action-buttons {
-    display: inline-block;
-    margin-left: 10px;
-}
 /* General styling for the container */
 .container {
     max-width: 900px;
@@ -44,6 +35,8 @@ table th, table td {
     padding: 12px 15px;
     text-align: left;
     border-bottom: 1px solid #ddd;
+    word-wrap: break-word; /* Allow long words to break and wrap */
+    white-space: normal;   /* Allow normal text wrapping */
 }
 
 table th {
@@ -52,51 +45,106 @@ table th {
     font-size: 16px;
 }
 
-table tr:nth-child(even) {
+/* Consistent row background color */
+table tr {
     background-color: #f2f2f2;
 }
-
-table tr:hover {
-    background-color: #f1f1f1;
+tr:hover {
+    background-color: peachpuff;
+}
+/* Cancel Button Styling */
+.cancel-btn {
+    background-color: #f44336; /* Red background */
+    color: white; /* White text */
+    border: none; /* No border */
+    padding: 8px 12px; /* Padding around the button */
+    border-radius: 5px; /* Rounded corners */
+    font-weight: bold; /* Bold text */
+    cursor: pointer; /* Pointer cursor on hover */
+    text-decoration: none; /* Remove underline from the link */
+    transition: background-color 0.3s ease; /* Smooth transition effect for background color */
 }
 
-/* Pagination controls */
-.pagination {
-    display: flex;
-    justify-content: center;
+.cancel-btn:hover {
+    background-color: #e53935; /* Darker red on hover */
+}
+
+a.cancel-btn {
+    color: white; /* Ensure it's white */
+    text-decoration: none; /* Ensure there's no underline */
+}
+
+/* Pagination styling */
+#pagination {
     margin-top: 20px;
+    text-align: center; /* Center align pagination controls */
 }
 
-.pagination a {
-    margin: 0 10px;
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: white;
-    text-decoration: none;
-    border-radius: 4px;
+#pagination a {
+    display: inline-block; /* Ensure pagination links are inline */
+    margin: 0 8px; /* Space between pagination links */
+    text-decoration: none; /* Remove underline from links */
+    color: #ff8b2c; /* Link color */
+    padding: 8px 12px; /* Padding inside pagination links */
+    border: 1px solid #ff8b2c; /* Border to match theme */
+    border-radius: 4px; /* Rounded corners */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
 }
 
-.pagination a:hover {
-    background-color: #0056b3;
+#pagination a.active {
+    background-color: #ff8b2c; /* Active background color */
+    color: white; /* White text color */
 }
 
-.pagination span {
-    padding: 10px 15px;
-    font-size: 16px;
+#pagination a:hover {
+    background-color: #f0f0f0; /* Light gray background on hover */
+    color: #ff8b2c; /* Text color on hover */
 }
 
-/* Action buttons in the table */
-.action-buttons {
-    background-color: #ffffff;
-    color: white;
-    padding: 8px 12px;
-    text-decoration: none;
-    border-radius: 4px;
-    margin-right: 5px;
+#pagination input {
+    text-align: center;
+    width: 50px;
+    padding: 8px;
+    color: #ff8b2c; /* Text color */
+    border: 1px solid #ff8b2c; /* Border color */
+    border-radius: 4px; /* Rounded corners */
+    margin: 0 8px; /* Space around the input */
 }
 
-.action-buttons:hover {
-    background-color:rgb(250, 65, 65);
+/* Button styling */
+#pagination button {
+    background-color: #ff8b2c; /* Button background */
+    color: white; /* Button text */
+    border: none; /* Remove border */
+    padding: 8px 12px; /* Padding inside button */
+    text-align: center; /* Center text */
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Inline display */
+    font-size: 16px; /* Button text size */
+    margin: 4px 2px; /* Margin around button */
+    cursor: pointer; /* Pointer cursor on hover */
+    border-radius: 4px; /* Rounded corners */
+    transition-duration: 0.4s; /* Transition effect */
+}
+
+#pagination button:hover {
+    background-color: white; /* Button background on hover */
+    color: #ff8b2c; /* Text color on hover */
+    border: 1px solid #ff8b2c; /* Border on hover */
+}
+
+#pagination button:disabled {
+    background-color: #ddd; /* Disabled button background */
+    color: #999; /* Disabled button text */
+    cursor: not-allowed; /* No pointer cursor for disabled buttons */
+}
+
+#pagination input[type="number"] {
+    border: 1px solid #ff8b2c; /* Border color */
+    border-radius: 4px; /* Rounded corners */
+    padding: 5px;
+    font-size: 14px;
+    width: 60px;
 }
 
 /* Message when no complaints are found */

@@ -1,30 +1,16 @@
-
-/* Sidebar styles */
-.servicesidebar {
-    width: 100%;
-    background-color: #b67e52;
-    display: flex;
-    flex-direction: row; /* Changed to row for horizontal layout */
-    justify-content: center; /* Center the items horizontally */
-    padding: 10px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+.container {
+    background-color: #ffffff;  
+    border: 1px solid #ccc; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    padding: 10px; 
+    margin-top: 10px; 
 }
 
-.menu-item {
-    background-color: #d08f61;
-    padding: 15px 100px;
-    margin: 0 10px; /* Horizontal margin between buttons */
-    text-align: center;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    border-radius: 8px;
-    color: white;
-    font-weight: bold;
-    flex-shrink: 0; /* Prevent shrinking */
-}
-
-.menu-item:hover {
-    background-color: #e6a378;
+/* Main Content Styling */
+.main-content {
+    margin: 0 auto; /* Center the content horizontally */
+margin-left: 80px;
+    max-width: 90%; /* Optional: Set a maximum width to prevent it from becoming too wide */
 }
 
 /* Content area styles */
@@ -36,66 +22,59 @@
 }
 
 /* Table styles */
-table {
+.table {
     width: 100%;
     border-collapse: collapse;
-    background-color: #fff;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    overflow: hidden;
 }
 
-thead th {
-    background-color: #cf722f;
-    color: white;
-    padding: 15px;
-    text-align: left;
-    font-size: 14px;
+.table th,
+.table td {
+    padding: 20px;
+    border-bottom: 3px solid #ddd;
+    text-align: center; /* Center-align text horizontally */
+    vertical-align: middle; /* Center-align text vertically */
 }
 
-tbody td {
-    padding: 12px;
-    text-align: left;
-    font-size: 14px;
-    color: #333;
+.table thead th {
+    background-color: #ff8b2c; /* Set the background color to peachpuff */
+    color: #fff; /* Optional: Change text color for better contrast */
 }
 
-tbody tr {
-    border-bottom: 1px solid #f0f0f0;
-    transition: background-color 0.3s ease;
+.table tbody tr {
+    background-color: #fff; /* Set the default background color for table rows */
 }
 
-tbody tr:hover {
-    background-color: #f5f5f5;
+.table tbody tr:hover {
+    background-color: peachpuff; /* Maintain hover effect for table rows */
 }
 
 /* Button styles */
-.view-btn, .delete-btn {
-    padding: 8px 12px;
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    margin-bottom: 10px;
+    color: #fff;
+    background-color: #ff8b2c;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
     cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
+    text-decoration: none;
+    text-align: center;
 }
 
-.view-btn {
-    background-color: #4CAF50;
-    color: white;
+.btn:hover {
+    background-color: #ff7300;
 }
 
-.delete-btn {
-    background-color: #F44336;
-    color: white;
+/* Add margin to the right of the "View" button */
+.btn-edit {
+    margin-right: 10px; /* This class can be used for specific adjustments if needed */
 }
 
-.view-btn:hover {
-    background-color: #45a049;
+.button-margin {
+    margin-right: 5px; /* Adjust this value to add more or less space */
 }
 
-.delete-btn:hover {
-    background-color: #e53935;
-}
 
 /* Responsive table - scroll on smaller screens */
 @media screen and (max-width: 768px) {

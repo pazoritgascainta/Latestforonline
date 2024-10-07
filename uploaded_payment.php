@@ -109,7 +109,7 @@ $result_images = $stmt_images->get_result();
         .payment {
             display: flex;
             align-items: center;
-            background-color: blanchedalmond;
+            background-color: #fff;
             border-bottom: 1px solid #ddd;
             padding: 15px 0; /* Increase padding for better spacing */
         }
@@ -151,7 +151,7 @@ $result_images = $stmt_images->get_result();
             <?php else: ?>
                 <p>No images found.</p>
             <?php endif; ?>
-        </div>
+     
 
         <!-- Pagination controls -->
         <div id="pagination">
@@ -179,7 +179,7 @@ $result_images = $stmt_images->get_result();
             <?php endif; ?>
         </div>
     </div>
-
+    </div>
     <div id="myModal" class="modal">
         <span class="close">&times;</span>
         <img class="modal-content" id="img01">

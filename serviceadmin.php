@@ -83,65 +83,73 @@ $conn->close();
 <body>
     <?php include 'sidebar.php'; ?>
     <div class="main-content">
-        <div class="container">
-            <h1>St. Monique Service Requests</h1>
+   <!-- Search Form -->
+   <h1>St. Monique Service Requests</h1>
             
             <!-- Search Form -->
             <form method="GET" action="serviceadmin.php" class="search-form">
                 <input type="number" name="search" value="<?= htmlspecialchars($search_query) ?>" placeholder="Search by Homeowner ID...">
                 <button type="submit">Search</button>
             </form>
-        </div>
 
+
+
+        <div class="container">
+    
         <!-- Content Area for displaying requests -->
-        <div class="content-area">
-            <table id="requestsTable" border="1" style="width:100%; border-collapse: collapse;">
-                <thead>
-                    <tr>
-                        <th>Request ID</th>
-                        <th>Homeowner ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone Number</th>
-                        <th>Address</th>
-                        <th>Details</th>
-                        <th>Urgency</th>
-                        <th>Type</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (count($requests) > 0): ?>
-                        <?php foreach ($requests as $request): ?>
-                            <tr>
-                                <td><?php echo $request['service_req_id']; ?></td>
-                                <td><?php echo $request['homeowner_id']; ?></td>
-                                <td><?php echo $request['name']; ?></td>
-                                <td><?php echo $request['email']; ?></td>
-                                <td><?php echo $request['phone_number']; ?></td>
-                                <td><?php echo $request['address']; ?></td>
-                                <td><?php echo $request['details']; ?></td>
-                                <td><?php echo $request['urgency']; ?></td>
-                                <td><?php echo $request['type']; ?></td>
-                                <td><?php echo $request['status']; ?></td>
-                                <td>
-                                    <a href="view_admin_service.php?id=<?php echo $request['service_req_id']; ?>" class="view-btn">View</a>
-                                    <form method="POST" action="delete_service.php" style="display:inline;">
-                                        <input type="hidden" name="service_req_id" value="<?php echo $request['service_req_id']; ?>">
-                                        <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to delete this request?');">Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr>
-                            <td colspan="11">No service requests found.</td>
-                        </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
+
+        <table id="requestsTable" class="table">
+    <thead>
+        <tr>
+            <th>Request ID</th>
+            <th>Homeowner ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Address</th>
+            <th>Details</th>
+            <th>Urgency</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if (count($requests) > 0): ?>
+            <?php foreach ($requests as $request): ?>
+                <tr>
+                    <td><?php echo $request['service_req_id']; ?></td>
+                    <td><?php echo $request['homeowner_id']; ?></td>
+                    <td><?php echo $request['name']; ?></td>
+                    <td><?php echo $request['email']; ?></td>
+                    <td><?php echo $request['phone_number']; ?></td>
+                    <td><?php echo $request['address']; ?></td>
+                    <td><?php echo $request['details']; ?></td>
+                    <td><?php echo $request['urgency']; ?></td>
+                    <td><?php echo $request['type']; ?></td>
+                    <td><?php echo $request['status']; ?></td>
+                    <td>
+                        <form method="GET" action="view_admin_service.php" style="display:inline;">
+                            <input type="hidden" name="id" value="<?php echo $request['service_req_id']; ?>">
+                            <button type="submit" class="btn button-margin">View</button>
+                        </form>
+                        <form method="POST" action="delete_service.php" style="display:inline;">
+                            <input type="hidden" name="service_req_id" value="<?php echo $request['service_req_id']; ?>">
+                            <button type="submit" class="btn" onclick="return confirm('Are you sure you want to delete this request?');">Delete</button>
+                        </form>
+                    </td>
+
+
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="11">No service requests found.</td>
+            </tr>
+        <?php endif; ?>
+    </tbody>
+</table>
+
+
 
         <!-- Pagination -->
         <div id="pagination">

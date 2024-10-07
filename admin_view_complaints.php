@@ -2,13 +2,13 @@
 session_name('admin_session'); // Set a unique session name for admins
 session_start();
 
-// Check if admin is logged in
 $servername = "localhost";
 $username = "root";
 $password = "";
 $database = "homeowner";
 
 $conn = new mysqli($servername, $username, $password, $database);
+
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);

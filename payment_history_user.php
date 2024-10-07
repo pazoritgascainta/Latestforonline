@@ -108,7 +108,8 @@ $result_payments = $stmt_payments->get_result();
 </form>
 
 <a href="uploaded_payment.php">View Uploaded Payments</a>
-
+<br>
+<br>
         <table class="table">
             <thead>
                 <tr>
@@ -165,9 +166,6 @@ $result_payments = $stmt_payments->get_result();
         </div>
     </div>
 
-    <?php
-    // Close the connection
-    $conn->close();
-    ?>
+
 </body>
 </html>

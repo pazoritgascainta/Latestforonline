@@ -1,4 +1,5 @@
 <?php
+session_name('admin_session');
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -11,7 +12,7 @@ $name = "";
 $email = "";
 $phone = "";
 $address = "";
-$sqm = ""; // Add squaremeters variable
+$sqm = ""; // Add square meters variable
 $password = ""; // Keep track of password field
 
 $errorMessage = "";
@@ -21,7 +22,7 @@ $successMessage = "";
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
-    // Retrieve the homeowner's data from the database, including squaremeters
+    // Retrieve the homeowner's data from the database, including square meters
     $sql = "SELECT * FROM homeowners WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id);
@@ -34,7 +35,7 @@ if (isset($_GET['id'])) {
         $email = $row['email'];
         $phone = $row['phone_number'];
         $address = $row['address'];
-        $sqm = $row['sqm']; // Fetch squaremeters
+        $sqm = $row['sqm']; // Fetch square meters
     } else {
         $errorMessage = "Homeowner not found.";
     }
@@ -46,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST["email"];
     $phone = $_POST["phone"];
     $address = $_POST["address"];
-    $sqm = $_POST["sqm"]; // Fetch squaremeters from form
+    $sqm = $_POST["sqm"]; // Fetch square meters from form
     $password = $_POST["password"];
 
     try {
@@ -64,8 +65,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             throw new Exception("Email is already taken.");
         }
 
-        // Check if password was provided
+        // Check if password was provided and meets length requirement
         if (!empty($password)) {
+            if (strlen($password) < 8) {
+                throw new Exception("Password must be at least 8 characters long.");
+            }
             // Hash the new password
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             
@@ -82,6 +86,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($stmt->execute()) {
             $successMessage = "Homeowner updated successfully!";
+            header("Location: homeowneradmin.php");
+            exit; // Ensure no further code is executed after redirect
         } else {
             throw new Exception("Error updating record: " . $stmt->error);
         }
@@ -93,7 +99,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 $conn->close();
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -103,6 +108,7 @@ $conn->close();
     <link rel="stylesheet" href="createcss.css">
 </head>
 <body>
+<?php include 'sidebar.php'; ?>
     <div class="container my-5">
         <h2>Edit Homeowner</h2>
         <?php
@@ -111,8 +117,7 @@ $conn->close();
         }
 
         if (!empty($successMessage)) {
-            header("Location: homeowneradmin.php");
-            exit;
+            echo "<div style='color: green;'>$successMessage</div>";
         }
         ?>
 

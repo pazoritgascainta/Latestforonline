@@ -102,12 +102,14 @@ while ($row = $result_recent_paid->fetch_assoc()) {
     <?php include 'sidebar.php'; ?>
 
     <div class="main-content">
-        <div class="container">
-            <section>
-                <h2>Billing Records</h2>
+    <h2>Billing Records</h2>
+                <br>
                 <a href="recent_paid.php" class="btn">View Recently Paid Records</a>
                 <a href="deliquents.php" class="btn">View Deliquents</a>
                 <a href="pending.php" class="btn">View Pending Payments</a>
+        <div class="container">
+            <section>
+      
 
 
                 <!-- Search form -->

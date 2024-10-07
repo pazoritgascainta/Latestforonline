@@ -6,7 +6,6 @@ $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "homeowner";
-
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection

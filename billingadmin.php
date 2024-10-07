@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1); // Enable displaying errors
+ini_set('display_startup_errors', 1); // Enable displaying startup errors
+error_reporting(E_ALL); // Report all types of errors
+
 session_name('admin_session');
 session_start();
 
@@ -265,16 +269,20 @@ $result_billing = fetchBillingRecords($conn, $offset, $limit, $search_query);
     <div class="main-content">
         <header>
             <h1>Billing Management</h1>
+            <br>
             <section>
                 <a href="create_billing.php" class="btn-action">Create Billing Record</a>
+                <a href="send.php" class="btn-action">SMS History</a>
             </section>
+
         </header>
+        <br>
+        
+        <div class="container">
         <form method="GET" action="billingadmin.php" class="search-form">
                 <input type="number" name="search" value="<?= htmlspecialchars($search_query) ?>" placeholder="Search by Homeowner ID...">
                 <button type="submit">Search</button>
-            </form>
-        <div class="container">
-            <!-- Display message -->
+            </form><br>
             <div class="message">
                 <?php if (isset($_SESSION['message'])): ?>
                     <p><?php echo $_SESSION['message']; unset($_SESSION['message']); ?></p>
@@ -282,21 +290,6 @@ $result_billing = fetchBillingRecords($conn, $offset, $limit, $search_query);
                     <p>No current messages.</p>
                 <?php endif; ?>
             </div>
-            <fieldset> 
-    <legend> Send SMS </legend>
-    <h1>Contact Homeowner</h1>
-    <form method="post" action="send.php"> 
-        <div>
-            <textarea class="phoneNumbers" name="phoneNumbers" required></textarea>
-            <span>Phone Numbers</span>
-        </div>
-        <div>
-            <textarea class="message" name="message" required></textarea>
-            <span>Message</span>
-        </div>
-        <button type="submit">Send</button>
-    </form>
-</fieldset>
 
 
 

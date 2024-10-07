@@ -104,11 +104,11 @@ $current_page = min($current_page, $total_pages); // Ensure page is not greater 
     
     <div class="main-content">
     <h2>List of Homeowners</h2>
-
+<br>
 <!-- Action Buttons -->
 <a class="btn btn-primary" href="create.php" role="button">New Homeowner</a>
 <a class="btn btn-primary" href="archive.php" role="button">Archived Homeowners</a>
-
+<a class="btn btn-primary" href="pass_reqs.php" role="button"> Password Reset Requests</a>
 
 
 
@@ -153,7 +153,8 @@ $current_page = min($current_page, $total_pages); // Ensure page is not greater 
                             <td><?php echo htmlspecialchars($row['sqm']); ?></td> <!-- New Column -->
                             <td><?php echo htmlspecialchars($row['created_at']); ?></td>
                             <td>
-                                <a class="btn btn-primary btn-sm" href="edit.php?id=<?= $row['id']; ?>">Edit</a>
+                            <button class="btn btn-primary btn-sm" onclick="window.location.href='edit.php?id=<?= $row['id']; ?>'">Edit</button>
+
                                 <form method="POST" action="homeowneradmin.php" style="display:inline;">
                                     <input type="hidden" name="homeowner_id" value="<?= $row['id']; ?>">
                                     <input type="hidden" name="new_status" value="archived">

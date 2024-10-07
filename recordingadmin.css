@@ -1,21 +1,16 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-}
-
 .container {
-    display: flex;
-    flex-direction: column; /* Stack sidebar and content vertically */
     background-color: #ffffff;  
+    border: 1px solid #ccc; 
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
     padding: 10px; 
     margin-top: 10px; 
+}
+
+/* Main Content Styling */
+.main-content {
+    margin: 0 auto; /* Center the content horizontally */
+margin-left: 80px;
+    max-width: 90%; /* Optional: Set a maximum width to prevent it from becoming too wide */
 }
 
 .Recordingsidebar {
@@ -37,11 +32,7 @@ body {
     text-align: center;
     width: 50%;
 }
-.main-content {
-    margin: 0 auto; /* Center the content horizontally */
-margin-left: 80px;
-    max-width: 90%; /* Optional: Set a maximum width to prevent it from becoming too wide */
-}
+
 .menu-item:hover {
     background-color: #e0e0e0;
 }
@@ -64,33 +55,31 @@ margin-left: 80px;
 }
 /* Table styles */
 .table {
-    border-collapse: collapse;
     width: 100%;
-    margin-top: 20px;
+    border-collapse: collapse;
 }
-
-.table th {
-    background-color: peachpuff;
-    color: #333;
-}
-
-.table td,
-.table th {
-    border-bottom: 1px solid #e0e0e0;
-}
-
 
 .table th,
 .table td {
-    padding: 15px;
-    text-align: center;
+    padding: 20px;
+    border-bottom: 3px solid #ddd;
+    text-align: center; /* Center-align text horizontally */
+    vertical-align: middle; /* Center-align text vertically */
 }
 
+.table thead th {
+    background-color: #ff8b2c; /* Set the background color to peachpuff */
+    color: #fff; /* Optional: Change text color for better contrast */
+}
+
+.table tbody tr {
+    background-color: #fff; /* Set the default background color for table rows */
+}
 
 .table tbody tr:hover {
-    background-color: #d6bb88; /* Subtle hover effect */
-    cursor: pointer;
+    background-color: peachpuff; /* Maintain hover effect for table rows */
 }
+
 
 .search-form {
     margin-bottom: 20px; /* Space below the search form */

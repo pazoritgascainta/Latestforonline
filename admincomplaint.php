@@ -1,13 +1,12 @@
 <?php
 session_name('admin_session'); // Set a unique session name for admins
 session_start();
-
 $servername = "localhost";
 $username = "root";
 $password = "";
-$database = "homeowner";
+$dbname = "homeowner";
 
-$conn = new mysqli($servername, $username, $password, $database);
+$conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
