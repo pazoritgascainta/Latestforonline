@@ -16,6 +16,10 @@ $dotenv->load();
 $apiURL = $_ENV['API_URL'];
 $apiKey = $_ENV['API_KEY'];
 
+$configuration = new Configuration(host: $apiURL, apiKey: $apiKey);
+$api = new SmsApi(config: $configuration);
+
+
 // Function to validate phone numbers using a basic E.164 format
 function validatePhoneNumber($phoneNumber) {
     return preg_match('/^\+?[1-9]\d{1,14}$/', $phoneNumber);
