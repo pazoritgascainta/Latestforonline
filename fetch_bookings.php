@@ -3,14 +3,13 @@ header('Content-Type: application/json');
 
 // Database connection
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "homeowner";
+$username = "u780935822_homeowner";
+$password = "Boot@o29";
+$dbname = "u780935822_homeowner";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
-    echo json_encode(['success' => false, 'message' => 'Database connection failed.']);
-    exit();
+    die("Connection failed: " . $conn->connect_error);
 }
 
 $date = $_GET['date'] ?? '';

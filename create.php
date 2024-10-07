@@ -2,11 +2,14 @@
 
 session_name('admin_session');
 $servername = "localhost";
-$username = "root";
-$password = "";
-$database = "homeowner";
+$username = "u780935822_homeowner";
+$password = "Boot@o29";
+$dbname = "u780935822_homeowner";
 
-$conn = new mysqli($servername, $username, $password, $database);
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
 $name = "";
 $email = "";

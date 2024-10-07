@@ -9,17 +9,16 @@ if (!isset($_SESSION['admin_id'])) {
 }
 
 // Database connection
-$servername = "localhost"; // Your server name
-$username = "root"; // Your database username
-$password = ""; // Your database password
-$dbname = "homeowner"; // Your database name
+$servername = "localhost";
+$username = "u780935822_homeowner";
+$password = "Boot@o29";
+$dbname = "u780935822_homeowner";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
 
 // Pagination variables
 $limit = 10; // Set the number of records per page

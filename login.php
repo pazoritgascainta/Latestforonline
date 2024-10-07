@@ -7,16 +7,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
 
     $servername = "localhost";
-    $username = "root";
-    $dbpassword = "";
-    $database = "homeowner";
-
-    // Establish connection
-    $conn = new mysqli($servername, $username, $dbpassword, $database);
-
+    $username = "u780935822_homeowner";
+    $password = "Boot@o29";
+    $dbname = "u780935822_homeowner";
+    
+    $conn = new mysqli($servername, $username, $password, $dbname);
     if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error); 
+        die("Connection failed: " . $conn->connect_error);
     }
+    
 
     $sql = "SELECT id, name, password, status FROM homeowners WHERE email = ?";
     $stmt = $conn->prepare($sql);

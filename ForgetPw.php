@@ -2,11 +2,12 @@
 
 session_start();
 $servername = "localhost";
-$username = "root";
-$dbpassword = "";
-$database = "homeowner";
+$username = "u780935822_homeowner";
+$password = "Boot@o29";
+$dbname = "u780935822_homeowner";
 
-$conn = new mysqli($servername, $username, $dbpassword, $database);
+$conn = new mysqli($servername, $username, $password, $dbname);
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);

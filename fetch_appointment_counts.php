@@ -12,17 +12,15 @@ $startTime = microtime(true);
 
 // Database connection
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "homeowner";
+$username = "u780935822_homeowner";
+$password = "Boot@o29";
+$dbname = "u780935822_homeowner";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
 if ($conn->connect_error) {
-    echo json_encode(['error' => 'Database connection failed: ' . $conn->connect_error]);
-    exit();
+    die("Connection failed: " . $conn->connect_error);
 }
+
 
 // Get year and month from query parameters, default to current year and month
 $year = isset($_GET['year']) ? intval($_GET['year']) : date('Y');

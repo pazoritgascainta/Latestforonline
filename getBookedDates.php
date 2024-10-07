@@ -7,12 +7,12 @@ if (isset($_GET['date'])) {
     if (preg_match("/^\d{4}-\d{2}-\d{2}$/", $date)) {
         // Database connection parameters
         $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $database = "homeowner";
-
-        // Create connection
-        $conn = new mysqli($servername, $username, $password, $database);
+        $username = "u780935822_homeowner";
+        $password = "Boot@o29";
+        $dbname = "u780935822_homeowner";
+        
+        $conn = new mysqli($servername, $username, $password, $dbname);
+        
 
         // Check connection
         if ($conn->connect_error) {

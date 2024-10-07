@@ -3,16 +3,15 @@ session_name('admin_session');
 session_start();
 
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "homeowner";
-$conn = new mysqli($servername, $username, $password, $dbname);
+$username = "u780935822_homeowner";
+$password = "Boot@o29";
+$dbname = "u780935822_homeowner";
 
-// Check connection
+$conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
-    error_log("Connection failed: " . $conn->connect_error);
-    die("Internal server error.");
+    die("Connection failed: " . $conn->connect_error);
 }
+
 
 // Function to delete old records from appointment_counts
 function deleteOldCounts($conn) {

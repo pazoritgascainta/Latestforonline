@@ -10,14 +10,11 @@ if (!isset($_SESSION['homeowner_id'])) {
 
 // Database connection details
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "homeowner";
+$username = "u780935822_homeowner";
+$password = "Boot@o29";
+$dbname = "u780935822_homeowner";
 
-// Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }

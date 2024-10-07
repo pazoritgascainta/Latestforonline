@@ -6,18 +6,15 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Database configuration
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "homeowner";
+$username = "u780935822_homeowner";
+$password = "Boot@o29";
+$dbname = "u780935822_homeowner";
 
-// Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
 if ($conn->connect_error) {
-    echo json_encode(['success' => false, 'message' => 'Database connection failed']);
-    exit;
+    die("Connection failed: " . $conn->connect_error);
 }
+
 
 // Fetch the homeowner's ID from the session
 $homeowner_id = $_SESSION['homeowner_id'] ?? null;

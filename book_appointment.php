@@ -10,11 +10,10 @@ if (!isset($_SESSION['homeowner_id'])) {
 // Retrieve the homeowner ID from the session
 $homeowner_id = $_SESSION['homeowner_id'];
 
-// Database connection
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "homeowner";
+$username = "u780935822_homeowner";
+$password = "Boot@o29";
+$dbname = "u780935822_homeowner";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {

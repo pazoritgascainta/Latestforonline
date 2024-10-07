@@ -4,14 +4,11 @@ session_start();
 
 // Database connection
 $servername = "localhost";
-$username = "root";
-$dbpassword = "";
-$database = "homeowner";
+$username = "u780935822_homeowner";
+$password = "Boot@o29";
+$dbname = "u780935822_homeowner";
 
-// Establish connection
-$conn = new mysqli($servername, $username, $dbpassword, $database);
-
-// Check connection
+$conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
