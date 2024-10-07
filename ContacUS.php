@@ -15,7 +15,7 @@
 
     <section class = "HomeLogo">
     <div class="logoo">
-    <a href="Homepage.php"><img src="monique logo.png" alt="Monique Logo"></a>
+    <a href="index.php"><img src="monique logo.png" alt="Monique Logo"></a>
     </div>
     </section>
 </header>

@@ -81,20 +81,20 @@ $logout_message = isset($_GET['message']) && $_GET['message'] == 'loggedout' ? "
     </div>
     <section class = "HomeLogo">
     <div class="logoo">
-    <a href="Homepage.php"><img src="monique logo.png" alt="Your Logo"></a>
+    <a href="index.php"><img src="monique logo.png" alt="Your Logo"></a>
     </div>
     </section>
     <header>
     <nav>
         <!-- Burger icon for mobile -->
-        <div class="burger-menu" id="burgerMenu">
+        <div class="burger-menu" id="burgerMenu" onclick="toggleMenu()">
             <span></span>
             <span></span>
             <span></span>
         </div>
         
         <ul id="navLinks">
-            <li><a href="Homepage.php">Home</a></li>
+            <li><a href="index.php">Home</a></li>
             <li><a href="#" id="loginBtn">Login</a></li>
             <li><a href="ContacUS.php">Contact</a></li>
             <li><a href="Amenities.php">Amenities</a></li>
@@ -300,6 +300,14 @@ $logout_message = isset($_GET['message']) && $_GET['message'] == 'loggedout' ? "
         <p>© 2024 St. Monique Valais Homeowners Association. All rights reserved.
         </p>
     </div>
+    <script>     
+    function toggleMenu() {
+        // Toggle the active class for burger menu and navLinks
+        const burgerMenu = document.getElementById('burgerMenu');
+        const navLinks = document.getElementById('navLinks');
+        burgerMenu.classList.toggle('active');
+        navLinks.classList.toggle('active');
+    } </script>
     <script src="HomepageJS.js"></script>
 </body>
 

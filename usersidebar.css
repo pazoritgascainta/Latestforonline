@@ -549,15 +549,38 @@ hr.active {
     z-index: 1; 
     margin-left: 10vh;
 }
+.main-content h1 {
+    margin-left: 25px;
+
+}
+.container h2{
+    margin-left: 25px;
+
+}
 @media (max-width: 768px) {
     nav {
-        padding: 10px 5%;
-        flex-direction: column; /* Stack items vertically on mobile */
+        height: 85px;
+        padding: 0px 3%;
+        flex-direction: column;
     }
-
+    
     nav ul {
         flex-direction: column; /* Stack links vertically */
         width: 100%;
+    }
+    .profile-img{
+        height: 38px;
+        width: 45px;
+    }
+    .nav-links-wrapper{
+        margin-left: 175px;
+    }
+    .headnavbar li {
+
+    }
+    .top{
+        height: 75px;
+        width: 500%;
     }
 
     .nav-link {
@@ -565,7 +588,7 @@ hr.active {
     }
 
     #logo-img {
-        height: 50px; /* Adjust logo size */
+        height: 35px; /* Adjust logo size */
     }
 
     .sidebar {
@@ -573,16 +596,24 @@ hr.active {
     }
 
     .sidebar.active {
-        width: 200px; /* Expanded width for mobile */
+        width: 100%;/* Expanded width for mobile */
+        height: 100%;
+
     }
 
     .main-content {
         width: calc(100% - 60px); /* Adjust for sidebar width */
     }
     .main-content {
-        margin-top: 40px; /* Reduce top margin on mobile */
+        margin-top: 100px;
+
+        margin-left: auto;
         width: 100%; /* Full width for mobile */
         padding: 15px; /* Reduce padding for mobile */
+        padding: 0px;
+        font-size: 14px;
+        margin-left: auto;
+        inset-area: center;
     }
 
 }
@@ -592,10 +623,23 @@ hr.active {
     nav {
         padding: 10px 2%;
     }
+    .profile-img{
+        height: 38px;
+        width: 45px;
+        margin-top: 15px;
+    }
+    .nav-links-wrapper{
+        margin-left: 175px;
+    }
 
     .user-pic {
-        width: 30px; /* Smaller user pic for mobile */
+        height: 38px;
+        width: 45px;
         margin-left: 15px;
+    }
+    .top , .logo{
+        height: 38px;
+        width: 45px;
     }
 
     .sidebar {
@@ -603,16 +647,17 @@ hr.active {
     }
 
     .sidebar.active {
-        width: 180px; /* Adjust active state width */
+        width: 100%; /* Adjust active state width */
     }
 
     .main-content {
         width: calc(100% - 50px); /* Adjust for smaller sidebar */
     }
     .main-content {
-        margin-top: 20px; /* Further reduce top margin for small screens */
-        padding: 10px; /* Further reduce padding for smaller screens */
+        margin-top: 100px;
+        padding: 0px; /* Further reduce padding for smaller screens */
         font-size: 14px; /* Adjust font size if there’s text content */
+        inset-area: center;
     }
 }
 

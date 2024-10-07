@@ -223,7 +223,6 @@
 }
 @media (max-width: 768px) {
     .modal-content {
-        top: 20%; /* Adjust position for smaller screens */
         width: 90%; /* Full width */
         max-width: 90%; /* Ensure it's not too wide */
         padding: 15px; /* Reduce padding */

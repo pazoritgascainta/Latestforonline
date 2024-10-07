@@ -20,7 +20,8 @@
 }
 @media (max-width: 768px) {
     .HomeLogo .logoo img {
-        width: 100px; /* Adjust the width of the logo for smaller screens */
+        width: 135px; /* Adjust the width of the logo for smaller screens */
+        height: 50px;
     }
 
     .HomeLogo a {

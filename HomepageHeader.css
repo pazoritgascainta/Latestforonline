@@ -46,6 +46,7 @@ a:hover {
 }
 
 /* Burger Menu Styling */
+/* Burger Menu Styling */
 .burger-menu {
     display: none;
     flex-direction: column;
@@ -60,7 +61,22 @@ a:hover {
     height: 3px;
     background-color: #333;
     margin: 5px;
+    transition: all 0.3s ease-in-out; /* Smooth animation */
 }
+
+/* Animation when the burger menu is active */
+.burger-menu.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px); /* First line rotates to form part of an "X" */
+}
+
+.burger-menu.active span:nth-child(2) {
+    opacity: 0; /* Middle line disappears */
+}
+
+.burger-menu.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px); /* Third line rotates to complete the "X" */
+}
+
 
 /* Responsive Styling */
 @media (max-width: 768px) {
@@ -88,6 +104,56 @@ a:hover {
         padding: 15px 10px;
         font-size: 1em;
     }
+
+    /* Navigation menu hidden initially */
+    #navLinks {
+        display: flex;
+        flex-direction: column;
+        list-style: none;
+        background-color: peachpuff;
+        padding: 20px;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        width: 100%;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transform: translateX(100%); /* Initially off-screen to the right */
+        opacity: 0; /* Hidden initially */
+        transition: transform 0.4s ease, opacity 0.4s ease; /* Smooth slide and fade animations */
+    }
+
+    #navLinks.active {
+        transform: translateX(0); /* Slide in from the right */
+        opacity: 1; /* Fade in */
+    }
+        /* Staggered animation for each nav link */
+        #navLinks li {
+            opacity: 0;
+            transform: translateX(20px); /* Start slightly off-screen */
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+    
+        #navLinks.active li {
+            opacity: 1;
+            transform: translateX(0); /* Bring to its normal position */
+        }
+    
+        /* Delays for each nav link to make them appear one by one */
+        #navLinks.active li:nth-child(1) {
+            transition-delay: 0.1s;
+        }
+    
+        #navLinks.active li:nth-child(2) {
+            transition-delay: 0.2s;
+        }
+    
+        #navLinks.active li:nth-child(3) {
+            transition-delay: 0.3s;
+        }
+    
+        #navLinks.active li:nth-child(4) {
+            transition-delay: 0.4s;
+        }
 
     .burger-menu {
         display: flex; /* Show the burger menu on mobile */

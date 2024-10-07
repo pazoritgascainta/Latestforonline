@@ -61,7 +61,7 @@
 			</div>
 		</li>
 	</ul>
-    <p><a href="Homepage.php" class="btn btn--accent">Home</a></p>
+    <p><a href="index.php" class="btn btn--accent">Home</a></p>
 
 </main>
 <aside>

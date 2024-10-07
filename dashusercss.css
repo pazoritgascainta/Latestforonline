@@ -1,6 +1,5 @@
 .container {
   background-color: #ffffff;  
-  border: 1px solid #ccc; 
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
   padding: 10px; 
   margin-top: 10px; 
@@ -9,7 +8,7 @@
 /* Main Content Styling */
 .main-content {
   margin: 0 auto; /* Center the content horizontally */
-margin-left: 80px;
+  margin-left: 80px;
   max-width: 90%; /* Optional: Set a maximum width to prevent it from becoming too wide */
 }
 .dashboard {
@@ -188,12 +187,19 @@ margin-left: 80px;
   .services button {
     padding: 30px; /* Reduce padding on buttons */
   }
+  .h2{
+    margin-left: 40vh;
+  }
 }
+
 
 @media (max-width: 480px) {
   .payment-history img {
     width: 30px; /* Smaller images for mobile */
     height: 30px;
+  }
+  .h2{
+    margin-left: 40vh;
   }
 
   .payment-summary h2 {

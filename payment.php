@@ -110,9 +110,7 @@ $amenity_names = [
                 <h2>Payments</h2>
                 <table>
                 <thead>
-                        <tr>
-
-                        
+                        <tr>                    
                         <tr>
                             <th>Billing Date</th>
                             <th>Due Date</th>
@@ -126,11 +124,11 @@ $amenity_names = [
                         // Loop through each billing record and display it in the table
                         while ($row = $result_billing->fetch_assoc()) {
                             echo "<tr>";
-                            echo "<td>" . htmlspecialchars($row['billing_date']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['due_date']) . "</td>";
-                            echo "<td>₱" . number_format($row['monthly_due'], 2) . "</td>";
-                            echo "<td>" . ucfirst($row['status']) . "</td>";
-                            echo "<td>₱" . number_format($row['total_amount'], 2) . "</td>";
+                            echo "<td data-label='Billing Date'>" . htmlspecialchars($row['billing_date']) . "</td>";
+                            echo "<td data-label='Due Date'>" . htmlspecialchars($row['due_date']) . "</td>";
+                            echo "<td data-label='Monthly Due'>₱" . number_format($row['monthly_due'], 2) . "</td>";
+                            echo "<td data-label='Status'>" . ucfirst($row['status']) . "</td>";
+                            echo "<td data-label='Total Amount'>₱" . number_format($row['total_amount'], 2) . "</td>";
                             echo "</tr>";
                         }
                         ?>    
@@ -146,8 +144,6 @@ $amenity_names = [
                             <th>Purpose</th>
                             <th>Amount</th>
                             <th>Status</th>
-
-
                         </tr>
                     </thead>
                     <tbody>

@@ -20,7 +20,7 @@ if ($conn->connect_error) {
 
 $admin_id = $_SESSION['admin_id'];
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$messagesPerPage = 20; // Number of messages per page
+$messagesPerPage = 10; // Number of messages per page
 $offset = ($page - 1) * $messagesPerPage;
 
 // Fetch messages for the admin with pagination

@@ -1,11 +1,12 @@
 /* General Container Styling */
 .container {
-    background-color: #ffffff;  
-    border: 1px solid #ccc; 
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
-    padding: 10px; 
-    margin-top: 10px; 
-    width: 105%;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin-top: 10px;
+    width: 100%;
+    margin-left: 15px;
 }
 
 /* Main Content Styling */
@@ -220,4 +221,89 @@ select:focus {
     #pagination input {
         width: 40px; /* Smaller input field */
     }
+
 }
+/* Amenity Booking Table Styling */
+#pending-appointments-table, #accepted-appointments-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-family: Arial, sans-serif;
+    border: 1px solid #ddd; /* Light gray border */
+}
+
+#pending-appointments-table th, #accepted-appointments-table th,
+#pending-appointments-table td, #accepted-appointments-table td {
+    padding: 12px;
+    text-align: center;
+    color: #333;
+    border: 1px solid #ddd; /* Ensure each cell has borders */
+    word-wrap: break-word; /* Ensure long words wrap */
+    white-space: normal; /* Allow wrapping for long text */
+}
+
+#pending-appointments-table th, #accepted-appointments-table th {
+    background-color: #fd8326; /* Header background color */
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#pending-appointments-table tr:nth-child(even), #accepted-appointments-table tr:nth-child(even) {
+    background-color: #f5f5f5; /* Light gray alternating rows */
+}
+
+#pending-appointments-table tr:hover, #accepted-appointments-table tr:hover {
+    background-color: #eaf2f8; /* Hover effect */
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    #pending-appointments-table, #accepted-appointments-table {
+        font-size: 14px; /* Adjust font size */
+    }
+
+    #pending-appointments-table th, #accepted-appointments-table th,
+    #pending-appointments-table td, #accepted-appointments-table td {
+        padding: 8px; /* Adjust padding for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    #pending-appointments-table, #accepted-appointments-table,
+    #pending-appointments-table thead, #accepted-appointments-table thead,
+    #pending-appointments-table tbody, #accepted-appointments-table tbody,
+    #pending-appointments-table th, #accepted-appointments-table th,
+    #pending-appointments-table td, #accepted-appointments-table td,
+    #pending-appointments-table tr, #accepted-appointments-table tr {
+        display: block;
+    }
+
+    #pending-appointments-table th, #accepted-appointments-table th {
+        display: none; /* Hide the table headers */
+    }
+
+    #pending-appointments-table td, #accepted-appointments-table td {
+        position: relative;
+        padding-left: 50%; /* Create space for labels */
+        text-align: left; /* Align text to the left */
+        white-space: nowrap; /* Prevent text from wrapping vertically */
+    }
+
+    #pending-appointments-table td::before, #accepted-appointments-table td::before {
+        content: attr(data-label); /* Show the data-label as content */
+        position: absolute;
+        left: 10px;
+        font-weight: bold;
+        white-space: nowrap; /* Prevent the labels from wrapping */
+    }
+
+    /* Adjust the content to ensure it doesn't break into multiple lines */
+    #pending-appointments-table td, #accepted-appointments-table td {
+        word-break: keep-all; /* Prevent breaking text into multiple lines */
+        white-space: nowrap;
+    }
+}
+
+
+

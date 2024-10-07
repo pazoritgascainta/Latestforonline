@@ -73,7 +73,7 @@ if (isset($_POST['delete_id'])) {
 <head>
     <meta charset="UTF-8">
     <title>View Complaints</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="view_complaints.css">
 </head>
 <body>

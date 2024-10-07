@@ -319,8 +319,8 @@ if (isset($_SESSION['message'])) {
     <button id="show-accepted" onclick="showTable('accepted')"> Accepted Appointments</button>
 
 </div>
-        <!-- Appointments Table -->
-        <h2 id="pending-title">Pending Appointments</h2>
+<!-- Pending Appointments Table -->
+<h2 id="pending-title">Pending Appointments</h2>
 <table id="pending-appointments-table">
     <thead>
         <tr>
@@ -337,14 +337,14 @@ if (isset($_SESSION['message'])) {
     <tbody>
         <?php foreach ($booked_appointments as $appointment): ?>
             <tr id="appointment-<?php echo $appointment['id']; ?>">
-                <td><?php echo htmlspecialchars($appointment['date']); ?></td>
-                <td><?php echo htmlspecialchars($appointment['time_start']) . ' - ' . htmlspecialchars($appointment['time_end']); ?></td>
-                <td><?php echo htmlspecialchars($appointment['name']); ?></td>
-                <td><?php echo htmlspecialchars($appointment['email']); ?></td>
-                <td><?php echo htmlspecialchars($appointment['purpose']); ?></td>
-                <td><?php echo htmlspecialchars($appointment['status']); ?></td>
-                <td><?php echo htmlspecialchars($appointment['amenity_name']); ?></td>
-                <td>
+                <td data-label="Date"><?php echo htmlspecialchars($appointment['date']); ?></td>
+                <td data-label="Time"><?php echo htmlspecialchars($appointment['time_start']) . ' - ' . htmlspecialchars($appointment['time_end']); ?></td>
+                <td data-label="Name"><?php echo htmlspecialchars($appointment['name']); ?></td>
+                <td data-label="Email"><?php echo htmlspecialchars($appointment['email']); ?></td>
+                <td data-label="Purpose"><?php echo htmlspecialchars($appointment['purpose']); ?></td>
+                <td data-label="Status"><?php echo htmlspecialchars($appointment['status']); ?></td>
+                <td data-label="Amenity"><?php echo htmlspecialchars($appointment['amenity_name']); ?></td>
+                <td data-label="Action">
                     <button onclick="cancelAppointment(<?php echo $appointment['id']; ?>)">Cancel</button>
                 </td>
             </tr>
@@ -371,21 +371,22 @@ if (isset($_SESSION['message'])) {
     <tbody>
         <?php foreach ($accepted_appointments as $appointment): ?>
             <tr id="appointment-<?php echo $appointment['id']; ?>">
-                <td><?php echo htmlspecialchars($appointment['date']); ?></td>
-                <td><?php echo htmlspecialchars($appointment['time_start']) . ' - ' . htmlspecialchars($appointment['time_end']); ?></td>
-                <td><?php echo htmlspecialchars($appointment['name']); ?></td>
-                <td><?php echo htmlspecialchars($appointment['email']); ?></td>
-                <td><?php echo htmlspecialchars($appointment['purpose']); ?></td>
-                <td><?php echo htmlspecialchars($appointment['status']); ?></td>
-                <td><?php echo htmlspecialchars($appointment['amenity_name']); ?></td>
-                <td><?php echo htmlspecialchars($appointment['amount']); ?></td> <!-- Amount value -->
-                <td>
+                <td data-label="Date"><?php echo htmlspecialchars($appointment['date']); ?></td>
+                <td data-label="Time"><?php echo htmlspecialchars($appointment['time_start']) . ' - ' . htmlspecialchars($appointment['time_end']); ?></td>
+                <td data-label="Name"><?php echo htmlspecialchars($appointment['name']); ?></td>
+                <td data-label="Email"><?php echo htmlspecialchars($appointment['email']); ?></td>
+                <td data-label="Purpose"><?php echo htmlspecialchars($appointment['purpose']); ?></td>
+                <td data-label="Status"><?php echo htmlspecialchars($appointment['status']); ?></td>
+                <td data-label="Amenity"><?php echo htmlspecialchars($appointment['amenity_name']); ?></td>
+                <td data-label="Amount"><?php echo htmlspecialchars($appointment['amount']); ?></td>
+                <td data-label="Action">
                     <button onclick="cancelAppointment(<?php echo $appointment['id']; ?>)">Cancel</button>
                 </td>
             </tr>
         <?php endforeach; ?>
     </tbody>
 </table>
+
 
 
 
