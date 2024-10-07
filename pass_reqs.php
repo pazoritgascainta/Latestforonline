@@ -106,7 +106,7 @@ $result = $conn->query($sql);
 
                     // Previous button
                     if ($current_page > 1): ?>
-                        <form method="GET" action="view_requests.php" style="display: inline;">
+                        <form method="GET" action="pass_reqs.php" style="display: inline;">
                             <input type="hidden" name="search" value="<?= htmlspecialchars($search_query); ?>">
                             <input type="hidden" name="page" value="<?= $current_page - 1 ?>">
                             <button type="submit">&lt;</button>
@@ -114,7 +114,7 @@ $result = $conn->query($sql);
                     <?php endif; ?>
 
                     <!-- Page input for user to change the page -->
-                    <form method="GET" action="view_requests.php" style="display: inline;">
+                    <form method="GET" action="pass_reqs.php" style="display: inline;">
                         <input type="hidden" name="search" value="<?= htmlspecialchars($search_query); ?>">
                         <input type="number" name="page" value="<?= $input_page ?>" min="1" max="<?= $total_pages ?>" style="width: 50px;">
                     </form>
@@ -127,7 +127,7 @@ $result = $conn->query($sql);
 
                     <!-- Next button -->
                     <?php if ($current_page < $total_pages): ?>
-                        <form method="GET" action="view_requests.php" style="display: inline;">
+                        <form method="GET" action="pass_reqs.php" style="display: inline;">
                             <input type="hidden" name="search" value="<?= htmlspecialchars($search_query); ?>">
                             <input type="hidden" name="page" value="<?= $current_page + 1 ?>">
                             <button type="submit">></button>
