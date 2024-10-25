@@ -106,7 +106,7 @@ $profile_image = $homeowner['profile_image'] ? $homeowner['profile_image'] : $de
 <div class="sidebar">
     <div class="top">
         <div class="logo">
-            <img src="Monique logo.png" width="170" height="80" alt="monique" class="mnq-img">
+            <img src="monique logo.png" width="170" height="80" alt="monique" class="mnq-img">
         </div>
         <img src="menu.png" alt="menu" class="menu-img" id="btn">
     </div>
@@ -129,7 +129,7 @@ $profile_image = $homeowner['profile_image'] ? $homeowner['profile_image'] : $de
             <span class="tooltip">Dashboard</span>
         </li>
         <li>
-            <a href="usercomplaint.php">
+            <a href="view_complaints.php">
                 <img src="complaint.png" alt="complaints" class="sideimg">
                 <span class="nav-item">Complaints</span>
             </a>
@@ -150,7 +150,7 @@ $profile_image = $homeowner['profile_image'] ? $homeowner['profile_image'] : $de
             <span class="tooltip">Appointment</span>
         </li>
         <li>
-            <a href="serviceuser.php">
+            <a href="view_service_requests.php">
                 <img src="service.png" alt="service" class="sideimg">
                 <span class="nav-item">Service</span>
             </a>

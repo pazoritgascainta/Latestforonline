@@ -57,13 +57,16 @@ $offset = ($current_page - 1) * $records_per_page;
 $search_query = isset($_GET['search']) ? $_GET['search'] : '';
 $search_condition = !empty($search_query) ? " AND (name LIKE ? OR email LIKE ?)" : '';
 
-// Fetch active homeowners with pagination and search
+// Handle sorting
+$sort_order = isset($_GET['sort']) && $_GET['sort'] === 'asc' ? 'ASC' : 'DESC';
+
+// Fetch active homeowners with pagination, search, and sorting
 $sql_homeowners = "
     SELECT id, name, email, phone_number, address, created_at, status, sqm 
     FROM homeowners 
     WHERE status != 'archived'
     $search_condition
-    ORDER BY created_at DESC
+    ORDER BY created_at $sort_order
     LIMIT $records_per_page OFFSET $offset
 ";
 
@@ -103,21 +106,27 @@ $current_page = min($current_page, $total_pages); // Ensure page is not greater 
     <?php include 'sidebar.php'; ?>
     
     <div class="main-content">
-    <h2>List of Homeowners</h2>
-<br>
-<!-- Action Buttons -->
-<a class="btn btn-primary" href="create.php" role="button">New Homeowner</a>
-<a class="btn btn-primary" href="archive.php" role="button">Archived Homeowners</a>
-<a class="btn btn-primary" href="pass_reqs.php" role="button"> Password Reset Requests</a>
-
-
+        <h2>List of Homeowners</h2>
+        <br>
+        <!-- Action Buttons -->
+        <a class="btn btn-primary" href="create.php" role="button">New Homeowner</a>
+        <a class="btn btn-primary" href="archive.php" role="button">Archived Homeowners</a>
+        <a class="btn btn-primary" href="pass_reqs.php" role="button">Password Reset Requests</a>
 
         <div class="container">
-         <!-- Search Form -->
-        <form method="GET" action="homeowneradmin.php" class="search-form">
-            <input type="text" name="search" placeholder="Search by name or email" value="<?= htmlspecialchars($search_query); ?>">
-            <button type="submit">Search</button>
-        </form>
+            <!-- Search Form -->
+            <form method="GET" action="homeowneradmin.php" class="search-form">
+                <input type="text" name="search" placeholder="Search by name or email" value="<?= htmlspecialchars($search_query); ?>">
+                <button type="submit">Search</button>
+            </form>
+            <!-- Sort by Date Dropdown -->
+            <form method="GET" action="homeowneradmin.php" class="sort-form">
+                <input type="hidden" name="search" value="<?= htmlspecialchars($search_query); ?>">
+                <select name="sort" onchange="this.form.submit()">
+                    <option value="desc" <?= $sort_order === 'DESC' ? 'selected' : '' ?>>Newest First</option>
+                    <option value="asc" <?= $sort_order === 'ASC' ? 'selected' : '' ?>>Oldest First</option>
+                </select>
+            </form>
 
             <!-- Display message if no homeowners are found -->
             <?php if (!empty($_SESSION['message'])): ?>
@@ -131,8 +140,7 @@ $current_page = min($current_page, $total_pages); // Ensure page is not greater 
                 <table class="table">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Name</th>
+                        <th>Homeowner Name</th>
                         <th>Email</th>
                         <th>Phone</th>
                         <th>Address</th>
@@ -145,7 +153,6 @@ $current_page = min($current_page, $total_pages); // Ensure page is not greater 
                     <!-- Loop through homeowners and display their info -->
                     <?php while ($row = $result_homeowners->fetch_assoc()): ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($row['id']); ?></td>
                             <td><?php echo htmlspecialchars($row['name']); ?></td>
                             <td><?php echo htmlspecialchars($row['email']); ?></td>
                             <td><?php echo htmlspecialchars($row['phone_number']); ?></td>
@@ -153,8 +160,7 @@ $current_page = min($current_page, $total_pages); // Ensure page is not greater 
                             <td><?php echo htmlspecialchars($row['sqm']); ?></td> <!-- New Column -->
                             <td><?php echo htmlspecialchars($row['created_at']); ?></td>
                             <td>
-                            <button class="btn btn-primary btn-sm" onclick="window.location.href='edit.php?id=<?= $row['id']; ?>'">Edit</button>
-
+                                <button class="btn btn-primary btn-sm" onclick="window.location.href='edit.php?id=<?= $row['id']; ?>'">Edit</button>
                                 <form method="POST" action="homeowneradmin.php" style="display:inline;">
                                     <input type="hidden" name="homeowner_id" value="<?= $row['id']; ?>">
                                     <input type="hidden" name="new_status" value="archived">
@@ -164,7 +170,6 @@ $current_page = min($current_page, $total_pages); // Ensure page is not greater 
                         </tr>
                     <?php endwhile; ?>
                 </tbody>
-
                 </table>
 
                 <!-- Pagination controls -->
@@ -177,6 +182,7 @@ $current_page = min($current_page, $total_pages); // Ensure page is not greater 
                     if ($current_page > 1): ?>
                         <form method="GET" action="homeowneradmin.php" style="display: inline;">
                             <input type="hidden" name="search" value="<?= htmlspecialchars($search_query); ?>">
+                            <input type="hidden" name="sort" value="<?= $sort_order; ?>">
                             <input type="hidden" name="page" value="<?= $current_page - 1 ?>">
                             <button type="submit">&lt;</button>
                         </form>
@@ -185,21 +191,22 @@ $current_page = min($current_page, $total_pages); // Ensure page is not greater 
                     <!-- Page input for user to change the page -->
                     <form method="GET" action="homeowneradmin.php" style="display: inline;">
                         <input type="hidden" name="search" value="<?= htmlspecialchars($search_query); ?>">
+                        <input type="hidden" name="sort" value="<?= $sort_order; ?>">
                         <input type="number" name="page" value="<?= $input_page ?>" min="1" max="<?= $total_pages ?>" style="width: 50px;">
                     </form>
 
                     <!-- "of" text and last page link -->
                     <?php if ($total_pages > 1): ?>
-                        <span>of</span>
-                        <a href="?search=<?= urlencode($search_query); ?>&page=<?= $total_pages ?>" class="<?= ($current_page == $total_pages) ? 'active' : '' ?>"><?= $total_pages ?></a>
+                        <span>of <?= $total_pages ?></span>
                     <?php endif; ?>
 
                     <!-- Next button -->
                     <?php if ($current_page < $total_pages): ?>
                         <form method="GET" action="homeowneradmin.php" style="display: inline;">
                             <input type="hidden" name="search" value="<?= htmlspecialchars($search_query); ?>">
+                            <input type="hidden" name="sort" value="<?= $sort_order; ?>">
                             <input type="hidden" name="page" value="<?= $current_page + 1 ?>">
-                            <button type="submit">></button>
+                            <button type="submit">&gt;</button>
                         </form>
                     <?php endif; ?>
                 </div>
@@ -208,8 +215,5 @@ $current_page = min($current_page, $total_pages); // Ensure page is not greater 
             <?php endif; ?>
         </div>
     </div>
-
 </body>
 </html>
-
-<?php $conn->close(); ?>

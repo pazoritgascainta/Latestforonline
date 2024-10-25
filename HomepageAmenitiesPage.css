@@ -120,8 +120,8 @@ header {
 
 .card__content {
 	box-shadow: 0 0.2em 1em rgba(0, 0, 0, 0.1), 0 1em 2em rgba(0, 0, 0, 0.1);
-	background: rgba(226, 226, 226, 0.842);
-	color: rgb(10, 5, 7);
+background: rgba(226, 226, 226, 100%);
+color: rgb(10, 5, 7);
 	border-radius: 1em;
 	overflow: hidden;
 

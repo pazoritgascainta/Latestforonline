@@ -28,7 +28,7 @@ function sanitize_input($data) {
 }
 
 // Pagination settings
-$limit = 10; // Number of complaints per page
+$limit = 3; // Number of complaints per page
 $current_page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $offset = ($current_page - 1) * $limit;
 
@@ -78,42 +78,49 @@ if (isset($_POST['delete_id'])) {
 <body>
 <?php include 'usersidebar.php'; ?>
 
-<div class="main-content">
-    <div class="container">
-        <h2>View Your Complaints</h2>
+<div class="container">
+    <h2>View Your Complaints</h2>
 
-        <?php if (count($complaints) > 0) : ?>
-            <table>
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Subject</th>
-            <th>Description</th>
-            <th>Status</th>
-            <th>Created At</th>
-            <th>Updated At</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
+    <?php if (count($complaints) > 0) : ?>
         <?php foreach ($complaints as $complaint): ?>
-            <tr>
-                <td><?php echo htmlspecialchars($complaint['complaint_id']); ?></td>
-                <td><?php echo htmlspecialchars($complaint['subject']); ?></td>
-                <td><?php echo htmlspecialchars($complaint['description']); ?></td>
-                <td><?php echo htmlspecialchars($complaint['status']); ?></td>
-                <td><?php echo htmlspecialchars($complaint['created_at']); ?></td>
-                <td><?php echo htmlspecialchars($complaint['updated_at']); ?></td>
-                <td>
-                    <form method="POST" action="view_complaints.php" class="delete-form" style="display:inline; margin-left:10px;">
+            <div class="complaint-card">
+                <div class="complaint-item">
+                    <span class="complaint-label">Subject:</span>
+                    <span class="complaint-value"><?php echo htmlspecialchars($complaint['subject']); ?></span>
+                </div>
+                <div class="complaint-item">
+                    <span class="complaint-label">Description:</span>
+                    <span class="complaint-value"><?php echo htmlspecialchars($complaint['description']); ?></span>
+                </div>
+                <div class="complaint-item">
+                    <span class="complaint-label">Status:</span>
+                    <span class="complaint-value"><?php echo htmlspecialchars($complaint['status']); ?></span>
+                </div>
+                <div class="complaint-item">
+                    <span class="complaint-label">Created At:</span>
+                    <span class="complaint-value"><?php echo htmlspecialchars($complaint['created_at']); ?></span>
+                </div>
+                <div class="complaint-item">
+                    <span class="complaint-label">Updated At:</span>
+                    <span class="complaint-value"><?php echo htmlspecialchars($complaint['updated_at']); ?></span>
+                </div>
+                <div class="complaint-item">
+                    <span class="complaint-label">Action:</span>
+                    <form method="POST" action="view_complaints.php" class="delete-form">
                         <input type="hidden" name="delete_id" value="<?php echo htmlspecialchars($complaint['complaint_id']); ?>">
                         <button type="button" onclick="confirmDelete(event, this)" class="cancel-btn">Cancel</button>
                     </form>
-                </td>
-            </tr>
+                </div>
+            </div>
         <?php endforeach; ?>
-    </tbody>
-</table>
+    <?php else: ?>
+        <p>No complaints found.</p>
+    <?php endif; ?>
+    <div class="submit-complaint">
+        <a href="usercomplaint.php">Submit a Complaint</a>
+    </div>
+</div>
+
 
 
           <!-- Pagination controls -->
@@ -124,7 +131,7 @@ if (isset($_POST['delete_id'])) {
 
     // Previous button
     if ($current_page > 1): ?>
-        <form method="GET" action="admincomplaint.php" style="display: inline;">
+        <form method="GET" action="view_complaints.php" style="display: inline;">
             <input type="hidden" name="search" value="<?= htmlspecialchars($search_query); ?>">
             <input type="hidden" name="page" value="<?= $current_page - 1 ?>">
             <button type="submit">Previous</button>
@@ -132,7 +139,7 @@ if (isset($_POST['delete_id'])) {
     <?php endif; ?>
 
     <!-- Page input for user to change the page -->
-    <form method="GET" action="admincomplaint.php" style="display: inline;">
+    <form method="GET" action="view_complaints.php" style="display: inline;">
         <input type="hidden" name="search" value="<?= htmlspecialchars($search_query); ?>">
         <input type="number" name="page" value="<?= $input_page ?>" min="1" max="<?= $total_pages ?>" style="width: 50px;">
     </form>
@@ -145,21 +152,13 @@ if (isset($_POST['delete_id'])) {
 
     <!-- Next button -->
     <?php if ($current_page < $total_pages): ?>
-        <form method="GET" action="admincomplaint.php" style="display: inline;">
+        <form method="GET" action="view_complaints.php" style="display: inline;">
             <input type="hidden" name="search" value="<?= htmlspecialchars($search_query); ?>">
             <input type="hidden" name="page" value="<?= $current_page + 1 ?>">
             <button type="submit">Next</button>
         </form>
     <?php endif; ?>
-</div>
 
-<?php else: ?>
-    <p>No complaints found.</p>
-<?php endif; ?>
-
-
-        <a href="usercomplaint.php">Submit a Complaint</a>
-    </div>
 </div>
 <script>
 function confirmDelete(event, link) {

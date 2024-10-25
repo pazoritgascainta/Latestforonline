@@ -224,6 +224,7 @@ fieldset {
     .service-request-form {
         padding: 15px;
         max-width: 90%; /* Slightly smaller max-width on mobile */
+        margin-left: 8%;
 
     }
 

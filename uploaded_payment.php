@@ -58,6 +58,22 @@ $result_images = $stmt_images->get_result();
     <title>Uploaded Images</title>
     <link rel="stylesheet" href="uploaded_payment.css">
     <style>
+    .back-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #ff8b2c;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 160vh;
+    margin-bottom : 20px;
+}
+
+.back-button:hover {
+    background-color: #b45303e8;
+}
         .modal {
             display: none; /* Hidden by default */
             position: fixed; /* Stay in place */
@@ -131,7 +147,7 @@ $result_images = $stmt_images->get_result();
 
     <div class="main-content">
         <h1>Your Uploaded Images</h1>
-
+<button onclick="history.back()" class="back-button">Go Back</button>
         <div class="recent-payments">
             <?php if ($result_images->num_rows > 0): ?>
                 <?php while ($row = $result_images->fetch_assoc()): ?>

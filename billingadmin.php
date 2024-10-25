@@ -7,9 +7,9 @@ session_name('admin_session');
 session_start();
 
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "homeowner";
+$username = "u780935822_homeowner";
+$password = "Boot@o29";
+$dbname = "u780935822_homeowner";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
@@ -300,8 +300,7 @@ $result_billing = fetchBillingRecords($conn, $offset, $limit, $search_query);
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Billing ID</th>
-                            <th>Homeowner ID</th>
+
                             <th>Homeowner Name</th>
                             <th>Address</th>
                             <th>Monthly Due</th>
@@ -316,8 +315,7 @@ $result_billing = fetchBillingRecords($conn, $offset, $limit, $search_query);
                         <?php if ($result_billing->num_rows > 0): ?>
                             <?php while ($row = $result_billing->fetch_assoc()): ?>
                                 <tr>
-                                    <td><?php echo htmlspecialchars($row['billing_id']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['homeowner_id']); ?></td>
+
                                     <td><?php echo htmlspecialchars($row['homeowner_name']); ?></td>
                                     <td><?php echo htmlspecialchars($row['address']); ?></td>
                                     <td>

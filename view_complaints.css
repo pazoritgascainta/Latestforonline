@@ -9,6 +9,7 @@ body {
 .container {
     max-width: 900px;
     margin: 50px auto;
+    margin-top:10vh;
     padding: 20px;
     background-color: peachpuff;
     border-radius: 8px;
@@ -29,6 +30,7 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
+    table-layout: fixed; /* Added to ensure fixed column widths */
 }
 
 table th, table td {
@@ -45,102 +47,107 @@ table th {
     font-size: 16px;
 }
 
-/* Consistent row background color */
 table tr {
     background-color: #f2f2f2;
 }
+
 tr:hover {
     background-color: peachpuff;
 }
+
 /* Cancel Button Styling */
 .cancel-btn {
-    background-color: #f44336; /* Red background */
-    color: white; /* White text */
-    border: none; /* No border */
-    padding: 8px 12px; /* Padding around the button */
-    border-radius: 5px; /* Rounded corners */
-    font-weight: bold; /* Bold text */
-    cursor: pointer; /* Pointer cursor on hover */
-    text-decoration: none; /* Remove underline from the link */
-    transition: background-color 0.3s ease; /* Smooth transition effect for background color */
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
 }
 
 .cancel-btn:hover {
-    background-color: #e53935; /* Darker red on hover */
+    background-color: #e53935;
 }
 
 a.cancel-btn {
-    color: white; /* Ensure it's white */
-    text-decoration: none; /* Ensure there's no underline */
+    color: white;
+    text-decoration: none;
 }
 
-/* Pagination styling */
+.page-link {
+    display: none;
+}
+.page-link.active {
+    background-color: #ff8b2c; /* Primary color for active link */
+    color: white; /* White text color */
+    border: 1px solid #ff8b2c; /* Match border color with active background */
+}
 #pagination {
     margin-top: 20px;
     text-align: center; /* Center align pagination controls */
 }
-
 #pagination a {
     display: inline-block; /* Ensure pagination links are inline */
     margin: 0 8px; /* Space between pagination links */
     text-decoration: none; /* Remove underline from links */
     color: #ff8b2c; /* Link color */
     padding: 8px 12px; /* Padding inside pagination links */
-    border: 1px solid #ff8b2c; /* Border to match theme */
+    border: 1px solid #ff8b2c; /* Blue border to match theme */
     border-radius: 4px; /* Rounded corners */
     transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
 }
-
 #pagination a.active {
     background-color: #ff8b2c; /* Active background color */
     color: white; /* White text color */
 }
-
 #pagination a:hover {
     background-color: #f0f0f0; /* Light gray background on hover */
-    color: #ff8b2c; /* Text color on hover */
+    color: #ff8b2c; /* Blue text color */
 }
 
 #pagination input {
     text-align: center;
     width: 50px;
     padding: 8px;
-    color: #ff8b2c; /* Text color */
-    border: 1px solid #ff8b2c; /* Border color */
+    color: #ff8b2c; /* Blue text color */
+    border: 1px solid #ff8b2c; /* Blue border */
     border-radius: 4px; /* Rounded corners */
     margin: 0 8px; /* Space around the input */
 }
 
 /* Button styling */
 #pagination button {
-    background-color: #ff8b2c; /* Button background */
-    color: white; /* Button text */
+    background-color: #ff8b2c; /* Blue background */
+    color: white; /* White text */
     border: none; /* Remove border */
-    padding: 8px 12px; /* Padding inside button */
+    padding: 8px 12px; /* Add padding */
     text-align: center; /* Center text */
     text-decoration: none; /* Remove underline */
-    display: inline-block; /* Inline display */
-    font-size: 16px; /* Button text size */
-    margin: 4px 2px; /* Margin around button */
-    cursor: pointer; /* Pointer cursor on hover */
+    display: inline-block; /* Display inline */
+    font-size: 16px; /* Font size */
+    margin: 4px 2px; /* Add margin */
+    cursor: pointer; /* Add pointer cursor on hover */
     border-radius: 4px; /* Rounded corners */
-    transition-duration: 0.4s; /* Transition effect */
+    transition-duration: 0.4s; /* Add transition effect */
 }
 
 #pagination button:hover {
-    background-color: white; /* Button background on hover */
-    color: #ff8b2c; /* Text color on hover */
-    border: 1px solid #ff8b2c; /* Border on hover */
+    background-color: white; /* White background on hover */
+    color: #ff8b2c; /* Blue text on hover */
+    border: 1px solid #ff8b2c; /* Blue border on hover */
 }
 
 #pagination button:disabled {
-    background-color: #ddd; /* Disabled button background */
-    color: #999; /* Disabled button text */
+    background-color: #ddd; /* Grey background for disabled buttons */
+    color: #999; /* Grey text for disabled buttons */
     cursor: not-allowed; /* No pointer cursor for disabled buttons */
 }
 
 #pagination input[type="number"] {
-    border: 1px solid #ff8b2c; /* Border color */
+    border: 1px solid #ff8b2c; /* Blue border */
     border-radius: 4px; /* Rounded corners */
     padding: 5px;
     font-size: 14px;
@@ -166,4 +173,137 @@ a.cancel-btn {
 
 .container a:hover {
     text-decoration: underline;
+}
+.submit-complaint {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.submit-complaint a {
+    background-color: #fd8326;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.submit-complaint a:hover {
+    background-color: #e9701d;
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        max-width: 85%;
+        padding: 15px;
+        margin-left: 55px;
+        margin-top: 100px;
+    }
+    
+    table, table tr, table th, table td {
+        display: block;
+        width: 100%;
+    }
+
+    table th, table td {
+        text-align: left;
+        display: inline-block;
+        width: 48%; /* Allow room for each cell in the row */
+        box-sizing: border-box;
+    }
+    
+    table th {
+        background-color: #fd8326;
+        color: white;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    table td {
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+    
+    table th, table td {
+        padding: 8px 10px;
+        font-size: 14px;
+        width: 100%;
+    }
+    
+    #pagination {
+        font-size: 14px;
+    }
+
+    #pagination a, #pagination button {
+        padding: 6px 10px;
+        margin: 0 5px;
+    }
+}
+.complaint-card {
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.complaint-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.complaint-item:last-child {
+    border-bottom: none;
+}
+
+.complaint-label {
+    font-weight: bold;
+    color: #fd8326;
+    width: 40%;
+}
+
+.complaint-value {
+    width: 60%;
+    text-align: right;
+    color: #333;
+}
+
+.cancel-btn {
+    background-color: #ff4c4c;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cancel-btn:hover {
+    background-color: #d12c2c;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .complaint-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .complaint-label, .complaint-value {
+        width: 100%;
+        text-align: left;
+    }
+
+    .complaint-value {
+        margin-top: 4px;
+    }
 }

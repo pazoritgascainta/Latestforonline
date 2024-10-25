@@ -148,3 +148,153 @@ a.cancel-btn {
 .container a:hover {
     text-decoration: underline;
 }
+/* Responsive Design */
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        max-width: 90%;
+        margin-left: 8%;
+        padding: 15px;
+    }
+    
+    table th, table td {
+        font-size: 14px;
+        padding: 10px 12px;
+    }
+
+    /* Make the table look normal on mobile */
+    table {
+        display: block;
+        width: 100%;
+    }
+
+    table thead, table tbody, table th, table td, table tr {
+        display: block;
+    }
+
+    table thead {
+        float: left;
+    }
+
+    table tbody {
+        width: auto;
+        position: relative;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    table tr {
+        display: table-cell;
+    }
+
+    table td {
+        text-align: center;
+        display: table-cell;
+        border-bottom: 1px solid #ddd;
+        vertical-align: middle;
+    }
+}
+.service-request-card {
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.service-request-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.service-request-item:last-child {
+    border-bottom: none;
+}
+
+.service-request-label {
+    font-weight: bold;
+    color: #fd8326;
+    width: 40%;
+}
+
+.service-request-value {
+    width: 60%;
+    text-align: right;
+    color: #333;
+}
+
+.cancel-btn {
+    background-color: #ff4c4c;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.cancel-btn:hover {
+    background-color: #d12c2c;
+}
+
+.submit-service-request {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.submit-service-request .submit-link {
+    background-color: #fd8326;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.submit-service-request .submit-link:hover {
+    background-color: #e9701d;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .service-request-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .service-request-label, .service-request-value {
+        width: 100%;
+        text-align: left;
+    }
+
+    .service-request-value {
+        margin-top: 4px;
+    }
+}
+
+
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+
+    /* Adjust table layout on small screens */
+    table, table tr, table th, table td {
+        display: block;
+        width: 100%;
+    }
+    
+    table th, table td {
+        box-sizing: border-box;
+        padding: 8px 10px;
+        border-bottom: none;
+        text-align: left;
+    }
+    
+    table th {
+        background-color: #fd8326;
+        color: white;
+    }
+}

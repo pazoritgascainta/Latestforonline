@@ -79,6 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['payment_submit'])) {
         <div class="container">
             <section>
                 <h2>Recently Paid</h2>
+                <button onclick="history.back()" class="back-button">Go Back</button>
                 <br>
                 <?php if (isset($_SESSION['message'])): ?>
                     <div class="alert">
@@ -89,8 +90,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['payment_submit'])) {
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Billing ID</th>
-                            <th>Homeowner ID</th>
                             <th>Homeowner Name</th>
                             <th>Address</th>
                             <th>Monthly Due</th>
@@ -107,8 +106,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['payment_submit'])) {
                     <?php if ($result_paid->num_rows > 0): ?>
                         <?php while ($row = $result_paid->fetch_assoc()): ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($row['billing_id']); ?></td>
-                                <td><?php echo htmlspecialchars($row['homeowner_id']); ?></td>
                                 <td><?php echo htmlspecialchars($row['homeowner_name']); ?></td>
                                 <td><?php echo htmlspecialchars($row['address']); ?></td>
                                 <td><?php echo number_format($row['monthly_due'], 2); ?></td>

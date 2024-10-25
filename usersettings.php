@@ -23,8 +23,8 @@ if (!isset($_SESSION['homeowner_id'])) {
 
         <?php include 'usersidebar.php'; ?>
         <div class="main-content">
-            <!-- dito ilagay ang contents -->
-            <section class="user-settings">
+
+<section class="user-settings">
     <div class="container">
         <h1>USER SETTINGS</h1>
         <a href="useredit.php">Edit User Profile</a>

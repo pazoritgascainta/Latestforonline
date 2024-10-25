@@ -55,8 +55,8 @@ body {
 }
 
 .submit-btn {
-    width: 100%;
-    background-color: #007bff;
+    width: 96%;
+    background-color: #ff8b2c;
     color: white;
     border: none;
     padding: 12px 0;
@@ -66,7 +66,7 @@ body {
 }
 
 .submit-btn:hover {
-    background-color: #007bff;
+    background-color: #ff8b2c;
 }
 
 /* Responsive Design */
@@ -81,4 +81,28 @@ body {
     .form-group select {
         width: calc(100% - 10px);
     }
+}
+/* Container for suggestions */
+.suggestions-list {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 31%; /* Make it as wide as the input field */
+    max-height: 200px; /* Set a maximum height */
+    overflow-y: auto; /* Enable vertical scrolling for overflow */
+    z-index: 1000; /* Make sure it's on top of other elements */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Individual suggestion items */
+.suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+/* Hover effect for suggestion items */
+.suggestion-item:hover {
+    background-color: #f0f0f0;
 }

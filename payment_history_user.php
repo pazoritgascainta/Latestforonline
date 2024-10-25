@@ -106,7 +106,8 @@ $result_payments = $stmt_payments->get_result();
     </datalist>
     <button type="submit">Search</button>
 </form>
-
+<button onclick="history.back()" class="back-button">Go Back</button>
+<br>
 <a href="uploaded_payment.php">View Uploaded Payments</a>
 <br>
 <br>

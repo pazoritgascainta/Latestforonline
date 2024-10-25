@@ -79,6 +79,24 @@
 .more-link:hover {
     text-decoration: underline;
 }
+.location-map {
+    position: relative;
+    padding-bottom: 20.25%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+    margin: 20px auto;
+    margin-right: 30px;
+}
+
+.location-map iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; /* Full width for responsiveness */
+    height: 100%; /* Full height to maintain aspect ratio */
+    border: 0;
+}
 
 /* Media Queries for Mobile Devices */
 @media (max-width: 768px) {
@@ -86,6 +104,9 @@
         flex-direction: column;
         align-items: center;
         padding: 10px;
+    }
+        .location-map {
+        padding-bottom: 75%; /* Adjust aspect ratio for smaller screens */
     }
 
     #aboutUs, .location-map {

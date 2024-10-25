@@ -17,7 +17,7 @@ if ($conn->connect_error) {
 
 // Get the current page number from query parameters, default to 1 if not set
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$limit = 10;  // Number of messages per page
+$limit = 9;  // Number of messages per page
 $offset = ($page - 1) * $limit;  // Offset for SQL query
 
 // Get the total number of messages for the user
@@ -46,7 +46,6 @@ $result = $conn->query($sql);
     <?php include 'usersidebar.php'; ?>
     <div class="main-content">
         <h1>User Inbox</h1>
-
         <div class="inbox-container">
             <div class="inbox-list" id="inbox-list">
                 <!-- Display Messages -->

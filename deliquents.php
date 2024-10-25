@@ -66,12 +66,12 @@ $result_overdue = fetchOverdueRecords($conn, $start_from, $results_per_page);
         <div class="container">
             <section>
                 <h2>Overdue Billing Records</h2>
+                <button onclick="history.back()" class="back-button">Go Back</button>
                 <br>
+                
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Billing ID</th>
-                            <th>Homeowner ID</th>
                             <th>Total Amount</th>
                             <th>Billing Date</th>
                             <th>Due Date</th>
@@ -85,8 +85,6 @@ $result_overdue = fetchOverdueRecords($conn, $start_from, $results_per_page);
                     <?php if ($result_overdue->num_rows > 0): ?>
                         <?php while ($row = $result_overdue->fetch_assoc()): ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($row['billing_id']); ?></td>
-                                <td><?php echo htmlspecialchars($row['homeowner_id']); ?></td>
                                 <td><?php echo number_format($row['total_amount'], 2); ?></td>
                                 <td><?php echo htmlspecialchars($row['billing_date']); ?></td>
                                 <td><?php echo htmlspecialchars($row['due_date']); ?></td>

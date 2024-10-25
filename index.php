@@ -1,4 +1,6 @@
 <?php
+
+
 session_name('user_session'); 
 session_start();
 
@@ -101,14 +103,11 @@ $logout_message = isset($_GET['message']) && $_GET['message'] == 'loggedout' ? "
     
     <div id="backdrop" style="display: none;"></div>
 
+
     <div class="container" id="container" style="display: none;">
-        <div class="form-container sign-up">
-            <form>
-                <!-- Leave this form untouched -->
-            </form>
-        </div>
         <div class="form-container sign-in">
             <form method="POST">
+            <img id="mobileLogo" src="monique logo.png" alt="St Monique Valais Logo">
                 <h1>Sign In</h1>
                 <span>use your email & password provided by Admin</span>
 
@@ -147,6 +146,44 @@ $logout_message = isset($_GET['message']) && $_GET['message'] == 'loggedout' ? "
             </div>
         </div>
     </div>
+    <script>
+    const loginBtn = document.getElementById("loginBtn");
+    const toggleContainer = document.querySelector(".toggle-container");
+
+    loginBtn.addEventListener("click", function(e) {
+        e.preventDefault();
+        
+        // Ensure any previous animations are reset
+        toggleContainer.classList.remove("shrink");
+        
+        // Show the container at full height immediately
+        toggleContainer.classList.add("show");
+
+        // Wait 2 seconds, then apply the shrink animation
+        setTimeout(() => {
+            toggleContainer.classList.add("shrink");
+        }, 300); // 2 seconds delay
+    });
+</script>
+
+
+    <script>
+        document.getElementById("loginBtn").addEventListener("click", function() {
+    document.getElementById("loginContainer").style.display = "block";
+});
+
+document.getElementById("closeBtn").addEventListener("click", function() {
+    document.getElementById("loginContainer").style.display = "none";
+});
+
+// Optional: close the modal when clicking outside the form
+window.addEventListener("click", function(event) {
+    var container = document.getElementById("loginContainer");
+    if (event.target === container) {
+        container.style.display = "none";
+    }
+});
+    </script>
     <!-- Img Slider Section -->
     <section class="ImageSlider1">
     <div class="ImageSlider">
@@ -268,7 +305,6 @@ $logout_message = isset($_GET['message']) && $_GET['message'] == 'loggedout' ? "
     </ul>
         </div>
 </div>
-
     <footer>
         <div class="footer-container">
             <div id="aboutUs">
@@ -279,11 +315,6 @@ $logout_message = isset($_GET['message']) && $_GET['message'] == 'loggedout' ? "
                     Established in 2005 by a visionary in the real estate industry, our community stands as a testament to meticulous planning, upscale amenities, and well-designed homes.
                      Our residents don’t just live here they actively participate in shaping the community through decision-making processes and engaging activities.
                      Experience the hallmark of modern living at St. Monique Valais!.</p>
-            <ul>
-            <h2>Contact Us</h2>
-                <li><i class="fa fa-envelope"></i> Email: saintmoniquev@gmail.com</li>
-                <li><i class="fa fa-phone"></i> Phone: 0917 719 7908</li>
-            </ul>
         </div>
             <div class="location-map">
                 <h2>Our Location</h2>

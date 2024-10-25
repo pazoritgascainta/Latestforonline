@@ -41,11 +41,11 @@
 		<li class="card" id="card_3">
 			<div class="card__content">
 				<div>
-					<h2>Basketball Courts</h2>
+					<h2>Basketball Court</h2>
 					<p>Available Anytime</p>
 				</div>
 				<figure>
-					<img src="court2.jpg" alt="Image description">
+					<img src="Court2.jpg" alt="Image description">
 				</figure>
 			</div>
 		</li>

@@ -1,6 +1,5 @@
 .container {
     background-color: #ffffff;  
-    border: 1px solid #ccc; 
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
     padding: 10px; 
     margin-top: 10px; 
@@ -16,7 +15,22 @@ body {
     font-family: Arial, sans-serif;
 
 }
+.back-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #ff8b2c;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 160vh;
+    margin-bottom : 20px;
+}
 
+.back-button:hover {
+    background-color: #b45303e8;
+}
 header {
     display: flex;
     justify-content: space-between;
@@ -29,6 +43,7 @@ header {
 
 .date-section h1 {
     color: #333;
+    margin-right: 8vh;
 }
 
 .balance-section {
@@ -300,7 +315,10 @@ a{
     }
 
     .balance-section {
-        gap: 10px; /* Reduce gap */
+        gap: 11px; /* Reduce gap */
+        flex-flow: column;
+        width: 35vh;
+
     }
 
     .payment-schedule input {

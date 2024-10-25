@@ -181,6 +181,7 @@
   .payment-history,
   .payment-summary {
     grid-column: auto; /* Reset column position for mobile */
+    max-height: fit-content;
   }
 
   .appointments button, 

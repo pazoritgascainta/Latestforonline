@@ -146,7 +146,7 @@
 
 @media (max-width: 768px) {
     #calendar {
-        grid-template-columns: repeat(3, 1fr); /* Adjust to 3 columns for smaller screens */
+        grid-template-columns: repeat(7, 1fr); /* Adjust to 3 columns for smaller screens */
     }
 
     #calendar-nav button {

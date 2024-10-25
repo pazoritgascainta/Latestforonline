@@ -100,8 +100,6 @@ $conn->close();
         <table id="requestsTable" class="table">
     <thead>
         <tr>
-            <th>Request ID</th>
-            <th>Homeowner ID</th>
             <th>Name</th>
             <th>Email</th>
             <th>Phone Number</th>
@@ -117,8 +115,6 @@ $conn->close();
         <?php if (count($requests) > 0): ?>
             <?php foreach ($requests as $request): ?>
                 <tr>
-                    <td><?php echo $request['service_req_id']; ?></td>
-                    <td><?php echo $request['homeowner_id']; ?></td>
                     <td><?php echo $request['name']; ?></td>
                     <td><?php echo $request['email']; ?></td>
                     <td><?php echo $request['phone_number']; ?></td>

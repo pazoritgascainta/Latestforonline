@@ -1,0 +1,5 @@
+{
+    "require": {
+        "infobip/api-sdk-php": "^2.0"
+    }
+}

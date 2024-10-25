@@ -155,3 +155,32 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] {
     -moz-appearance: textfield; /* Hide spin buttons in Firefox */
 }
+select[name="new_status"] {
+    padding: 8px 12px;
+    border: 2px solid #fd8326;
+    border-radius: 5px;
+    background-color: #ffe5cc;
+    color: #333;
+    font-weight: bold;
+    appearance: none; /* Removes default dropdown arrow */
+    cursor: pointer;
+    outline: none;
+    width: 32%; /* Full width on mobile */
+    max-width: 150px; /* Adjust max width as needed */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+select[name="new_status"]:hover {
+    border-color: #e9701d;
+    background-color: #ffd1a6;
+}
+
+select[name="new_status"] option {
+    background-color: #ffe5cc;
+    color: #333;
+}
+
+select[name="new_status"]:focus {
+    border-color: #fd8326;
+    box-shadow: 0 0 5px rgba(253, 131, 38, 0.5);
+}

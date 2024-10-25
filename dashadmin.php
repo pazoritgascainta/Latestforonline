@@ -1,5 +1,9 @@
 
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_name('admin_session'); // Set a unique session name for admins
 session_start();
 
@@ -134,6 +138,28 @@ if (isset($_GET['delete_id'])) {
 $announcementsQuery = "SELECT * FROM announcements ORDER BY date DESC";
 $announcementsResult = $conn->query($announcementsQuery);
 
+// Handle form submission for updating announcement
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_announcement'])) {
+    $id = $_POST['id'];
+    $updatedContent = $_POST['content'];
+    
+    $updateStmt = $conn->prepare("UPDATE announcements SET content = ? WHERE id = ?");
+    $updateStmt->bind_param("si", $updatedContent, $id);
+    $updateStmt->execute();
+    
+    // Optionally check for success
+    if ($updateStmt->affected_rows > 0) {
+        echo "<script>alert('Announcement updated successfully');</script>";
+    } else {
+        echo "<script>alert('Failed to update announcement');</script>";
+    }
+    $updateStmt->close();
+}
+
+// Fetch announcements to display
+$query = "SELECT * FROM announcements";
+$announcementsResult = $conn->query($query);
+
 $conn->close();
 ?>
 
@@ -196,7 +222,7 @@ $conn->close();
 
 
 <div class="dashboard">
-        <h2>Analytics</h2>
+        <h2>St.Monique Monitoring</h2>
         <div class="tiles">
             <article class="tile">
                 <div class="tile-header">
@@ -331,9 +357,10 @@ $conn->close();
                         <td><?php echo htmlspecialchars($row['content']); ?></td>
                         <td><?php echo date('F d, Y', strtotime($row['date'])); ?></td>
                         <td>
-                            <a href="dashadmin_edit_announcement.php?id=<?php echo $row['id']; ?>">Edit</a>
-                            <a href="?delete_id=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure you want to delete this announcement?');">Delete</a>
+                        <a href="#" onclick="openEditModal('<?php echo $row['id']; ?>', '<?php echo htmlspecialchars($row['content']); ?>')">Edit</a>
+                        <a href="?delete_id=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure you want to delete this announcement?');">Delete</a>
                         </td>
+
                     </tr>
                 <?php endwhile; ?>
             <?php else: ?>
@@ -344,7 +371,40 @@ $conn->close();
         </tbody>
     </table>
 
-  
+<!-- Modal for Editing Announcement -->
+<div id="editAnnouncementModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Edit Announcement</h2>
+        <form id="editAnnouncementForm" method="POST" action="">
+            <input type="hidden" id="announcementId" name="id">
+            <label for="editContent">Announcement Content:</label><br>
+            <textarea id="editContent" name="content" rows="4" cols="50" required></textarea><br><br>
+            <button type="submit" name="update_announcement">Update Announcement</button>
+        </form>
+    </div>
+</div>
+
+<script>
+
+ function openEditModal(id, content) {
+    document.getElementById('announcementId').value = id;
+    document.getElementById('editContent').value = content;
+    document.getElementById('editAnnouncementModal').style.display = 'block';
+}
+
+function closeModal() {
+    document.getElementById('editAnnouncementModal').style.display = 'none';
+}
+
+window.onclick = function(event) {
+    if (event.target == document.getElementById('editAnnouncementModal')) {
+        closeModal();
+    }
+}
+
+
+</script>
 
 </div>
 

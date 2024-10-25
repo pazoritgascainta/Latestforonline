@@ -1,14 +1,22 @@
 <?php
+// Display all errors for debugging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Start session with a specific name
 session_name('admin_session');
 require __DIR__ . "/vendor/autoload.php";
+
 use Dotenv\Dotenv;
+
 use Infobip\Configuration;
 use Infobip\Api\SmsApi;
 use Infobip\Model\SmsDestination;
 use Infobip\Model\SmsTextualMessage;
 use Infobip\Model\SmsAdvancedTextualRequest;
 
-// Load environment variables from .env file
+// Load environment variables from the .env file
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
@@ -16,39 +24,35 @@ $dotenv->load();
 $apiURL = $_ENV['API_URL'];
 $apiKey = $_ENV['API_KEY'];
 
+// Configure API
 $configuration = new Configuration(host: $apiURL, apiKey: $apiKey);
 $api = new SmsApi(config: $configuration);
-
 
 // Function to validate phone numbers using a basic E.164 format
 function validatePhoneNumber($phoneNumber) {
     return preg_match('/^\+?[1-9]\d{1,14}$/', $phoneNumber);
 }
 
-// Database connection
+// Database connection details
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "homeowner";
+$username = "u780935822_homeowner";
+$password = "Boot@o29";
+$dbname = "u780935822_homeowner";
 
 try {
+    // Establish a database connection
     $pdo = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Fetch homeowners with overdue bills
     $stmt = $pdo->prepare("
-        SELECT h.id AS homeowner_id, h.phone_number, b.status 
+        SELECT h.id AS homeowner_id, h.phone_number, b.status, b.due_date 
         FROM homeowners h 
         JOIN billing b ON h.id = b.homeowner_id 
         WHERE b.status = 'overdue'
     ");
     $stmt->execute();
-
     $homeowners = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    // Prepare SMS API configuration
-    $configuration = new Configuration(host: $apiURL, apiKey: $apiKey);
-    $api = new SmsApi(config: $configuration);
 
     // Loop through homeowners with overdue bills
     foreach ($homeowners as $homeowner) {
@@ -62,14 +66,40 @@ try {
         }
 
         // Prepare the overdue message
-        $message = "Your monthly due bill is overdue.";
+        $message = "Please be advised that your monthly payment is overdue. We kindly request that you settle the amount immediately to avoid any inconvenience.";
 
         // Send SMS for overdue homeowners
         sendSms($pdo, $api, $homeownerId, $phoneNumber, $message);
     }
 
-    // Display the HTML content for SMS history
+    // Fetch homeowners with pending bills (5 days before due date)
+    $stmt = $pdo->prepare("
+        SELECT h.id AS homeowner_id, h.phone_number, b.status, b.due_date 
+        FROM homeowners h 
+        JOIN billing b ON h.id = b.homeowner_id 
+        WHERE b.status = 'pending' 
+        AND b.due_date = DATE_ADD(CURDATE(), INTERVAL 5 DAY)
+    ");
+    $stmt->execute();
+    $pendingHomeowners = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    // Loop through homeowners with pending bills
+    foreach ($pendingHomeowners as $homeowner) {
+        $phoneNumber = $homeowner['phone_number'];
+        $homeownerId = $homeowner['homeowner_id'];
+
+        // Check if the phone number is valid
+        if (!validatePhoneNumber($phoneNumber)) {
+            error_log("Invalid phone number: $phoneNumber");
+            continue; // Skip invalid phone numbers
+        }
+
+        // Prepare the message for upcoming bills
+        $message = "Please be reminded that your monthly payment will be due soon. We appreciate your attention to this matter and kindly request that you make the payment on or before the due date to ensure no inconvenience.";
+
+        // Send SMS for pending homeowners
+        sendSms($pdo, $api, $homeownerId, $phoneNumber, $message);
+    }
 
 } catch (PDOException $e) {
     error_log('Database error: ' . $e->getMessage());
@@ -123,6 +153,7 @@ function sendSms($pdo, $api, $homeownerId, $phoneNumber, $message) {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -157,22 +188,21 @@ function sendSms($pdo, $api, $homeownerId, $phoneNumber, $message) {
                             <th>Sent At</th>
                         </tr>
                     </thead>
-                    <tbody>
+                   <tbody>
                         <?php
                         // Fetch and display SMS history from the database
-                        
                         $stmt = $pdo->prepare("SELECT * FROM sms_history ORDER BY sent_at DESC");
                         $stmt->execute();
                         $smsHistory = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+                    
                         if (count($smsHistory) > 0) {
                             foreach ($smsHistory as $sms) {
                                 echo "<tr>";
-                                echo "<td>" . htmlspecialchars($sms['homeowner_id']) . "</td>";
-                                echo "<td>" . htmlspecialchars($sms['phone_number']) . "</td>";
-                                echo "<td>" . htmlspecialchars($sms['message']) . "</td>";
-                                echo "<td>" . htmlspecialchars($sms['status']) . "</td>";
-                                echo "<td>" . htmlspecialchars($sms['sent_at']) . "</td>";
+                                echo "<td>" . htmlspecialchars($sms['homeowner_id'] ?? '') . "</td>";
+                                echo "<td>" . htmlspecialchars($sms['phone_number'] ?? '') . "</td>";
+                                echo "<td>" . htmlspecialchars($sms['message'] ?? '') . "</td>";
+                                echo "<td>" . htmlspecialchars($sms['status'] ?? '') . "</td>";
+                                echo "<td>" . htmlspecialchars($sms['sent_at'] ?? '') . "</td>";
                                 echo "</tr>";
                             }
                         } else {
@@ -180,6 +210,7 @@ function sendSms($pdo, $api, $homeownerId, $phoneNumber, $message) {
                         }
                         ?>
                     </tbody>
+
                 </table>
             </section>
         </div>

@@ -365,7 +365,7 @@ hr.active {
 }
 
 .sidebar.active ~ .main-content {
-    margin-left: 250px; /* Adjust main-content margin */
+    margin-left: 10px; /* Adjust main-content margin */
 }
 
 
@@ -550,7 +550,7 @@ hr.active {
     margin-left: 10vh;
 }
 .main-content h1 {
-    margin-left: 25px;
+    margin-left: 35px;
 
 }
 .container h2{
@@ -565,7 +565,6 @@ hr.active {
     }
     
     nav ul {
-        flex-direction: column; /* Stack links vertically */
         width: 100%;
     }
     .profile-img{
@@ -574,9 +573,6 @@ hr.active {
     }
     .nav-links-wrapper{
         margin-left: 175px;
-    }
-    .headnavbar li {
-
     }
     .top{
         height: 75px;
@@ -589,6 +585,7 @@ hr.active {
 
     #logo-img {
         height: 35px; /* Adjust logo size */
+        content-visibility: hidden;
     }
 
     .sidebar {
@@ -629,7 +626,7 @@ hr.active {
         margin-top: 15px;
     }
     .nav-links-wrapper{
-        margin-left: 175px;
+        margin-left: 5vh;
     }
 
     .user-pic {
@@ -651,12 +648,12 @@ hr.active {
     }
 
     .main-content {
-        width: calc(100% - 50px); /* Adjust for smaller sidebar */
+        width: calc(100% - 25px); /* Adjust for smaller sidebar */
     }
     .main-content {
         margin-top: 100px;
         padding: 0px; /* Further reduce padding for smaller screens */
-        font-size: 14px; /* Adjust font size if there’s text content */
+        font-size: 12px; /* Adjust font size if there’s text content */
         inset-area: center;
     }
 }

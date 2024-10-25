@@ -133,12 +133,16 @@
 .announcement-news ul {
     list-style-type: none;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .announcement-news li {
     margin: 10px 0;
     position: relative;
     transition: background-color 0.3s;
+    height: 6vh;
 }
 
 .announcement-news li:hover {

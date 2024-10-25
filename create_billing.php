@@ -9,9 +9,9 @@ if (!isset($_SESSION['admin_id'])) {
 }
 
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "homeowner";
+$username = "u780935822_homeowner";
+$password = "Boot@o29";
+$dbname = "u780935822_homeowner";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
@@ -108,14 +108,12 @@ function calculateTotalAmount($conn, $homeowner_id, $billing_date, $monthly_due)
         <div class="container">
             <h1>Create Billing Record</h1>
             <form method="POST" action="create_billing.php">
-                <div class="form-group">
-                    <label for="homeowner_id">Homeowner ID:</label>
-                    <input type="number" id="homeowner_id" name="homeowner_id" oninput="fetchHomeownerData()" required>
-                </div>
 
                 <div class="form-group">
                     <label for="homeowner_name">Homeowner Name:</label>
-                    <input type="text" id="homeowner_name" name="homeowner_name" readonly>
+                    <input type="text" id="homeowner_name" name="homeowner_name" oninput="fetchSuggestions()" required>
+                    <input type="hidden" id="homeowner_id" name="homeowner_id">
+                    <div id="suggestions" class="suggestions-list" ></div>
                 </div>
 
                 <div class="form-group">
@@ -154,36 +152,80 @@ function calculateTotalAmount($conn, $homeowner_id, $billing_date, $monthly_due)
 
     <script>
         let fetchedNames = {};
+      // Fetch suggestions when the user clicks on the input field
+document.getElementById('homeowner_name').addEventListener('click', function() {
+    fetchSuggestions(); // Call the function to show suggestions when clicked
+});
 
-        function fetchHomeownerData() {
-            const homeownerId = document.getElementById('homeowner_id').value;
-            if (homeownerId) {
-                if (!fetchedNames[homeownerId]) {
-                    fetch(`get_homeowner.php?id=${homeownerId}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.name) {
-                                document.getElementById('homeowner_name').value = data.name;
-                                document.getElementById('sqm').value = data.sqm; // Set sqm value
-                                document.getElementById('monthly_due').value = (data.sqm * 5).toFixed(2); // Calculate monthly due
-                                fetchedNames[homeownerId] = { name: data.name, sqm: data.sqm };
-                            } else {
-                                document.getElementById('homeowner_name').value = '';
-                                document.getElementById('sqm').value = ''; // Clear sqm if no name found
-                                document.getElementById('monthly_due').value = ''; // Clear monthly due if no homeowner found
-                            }
-                        });
-                } else {
-                    document.getElementById('homeowner_name').value = fetchedNames[homeownerId].name;
-                    document.getElementById('sqm').value = fetchedNames[homeownerId].sqm; // Set sqm value
-                    document.getElementById('monthly_due').value = (fetchedNames[homeownerId].sqm * 5).toFixed(2); // Calculate monthly due
-                }
+function fetchSuggestions() {
+    const input = document.getElementById('homeowner_name');
+    const query = input.value.trim();
+    const suggestionsDiv = document.getElementById('suggestions');
+
+    // Fetch suggestions even if there's no text input when the input is clicked
+    fetch(`fetch_homeowners.php?query=${encodeURIComponent(query)}`)
+        .then(response => response.json())
+        .then(data => {
+            suggestionsDiv.innerHTML = '';
+            if (data.length > 0) {
+                data.forEach(homeowner => {
+                    const suggestionItem = document.createElement('div');
+                    suggestionItem.textContent = homeowner.name;
+                    suggestionItem.dataset.id = homeowner.id;
+                    suggestionItem.dataset.sqm = homeowner.sqm;
+                    suggestionItem.classList.add('suggestion-item');
+                    suggestionItem.onclick = () => selectHomeowner(homeowner);
+                    suggestionsDiv.appendChild(suggestionItem);
+                });
+                suggestionsDiv.style.display = 'block';
             } else {
-                document.getElementById('homeowner_name').value = '';
-                document.getElementById('sqm').value = ''; // Clear sqm if no ID
-                document.getElementById('monthly_due').value = ''; // Clear monthly due if no ID
+                suggestionsDiv.style.display = 'none';
             }
-        }
+        });
+}
+
+function selectHomeowner(homeowner) {
+    document.getElementById('homeowner_name').value = homeowner.name;
+    document.getElementById('homeowner_id').value = homeowner.id;
+    document.getElementById('sqm').value = homeowner.sqm;
+    document.getElementById('monthly_due').value = (homeowner.sqm * 5).toFixed(2);
+
+    document.getElementById('suggestions').style.display = 'none'; // Hide suggestions list
+}
+
+// Hide suggestions when clicking outside the input or suggestions list
+document.addEventListener('click', function(event) {
+    const suggestionsDiv = document.getElementById('suggestions');
+    const homeownerInput = document.getElementById('homeowner_name');
+    if (!suggestionsDiv.contains(event.target) && event.target !== homeownerInput) {
+        suggestionsDiv.style.display = 'none';
+    }
+});
+
+
+function fetchHomeownerData() {
+    const homeownerSelect = document.getElementById('homeowner_name');
+    const homeownerId = homeownerSelect.value;
+    if (homeownerId) {
+        fetch(`get_homeowner.php?id=${homeownerId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.name) {
+                    document.getElementById('sqm').value = data.sqm;
+                    document.getElementById('monthly_due').value = (data.sqm * 5).toFixed(2);
+                    document.getElementById('homeowner_id').value = homeownerId; // Set hidden homeowner_id field
+                } else {
+                    document.getElementById('sqm').value = '';
+                    document.getElementById('monthly_due').value = '';
+                    document.getElementById('homeowner_id').value = ''; // Clear hidden homeowner_id field
+                }
+            });
+    } else {
+        document.getElementById('sqm').value = '';
+        document.getElementById('monthly_due').value = '';
+        document.getElementById('homeowner_id').value = ''; // Clear hidden homeowner_id field
+    }
+}
 
         // Automatically set the due_date when billing_date changes
         document.getElementById('billing_date').addEventListener('change', function() {

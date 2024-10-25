@@ -10,3 +10,52 @@ body {
     padding: 20px;
     margin-left: 70px;
 }
+.user-settings {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    padding: 50px 0;
+}
+
+.user-settings .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.user-settings h1 {
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.user-settings a {
+    display: inline-block;
+    margin: 15px 0;
+    padding: 12px 20px;
+    text-decoration: none;
+    color: white;
+    background-color: rgb(255, 143, 44);
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+}
+
+.user-settings a:hover {
+    background-color: peachpuff;
+}
+
+@media (max-width: 768px) {
+    .user-settings .container {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .user-settings a {
+        width: 100%;
+        box-sizing: border-box;
+        margin: 10px 0;
+    }
+}
