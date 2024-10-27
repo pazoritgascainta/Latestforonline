@@ -218,13 +218,17 @@ function updateOverdueAmounts($conn) {
         throw new Exception("Prepare statement failed: " . $conn->error);
     }
 }
+$sort_order = isset($_GET['sort_order']) && in_array($_GET['sort_order'], ['asc', 'desc']) ? $_GET['sort_order'] : 'desc'; 
 
-function fetchBillingRecords($conn, $offset, $limit, $search_query = '') {
+// Define function to fetch billing records with sorting and pagination
+function fetchBillingRecords($conn, $offset, $limit, $search_query = '', $sort_order = 'desc') {
+    $sort_order = in_array($sort_order, ['asc', 'desc']) ? $sort_order : 'desc'; // Validate sort order
     $sql_billing_records = "
         SELECT b.billing_id, b.homeowner_id, h.name AS homeowner_name, h.address, b.total_amount, b.billing_date, b.due_date, b.status, b.monthly_due
         FROM billing b
         JOIN homeowners h ON b.homeowner_id = h.id
         WHERE (b.homeowner_id = ? OR ? = '')
+        ORDER BY b.billing_date $sort_order
         LIMIT ?, ?
     ";
     $stmt = $conn->prepare($sql_billing_records);
@@ -233,6 +237,7 @@ function fetchBillingRecords($conn, $offset, $limit, $search_query = '') {
     return $stmt->get_result();
 }
 
+// Function to get total pages based on record count
 function getTotalPages($conn, $limit, $search_query = '') {
     $sql_count = "SELECT COUNT(*) AS total FROM billing WHERE (homeowner_id = ? OR ? = '')";
     $stmt_count = $conn->prepare($sql_count);
@@ -252,8 +257,10 @@ $limit = 10; // Number of records per page
 $total_pages = getTotalPages($conn, $limit, $search_query);
 $offset = ($current_page - 1) * $limit;
 
-$result_billing = fetchBillingRecords($conn, $offset, $limit, $search_query);
+// Fetch sorted and paginated billing records
+$result_billing = fetchBillingRecords($conn, $offset, $limit, $search_query, $sort_order);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -283,6 +290,15 @@ $result_billing = fetchBillingRecords($conn, $offset, $limit, $search_query);
                 <input type="number" name="search" value="<?= htmlspecialchars($search_query) ?>" placeholder="Search by Homeowner ID...">
                 <button type="submit">Search</button>
             </form><br>
+            <form method="GET" action="billingadmin.php" style="display: inline;">
+    <input type="hidden" name="search" value="<?= htmlspecialchars($search_query) ?>">
+    <label for="sort_order">Sort by Date:</label>
+    <select name="sort_order" id="sort_order" onchange="this.form.submit()">
+        <option value="desc" <?= $sort_order === 'desc' ? 'selected' : '' ?>>Newest to Oldest</option>
+        <option value="asc" <?= $sort_order === 'asc' ? 'selected' : '' ?>>Oldest to Newest</option>
+    </select>
+</form>
+
             <div class="message">
                 <?php if (isset($_SESSION['message'])): ?>
                     <p><?php echo $_SESSION['message']; unset($_SESSION['message']); ?></p>
