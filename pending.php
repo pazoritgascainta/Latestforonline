@@ -69,6 +69,7 @@ $result_pending = fetchPendingRecords($conn, $start_from, $results_per_page);
                 <button onclick="history.back()" class="back-button">Go Back</button>
 
                 <br>
+                
                 <table class="table">
                     <thead>
                         <tr>
@@ -77,7 +78,7 @@ $result_pending = fetchPendingRecords($conn, $start_from, $results_per_page);
                             <th>Due Date</th>
                             <th>Status</th> <!-- Status Column -->
                             <th>Monthly Due</th>
-                            <th>Paid Date</th>
+                            <th>Last Paid Date</th>
                             <th>Actions</th>
                         </tr>
                     </thead>

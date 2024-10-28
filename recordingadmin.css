@@ -12,7 +12,26 @@
 margin-left: 80px;
     max-width: 90%; /* Optional: Set a maximum width to prevent it from becoming too wide */
 }
+.sort-form {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px; /* Spacing between elements */
+}
 
+.sort-form select {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.sort-form select:focus {
+    border-color: #007bff; /* Change border color on focus */
+}
 .Recordingsidebar {
     display: flex;
     justify-content: space-around; /* Space the menu items evenly */

@@ -41,7 +41,7 @@ function fetchPaidRecords($conn, $offset, $records_per_page) {
 }
 
 $result_paid = fetchPaidRecords($conn, $offset, $records_per_page);
-
+ 
 // Handle payment form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['payment_submit'])) {
     // Extract values from the form

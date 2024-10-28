@@ -49,21 +49,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['homeowner_id']) && iss
     exit();
 }
 
-// Handle search query
+// Handle search and sort inputs
 $search_query = isset($_GET['search']) ? $_GET['search'] : '';
 $search_query = $conn->real_escape_string($search_query);
+$sort_order = isset($_GET['sort']) ? $_GET['sort'] : 'newest';
+
+// Define the sorting order for SQL
+$order_by = ($sort_order == 'oldest') ? "ASC" : "DESC";
 
 // Pagination settings
 $records_per_page = 5;
 $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($current_page - 1) * $records_per_page;
 
-// Fetch archived homeowners with search and pagination
+// Fetch archived homeowners with search, pagination, and sorting
 $sql_archived_homeowners = "
     SELECT id, name, email, phone_number, address, created_at, status, sqm 
     FROM homeowners 
     WHERE status = 'archived'
     AND (name LIKE '%$search_query%' OR email LIKE '%$search_query%')
+    ORDER BY created_at $order_by
     LIMIT $records_per_page OFFSET $offset
 ";
 $result_archived_homeowners = $conn->query($sql_archived_homeowners);
@@ -98,10 +103,21 @@ $total_pages = ceil($total_archived_homeowners / $records_per_page);
         <div class="container">
 
             <!-- Search Form -->
-            <form method="GET" action="archive.php" class="search-form">
-                <input type="text" name="search" placeholder="Search by name or email" value="<?= htmlspecialchars($search_query); ?>">
-                <button type="submit">Search</button>
-            </form>
+       <!-- Search Form -->
+<form method="GET" action="archive.php" class="search-form" style="display: inline;">
+    <input type="text" name="search" placeholder="Search by name or email" value="<?= htmlspecialchars($search_query); ?>">
+    <button type="submit">Search</button>
+</form>
+
+<!-- Sort Form -->
+<form method="GET" action="archive.php" class="sort-form" style="display: inline;">
+    <input type="hidden" name="search" value="<?= htmlspecialchars($search_query); ?>">
+    <select name="sort" onchange="this.form.submit()">
+        <option value="newest" <?= $sort_order == 'newest' ? 'selected' : '' ?>>Newest</option>
+        <option value="oldest" <?= $sort_order == 'oldest' ? 'selected' : '' ?>>Oldest</option>
+    </select>
+</form>
+
 
             <!-- Display status message -->
             <?php if (!empty($_SESSION['message'])): ?>
@@ -115,7 +131,6 @@ $total_pages = ceil($total_archived_homeowners / $records_per_page);
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Phone</th>
@@ -128,7 +143,7 @@ $total_pages = ceil($total_archived_homeowners / $records_per_page);
                     <tbody>
                         <?php while ($row = $result_archived_homeowners->fetch_assoc()): ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($row['id']); ?></td>
+                      
                                 <td><?php echo htmlspecialchars($row['name']); ?></td>
                                 <td><?php echo htmlspecialchars($row['email']); ?></td>
                                 <td><?php echo htmlspecialchars($row['phone_number']); ?></td>
