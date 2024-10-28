@@ -11,9 +11,23 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-
 // Get the homeowner_id from the URL
 $homeowner_id = isset($_GET['homeowner_id']) ? intval($_GET['homeowner_id']) : 0;
+
+// Fetch the homeowner's name using homeowner_id
+$sql_homeowner = "SELECT name FROM homeowners WHERE id = ?"; // Change 'homeowner_name' to 'name'
+$stmt_homeowner = $conn->prepare($sql_homeowner);
+$stmt_homeowner->bind_param("i", $homeowner_id);
+$stmt_homeowner->execute();
+$result_homeowner = $stmt_homeowner->get_result();
+$homeowner = $result_homeowner->fetch_assoc();
+
+// Check if the homeowner exists
+if ($homeowner) {
+    $homeowner_name = htmlspecialchars($homeowner['name']); // Use the fetched name safely
+} else {
+    $homeowner_name = "Unknown Homeowner"; // Fallback if no homeowner is found
+}
 
 // Search by billing date if provided
 $search_date = isset($_GET['search']) ? $_GET['search'] : '';
@@ -68,7 +82,6 @@ while ($row = $result_dates->fetch_assoc()) {
     $billing_dates[] = $row['billing_date'];
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -88,7 +101,7 @@ while ($row = $result_dates->fetch_assoc()) {
 <div class="main-content">
     <div class="container">
         <section>
-            <h2>Payment History for Homeowner ID: <?php echo htmlspecialchars($homeowner_id); ?></h2>
+            <h2>Payment History for Homeowner ID: <?php echo $homeowner_name; ?></h2>
 
             <!-- Search Form -->
             <form method="GET" action="input_billing.php" class="search-form">

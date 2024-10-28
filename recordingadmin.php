@@ -124,7 +124,7 @@ while ($row = $result_recent_paid->fetch_assoc()) {
                 <!-- Display records if any are found -->
                 <?php if ($grouped_recent_paid): ?>
                     <?php foreach ($grouped_recent_paid as $homeowner_id => $data): ?>
-                        <h3><?php echo htmlspecialchars($data['homeowner_name']); ?> (ID: <?php echo htmlspecialchars($homeowner_id); ?>)</h3>
+                        <h3><?php echo htmlspecialchars($data['homeowner_name']); ?></h3>
                         <p>Address: <?php echo htmlspecialchars($data['address']); ?></p>
                         <table class="table">
                             <thead>
