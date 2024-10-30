@@ -74,6 +74,45 @@ if (!in_array($sort_by, $valid_sort_options)) {
             100% { transform: rotate(360deg); }
         }
     </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    // Handle input in the search field
+    $('input[name="search"]').on('input', function() {
+        let searchQuery = $(this).val();
+
+        if (searchQuery.length >= 1) {
+            $.ajax({
+                url: 'search_suggestions.php', // Ensure this points to your suggestions script
+                method: 'GET',
+                data: { search: searchQuery },
+                success: function(data) {
+                    let suggestions = $('#suggestions');
+                    suggestions.empty(); // Clear previous suggestions
+                    
+                    if (data.length > 0) {
+                        data.forEach(function(item) {
+                            suggestions.append(`<div class="suggestion-item" data-homeowner-id="${item.id}">${item.name}</div>`);
+                        });
+                    }
+                },
+                error: function() {
+                    console.log('Error fetching suggestions');
+                }
+            });
+        } else {
+            $('#suggestions').empty(); // Clear suggestions if input is empty
+        }
+    });
+
+    // Event delegation for suggestions click
+    $('#suggestions').on('click', '.suggestion-item', function() {
+        $('input[name="search"]').val($(this).text()); // Set the input value to the selected suggestion
+        $('#suggestions').empty(); // Clear suggestions after selection
+    });
+});
+</script>
+
 </head>
 <body>
 
@@ -84,10 +123,15 @@ if (!in_array($sort_by, $valid_sort_options)) {
 
         <!-- Search and Sort Form -->
  <!-- Search Form -->
-<form method="GET" action="admincomplaint.php" class="search-form">
-    <input type="number" name="search" value="<?= htmlspecialchars($search_query) ?>" placeholder="Search by Homeowner ID...">
+
+ <form method="GET" action="admincomplaint.php" class="search-form">
+    <div class="form-group" style="position: relative;"> <!-- Set position relative here -->
+        <input type="text" name="search" value="<?= htmlspecialchars($search_query) ?>" placeholder="Search by Homeowner Name..." autocomplete="off">
+        <div id="suggestions" class="suggestions"></div> <!-- Suggestions will be placed here -->
+    </div>
     <button type="submit">Search</button>
 </form>
+
 
 <!-- Sort Form -->
 <form method="GET" action="admincomplaint.php" class="sort-form" style="display:inline;">
@@ -117,11 +161,15 @@ if (!in_array($sort_by, $valid_sort_options)) {
                 $results_per_page = 10; // Number of results per page
 
                 // Adjust total count query to handle search
-                $query_total = "SELECT COUNT(*) AS total FROM complaints WHERE homeowner_id LIKE '%$search_query%'";
-                $result_total = mysqli_query($conn, $query_total);
-                $row_total = mysqli_fetch_assoc($result_total);
-                $total_results = $row_total['total'];
-                $total_pages = ceil($total_results / $results_per_page);
+                $query_total = "
+                SELECT COUNT(*) AS total 
+                FROM complaints 
+                JOIN homeowners ON complaints.homeowner_id = homeowners.id
+                WHERE homeowners.name LIKE '%$search_query%'";
+            $result_total = mysqli_query($conn, $query_total);
+            $row_total = mysqli_fetch_assoc($result_total);
+            $total_results = $row_total['total'];
+            $total_pages = ceil($total_results / $results_per_page);
 
                 // Get current page from URL or default to 1
                 $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -136,7 +184,7 @@ if (!in_array($sort_by, $valid_sort_options)) {
                 SELECT complaints.*, homeowners.name 
                 FROM complaints 
                 JOIN homeowners ON complaints.homeowner_id = homeowners.id
-                WHERE complaints.homeowner_id LIKE '%$search_query%' 
+                WHERE homeowners.name LIKE '%$search_query%' 
                 ORDER BY 
                     CASE 
                         WHEN complaints.status = 'Pending' THEN 1

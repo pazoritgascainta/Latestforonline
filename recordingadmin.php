@@ -114,12 +114,15 @@ while ($row = $result_recent_paid->fetch_assoc()) {
             <section>
       
 
+<!-- Search form -->
+<div class="search-container" style="position: relative;"> <!-- Added a container with position relative -->
+    <form id="search-form" class="search-form" onsubmit="return false;">
+        <input type="text" id="search-input" name="search" placeholder="Search by name or email" value="<?= htmlspecialchars($search_query); ?>" oninput="fetchSuggestions()" autocomplete="off">
+        <button type="button" onclick="submitSearch()">Search</button>
+        <ul id="suggestions" class="suggestions"></ul> <!-- Suggestions below input -->
+    </form>
+</div>
 
-                <!-- Search form -->
-                <form method="GET" action="recordingadmin.php" class="search-form">
-                    <input type="text" name="search" placeholder="Search by name or email" value="<?= htmlspecialchars($search_query); ?>">
-                    <button type="submit">Search</button>
-                </form>
 
                 <!-- Display records if any are found -->
                 <?php if ($grouped_recent_paid): ?>
@@ -197,6 +200,52 @@ while ($row = $result_recent_paid->fetch_assoc()) {
         </div>
     </div>
 </body>
+<script>
+function fetchSuggestions() {
+    const searchQuery = document.getElementById('search-input').value;
+
+    // Clear previous suggestions
+    const suggestionsContainer = document.getElementById('suggestions');
+    suggestionsContainer.innerHTML = '';
+
+    if (searchQuery.length < 1) {
+        return; // Don't search for queries less than 2 characters
+    }
+
+    // Create an AJAX request
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'search_suggestions.php?search=' + encodeURIComponent(searchQuery), true);
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            const suggestions = JSON.parse(xhr.responseText);
+            suggestions.forEach(function(suggestion) {
+                const suggestionItem = document.createElement('div');
+                suggestionItem.textContent = `${suggestion.name} (${suggestion.email})`;
+                suggestionItem.classList.add('suggestion-item');
+
+                // Add click event to fill the input with the suggestion
+                suggestionItem.addEventListener('click', function() {
+                    document.getElementById('search-input').value = suggestion.name; // Or use suggestion.email
+                    suggestionsContainer.innerHTML = ''; // Clear suggestions after selection
+                });
+
+                suggestionsContainer.appendChild(suggestionItem);
+            });
+        }
+    };
+    xhr.send();
+}
+
+function submitSearch() {
+    const searchInput = document.getElementById('search-input').value;
+    const form = document.getElementById('search-form');
+
+    // Redirect to the same page with the search term
+    window.location.href = `recordingadmin.php?search=${encodeURIComponent(searchInput)}`;
+}
+</script>
+
+
 </html>
 
 <?php

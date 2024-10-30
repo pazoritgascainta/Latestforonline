@@ -92,7 +92,7 @@ $total_pages = ceil($total_archived_homeowners / $records_per_page);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Archived Homeowners</title>
-    <link rel="stylesheet" href="homeownercss.css">
+    <link rel="stylesheet" href="archive.css">
 </head>
 <body>
     <?php include 'sidebar.php'; ?>
@@ -107,8 +107,10 @@ $total_pages = ceil($total_archived_homeowners / $records_per_page);
 <form method="GET" action="archive.php" class="search-form" style="display: inline;">
     <input type="text" name="search" placeholder="Search by name or email" value="<?= htmlspecialchars($search_query); ?>">
     <button type="submit">Search</button>
+    
 </form>
-
+<br>
+<br>
 <!-- Sort Form -->
 <form method="GET" action="archive.php" class="sort-form" style="display: inline;">
     <input type="hidden" name="search" value="<?= htmlspecialchars($search_query); ?>">
@@ -116,7 +118,7 @@ $total_pages = ceil($total_archived_homeowners / $records_per_page);
         <option value="newest" <?= $sort_order == 'newest' ? 'selected' : '' ?>>Newest</option>
         <option value="oldest" <?= $sort_order == 'oldest' ? 'selected' : '' ?>>Oldest</option>
     </select>
-</form>
+</form> <br> <br>
 
 
             <!-- Display status message -->
@@ -206,6 +208,52 @@ $total_pages = ceil($total_archived_homeowners / $records_per_page);
         </div>
     </div>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.querySelector('input[name="search"]');
+        const suggestionsContainer = document.createElement('div');
+        suggestionsContainer.classList.add('suggestions');
+        document.querySelector('.search-form').appendChild(suggestionsContainer);
+
+        searchInput.addEventListener('input', function () {
+            const searchTerm = searchInput.value;
+
+            // If search term is empty, clear suggestions
+            if (searchTerm.length === 0) {
+                suggestionsContainer.innerHTML = '';
+                return;
+            }
+
+            // Make AJAX request
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', 'search_suggestions.php?search=' + encodeURIComponent(searchTerm), true);
+            xhr.onload = function () {
+                if (this.status === 200) {
+                    const results = JSON.parse(this.responseText);
+                    displaySuggestions(results);
+                }
+            };
+            xhr.send();
+        });
+
+        function displaySuggestions(results) {
+            suggestionsContainer.innerHTML = ''; // Clear previous suggestions
+            results.forEach(homeowner => {
+                const suggestionItem = document.createElement('div');
+                suggestionItem.classList.add('suggestion-item');
+                suggestionItem.textContent = homeowner.name + ' (' + homeowner.email + ')';
+                suggestionItem.addEventListener('click', function () {
+                    searchInput.value = homeowner.name; // Or set it to the email or whatever you prefer
+                    suggestionsContainer.innerHTML = ''; // Clear suggestions
+                    // Optionally, submit the form here if you want to automatically search
+                    document.querySelector('.search-form').submit();
+                });
+                suggestionsContainer.appendChild(suggestionItem);
+            });
+        }
+    });
+</script>
+
 </html>
 
 <?php $conn->close(); ?>

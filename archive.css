@@ -1,0 +1,269 @@
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    background-color: #ffffff;  
+    border: 1px solid #ccc; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    padding: 10px; 
+    margin-top: 10px; 
+}
+
+/* Main Content Styling */
+.main-content {
+    margin: 0 auto; /* Center the content horizontally */
+margin-left: 80px;
+    max-width: 90%; /* Optional: Set a maximum width to prevent it from becoming too wide */
+}
+
+h2 {
+    margin-top: 0;
+}
+/* Table styles */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    padding: 20px;
+    border-bottom: 3px solid #ddd;
+    text-align: center; /* Center-align text horizontally */
+    vertical-align: middle; /* Center-align text vertically */
+}
+
+.table thead th {
+    background-color: #ff8b2c; /* Set the background color to peachpuff */
+    color: #fff; /* Optional: Change text color for better contrast */
+}
+
+.table tbody tr {
+    background-color: #fff; /* Set the default background color for table rows */
+}
+
+.table tbody tr:hover {
+    background-color: peachpuff; /* Maintain hover effect for table rows */
+}
+
+
+.suggestions {
+    border: 1px solid #ccc;                /* Border around the suggestions box */
+    max-height: 200px;                     /* Maximum height of the dropdown */
+    overflow-y: auto;                      /* Scroll if content overflows */
+    background-color: white;               /* Background color of suggestions */
+    position: absolute;                    /* Position absolute to place it below the input */
+    z-index: 1000;                        /* Ensure it appears above other elements */
+    width: 15%;                           /* Make suggestions full width of the input */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
+    margin-top: 5px;                      /* Space between the input and suggestions */
+}
+
+.suggestion-item {
+    padding: 10px;                       /* Padding for each suggestion */
+    cursor: pointer;                     /* Pointer cursor on hover */
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0;          /* Highlight on hover */
+}
+
+.sort-form {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px; /* Spacing between elements */
+}
+
+.sort-form select {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.sort-form select:focus {
+    border-color: #007bff; /* Change border color on focus */
+}
+
+@media (max-width: 768px) {
+    .sort-form {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .sort-form select {
+        width: 100%; /* Full width on mobile */
+    }
+}
+
+/* Button styles */
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    margin-bottom: 10px;
+    color: #fff;
+    background-color: #ff8b2c;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+}
+
+.btn:hover {
+    background-color: #ff7300;
+}
+
+/* Add margin to the right of the "Edit" button */
+.btn-edit {
+    margin-right: 10px;
+}
+.button-margin {
+    margin-right: 5px; /* Adjust this value to add more or less space */
+}
+
+/* Pagination Styling */
+.page-link {
+    display: none;
+}
+.page-link.active {
+    background-color: #ff8b2c; /* Primary color for active link */
+    color: white; /* White text color */
+    border: 1px solid #ff8b2c; /* Match border color with active background */
+}
+#pagination {
+    margin-top: 20px;
+    text-align: center; /* Center align pagination controls */
+}
+#pagination a {
+    display: inline-block; /* Ensure pagination links are inline */
+    margin: 0 8px; /* Space between pagination links */
+    text-decoration: none; /* Remove underline from links */
+    color: #ff8b2c; /* Link color */
+    padding: 8px 12px; /* Padding inside pagination links */
+    border: 1px solid #ff8b2c; /* Blue border to match theme */
+    border-radius: 4px; /* Rounded corners */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
+}
+#pagination a.active {
+    background-color: #ff8b2c; /* Active background color */
+    color: white; /* White text color */
+}
+#pagination a:hover {
+    background-color: #f0f0f0; /* Light gray background on hover */
+    color: #ff8b2c; /* Blue text color */
+}
+
+#pagination input {
+    text-align: center;
+    width: 50px;
+    padding: 8px;
+    color: #ff8b2c; /* Blue text color */
+    border: 1px solid #ff8b2c; /* Blue border */
+    border-radius: 4px; /* Rounded corners */
+    margin: 0 8px; /* Space around the input */
+}
+
+/* Button styling */
+#pagination button {
+    background-color: #ff8b2c; /* Blue background */
+    color: white; /* White text */
+    border: none; /* Remove border */
+    padding: 8px 12px; /* Add padding */
+    text-align: center; /* Center text */
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Display inline */
+    font-size: 16px; /* Font size */
+    margin: 4px 2px; /* Add margin */
+    cursor: pointer; /* Add pointer cursor on hover */
+    border-radius: 4px; /* Rounded corners */
+    transition-duration: 0.4s; /* Add transition effect */
+}
+
+#pagination button:hover {
+    background-color: white; /* White background on hover */
+    color: #ff8b2c; /* Blue text on hover */
+    border: 1px solid #ff8b2c; /* Blue border on hover */
+}
+
+#pagination button:disabled {
+    background-color: #ddd; /* Grey background for disabled buttons */
+    color: #999; /* Grey text for disabled buttons */
+    cursor: not-allowed; /* No pointer cursor for disabled buttons */
+}
+
+#pagination input[type="number"] {
+    border: 1px solid #ff8b2c; /* Blue border */
+    border-radius: 4px; /* Rounded corners */
+    padding: 5px;
+    font-size: 14px;
+    width: 60px;
+}
+
+
+
+.search-form {
+    margin-bottom: 20px; /* Space below the search form */
+    display: flex;
+    align-items: center;
+}
+
+.search-form input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 250px; /* Adjust width as needed */
+    margin-right: 10px; /* Space between input and button */
+}
+
+.search-form button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #ff8b2c; /* Bootstrap primary color */
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-form button:hover {
+    background-color: #f87000; /* Darker shade on hover */
+}
+.suggestions {
+    position: relative;
+}
+
+.suggestions ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid #ccc;
+    display: none; /* Initially hidden */
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.suggestions ul li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.suggestions ul li:hover {
+    background-color: #f0f0f0;
+}
+
+/* Show suggestions when there are results */
+.suggestions ul {
+    display: block; /* Show the suggestions */
+}

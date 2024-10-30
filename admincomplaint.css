@@ -20,6 +20,30 @@ margin-left: 80px;
     max-width: 90%; /* Optional: Set a maximum width to prevent it from becoming too wide */
 }
 
+.suggestions {
+    border: 1px solid #ccc;               /* Border around the suggestions box */
+    max-height: 200px;                    /* Maximum height of the dropdown */
+    overflow-y: auto;                     /* Scroll if content overflows */
+    background-color: white;              /* Background color of suggestions */
+    position: absolute;                    /* Position absolute to place it below the input */
+    z-index: 1000;                        /* Ensure it appears above other elements */
+    width: 96%;                          /* Make suggestions full width of the input */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
+    margin-top: 5px;                      /* Space between the input and suggestions */
+}
+
+.suggestion-item {
+    padding: 10px;                        /* Padding for each suggestion */
+    cursor: pointer;                      /* Pointer cursor on hover */
+    transition: background-color 0.3s;   /* Smooth transition for background color */
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0;           /* Highlight on hover */
+}
+
+
+
 h2 {
     margin-top: 0;
 }
@@ -159,7 +183,7 @@ h2 {
     align-items: center;
 }
 
-.search-form input[type="number"] {
+.search-form input[type="text"] {
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;

@@ -16,7 +16,8 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$search_query = isset($_GET['search']) ? intval($_GET['search']) : '';
+$search_query = isset($_GET['search']) ? trim($_GET['search']) : '';
+
 
 function handlePostRequest($conn) {
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['billing_id'])) {
@@ -227,21 +228,23 @@ function fetchBillingRecords($conn, $offset, $limit, $search_query = '', $sort_o
         SELECT b.billing_id, b.homeowner_id, h.name AS homeowner_name, h.address, b.total_amount, b.billing_date, b.due_date, b.status, b.monthly_due
         FROM billing b
         JOIN homeowners h ON b.homeowner_id = h.id
-        WHERE (b.homeowner_id = ? OR ? = '')
+        WHERE (h.name LIKE ? OR ? = '')
         ORDER BY b.billing_date $sort_order
         LIMIT ?, ?
     ";
     $stmt = $conn->prepare($sql_billing_records);
-    $stmt->bind_param("iiii", $search_query, $search_query, $offset, $limit);
+    $search_param = '%' . $search_query . '%'; // Use wildcard search
+    $stmt->bind_param("ssii", $search_param, $search_query, $offset, $limit);
     $stmt->execute();
     return $stmt->get_result();
 }
 
-// Function to get total pages based on record count
+
 function getTotalPages($conn, $limit, $search_query = '') {
-    $sql_count = "SELECT COUNT(*) AS total FROM billing WHERE (homeowner_id = ? OR ? = '')";
+    $sql_count = "SELECT COUNT(*) AS total FROM billing b JOIN homeowners h ON b.homeowner_id = h.id WHERE (h.name LIKE ? OR ? = '')";
     $stmt_count = $conn->prepare($sql_count);
-    $stmt_count->bind_param("ii", $search_query, $search_query);
+    $search_param = '%' . $search_query . '%'; // Use wildcard search
+    $stmt_count->bind_param("ss", $search_param, $search_query);
     $stmt_count->execute();
     $result = $stmt_count->get_result();
     $row = $result->fetch_assoc();
@@ -286,10 +289,16 @@ $result_billing = fetchBillingRecords($conn, $offset, $limit, $search_query, $so
         <br>
         
         <div class="container">
+
         <form method="GET" action="billingadmin.php" class="search-form">
-                <input type="number" name="search" value="<?= htmlspecialchars($search_query) ?>" placeholder="Search by Homeowner ID...">
-                <button type="submit">Search</button>
-            </form><br>
+    <input type="text" id="homeowner_name" name="search" value="<?= htmlspecialchars($search_query) ?>" placeholder="Search by Homeowner Name...">
+    <button type="submit">Search</button>
+</form>
+<div id="suggestions" class="suggestions-box"></div>
+
+
+            <br>
+
             <form method="GET" action="billingadmin.php" style="display: inline;">
     <input type="hidden" name="search" value="<?= htmlspecialchars($search_query) ?>">
     <label for="sort_order">Sort by Date:</label>
@@ -413,6 +422,44 @@ $result_billing = fetchBillingRecords($conn, $offset, $limit, $search_query, $so
         </div>
     </div>
 </body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#homeowner_name').on('input', function() {
+        let searchQuery = $(this).val();
+        
+        if (searchQuery.length >= 1) {
+            $.ajax({
+                url: 'search_suggestions.php',
+                method: 'GET',
+                data: { search: searchQuery },
+                success: function(data) {
+                    let suggestions = $('#suggestions');
+                    suggestions.empty(); // Clear previous suggestions
+                    
+                    if (data.length > 0) {
+                        data.forEach(function(item) {
+                            suggestions.append(`<div class="suggestion-item" data-email="${item.email}">${item.name}</div>`);
+                        });
+                    }
+                },
+                error: function() {
+                    console.log('Error fetching suggestions');
+                }
+            });
+        } else {
+            $('#suggestions').empty(); // Clear suggestions if input is empty
+        }
+    });
+
+    // Event delegation for suggestions click
+    $('#suggestions').on('click', '.suggestion-item', function() {
+        $('#homeowner_name').val($(this).text());
+        $('#suggestions').empty(); // Clear suggestions after selection
+    });
+});
+</script>
+
 </html>
 
 <?php

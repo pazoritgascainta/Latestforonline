@@ -53,23 +53,38 @@ $sql = "
         homeowners h ON sr.homeowner_id = h.id
 ";
 
-// Add search condition if a search query is present
+
+// Add search condition to search by homeowner name
 if (!empty($search_query)) {
-    $sql .= " WHERE sr.homeowner_id = " . intval($search_query); // Use prepared statements for production
+    $sql .= " WHERE h.name LIKE ?"; // Searching by homeowner's name
+}
+
+// Prepare the statement
+$stmt = $conn->prepare($sql);
+
+// Bind the parameter if there is a search query
+if (!empty($search_query)) {
+    $search_term = '%' . $conn->real_escape_string($search_query) . '%';
+    $stmt->bind_param('s', $search_term);
 }
 
 // Add sorting to the query
-$order_by = ($sort_order === 'oldest') ? 'sr.created_at ASC' : 'sr.created_at DESC'; // Assuming `created_at` is the timestamp field
+$order_by = ($sort_order === 'oldest') ? 'sr.created_at ASC' : 'sr.created_at DESC';
 $sql .= " ORDER BY $order_by";
 
 // Get the total number of records
-$total_result = $conn->query($sql);
-$total_rows = $total_result->num_rows;
+$total_result = $stmt->execute();
+$total_rows = $stmt->get_result()->num_rows;
 $total_pages = ceil($total_rows / $limit);
 
 // Add pagination to the query
 $sql .= " LIMIT $limit OFFSET $offset";
-$result = $conn->query($sql);
+$stmt = $conn->prepare($sql);
+if (!empty($search_query)) {
+    $stmt->bind_param('s', $search_term); // Bind the parameter for the actual query
+}
+$stmt->execute();
+$result = $stmt->get_result();
 
 // Store fetched data
 $requests = [];
@@ -88,6 +103,44 @@ $conn->close();
     <title>Service Requests</title>
     <link rel="stylesheet" href="dashbcss.css">
     <link rel="stylesheet" href="Serviceadmin.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+ function fetchSuggestions() {
+    let searchQuery = document.getElementById('search-input').value;
+    
+    if (searchQuery.length >= 1) {
+        $.ajax({
+            url: 'search_suggestions.php',
+            method: 'GET',
+            data: { search: searchQuery },
+            success: function(data) {
+                let suggestions = $('#suggestions');
+                suggestions.empty(); // Clear previous suggestions
+                
+                if (data.length > 0) {
+                    data.forEach(function(item) {
+                        suggestions.append(`<div class="suggestion-item" data-email="${item.email}">${item.name}</div>`);
+                    });
+                }
+            },
+            error: function() {
+                console.log('Error fetching suggestions');
+            }
+        });
+    } else {
+        $('#suggestions').empty(); // Clear suggestions if input is empty
+    }
+}
+
+// Event delegation for suggestions click
+$(document).on('click', '.suggestion-item', function() {
+    $('#search-input').val($(this).text());
+    $('#homeowner_id').val($(this).data('email')); // Set the hidden input value
+    $('#suggestions').empty(); // Clear suggestions after selection
+});
+
+    </script>
+</head>
 </head>
 <body>
     <?php include 'sidebar.php'; ?>
@@ -95,11 +148,17 @@ $conn->close();
         <h1>St. Monique Service Requests</h1>
 
         <div class="container">
-            <!-- Search Form -->
-            <form method="GET" action="serviceadmin.php" class="search-form">
-                <input type="number" name="search" value="<?= htmlspecialchars($search_query) ?>" placeholder="Search by Homeowner ID...">
-                <button type="submit">Search</button>
-            </form>
+
+
+  <form id="search-form" class="search-form">
+    <div class="form-group" style="position: relative;"> <!-- Set position relative here -->
+        <input type="text" id="search-input" name="search" placeholder="Search by name or email" value="<?= htmlspecialchars($search_query); ?>" oninput="fetchSuggestions()">
+        <input type="hidden" id="homeowner_id" name="homeowner_id">
+        <div id="suggestions" class="suggestions"></div> <!-- Suggestions will be placed here -->
+    </div>
+    <button type="submit">Search</button> <!-- Search button added -->
+</form>
+
 
             <!-- Sort Form -->
             <form method="GET" action="serviceadmin.php" class="sort-form">
@@ -197,4 +256,5 @@ $conn->close();
         </div>
     </div>
 </body>
+
 </html>

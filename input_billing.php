@@ -15,7 +15,7 @@ if ($conn->connect_error) {
 $homeowner_id = isset($_GET['homeowner_id']) ? intval($_GET['homeowner_id']) : 0;
 
 // Fetch the homeowner's name using homeowner_id
-$sql_homeowner = "SELECT name FROM homeowners WHERE id = ?"; // Change 'homeowner_name' to 'name'
+$sql_homeowner = "SELECT name FROM homeowners WHERE id = ?";
 $stmt_homeowner = $conn->prepare($sql_homeowner);
 $stmt_homeowner->bind_param("i", $homeowner_id);
 $stmt_homeowner->execute();
@@ -24,16 +24,16 @@ $homeowner = $result_homeowner->fetch_assoc();
 
 // Check if the homeowner exists
 if ($homeowner) {
-    $homeowner_name = htmlspecialchars($homeowner['name']); // Use the fetched name safely
+    $homeowner_name = htmlspecialchars($homeowner['name']);
 } else {
-    $homeowner_name = "Unknown Homeowner"; // Fallback if no homeowner is found
+    $homeowner_name = "Unknown Homeowner";
 }
 
 // Search by billing date if provided
 $search_date = isset($_GET['search']) ? $_GET['search'] : '';
 
 // Pagination variables
-$results_per_page = 10; // Adjust the number of results per page as needed
+$results_per_page = 10;
 $current_page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $start_from = ($current_page - 1) * $results_per_page;
 
@@ -102,30 +102,29 @@ while ($row = $result_dates->fetch_assoc()) {
     <div class="container">
         <section>
             <h2>Payment History for Homeowner ID: <?php echo $homeowner_name; ?></h2>
-
-            <!-- Search Form -->
-            <form method="GET" action="input_billing.php" class="search-form">
-                <input type="hidden" name="homeowner_id" value="<?= htmlspecialchars($homeowner_id); ?>">
-                
-                <!-- Search input with suggestions for billing dates -->
-                <input type="text" name="search" placeholder="Search by billing date (YYYY-MM-DD)" list="billing-dates" value="<?= htmlspecialchars($search_date); ?>">
-                <datalist id="billing-dates">
-                    <?php foreach ($billing_dates as $date): ?>
-                        <option value="<?= htmlspecialchars($date); ?>"></option>
-                    <?php endforeach; ?>
-                </datalist>
-
-                <button type="submit">Search</button>
-            </form>
             <a href="recordingadmin.php" class="btn">Back</a>
 <a href="accepted_appointments_history.php?homeowner_id=<?= htmlspecialchars($homeowner_id); ?>" class="btn">Appointments</a>
 <a href="payment_history_admin.php?homeowner_id=<?= htmlspecialchars($homeowner_id); ?>" class="btn">See Uploaded Images</a>
 <a href="previous_records.php?homeowner_id=<?= htmlspecialchars($homeowner_id); ?>" class="btn">Add Previous Records</a>
 
+           <!-- Search Form -->
+<form id="search-form" class="search-form">
+    <input type="hidden" name="homeowner_id" value="<?= htmlspecialchars($homeowner_id); ?>">
+    <div class="custom-dropdown">
+        <input type="text" id="search-input" name="search" placeholder="Search by billing date (YYYY-MM-DD)" value="<?= htmlspecialchars($search_date); ?>">
+        <div id="dropdown-options" class="dropdown-options">
+            <?php foreach ($billing_dates as $date): ?>
+                <div class="dropdown-option" data-value="<?= htmlspecialchars($date); ?>"><?= htmlspecialchars($date); ?></div>
+            <?php endforeach; ?>
 
-            <!-- Billing History Table -->
+        </div>
+        <button type="button" id="search-button">Search</button>
+    </div>
+  
+</form>
+
             <h3>Billing History</h3>
-            <table class="table">
+            <table id="billing-table" class="table">
                 <thead>
                     <tr>
                         <th>History ID</th>
@@ -137,6 +136,7 @@ while ($row = $result_dates->fetch_assoc()) {
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- Billing records will be injected here -->
                     <?php if ($result_billing->num_rows > 0): ?>
                         <?php while ($row = $result_billing->fetch_assoc()): ?>
                             <tr class="payment-row">
@@ -184,13 +184,75 @@ while ($row = $result_dates->fetch_assoc()) {
                     <?php endif; ?>
                 <?php endif; ?>
             </div>
-
         </section>
     </div>
 </div>
+
+<script>
+    const input = document.getElementById('search-input');
+const options = document.getElementById('dropdown-options');
+
+input.addEventListener('focus', function() {
+    options.style.display = 'block'; // Show dropdown on focus
+});
+
+input.addEventListener('input', function() {
+    const filter = input.value.toLowerCase();
+    const items = options.querySelectorAll('.dropdown-option');
+
+    items.forEach(item => {
+        if (item.textContent.toLowerCase().includes(filter)) {
+            item.style.display = 'block'; // Show matching items
+        } else {
+            item.style.display = 'none'; // Hide non-matching items
+        }
+    });
+});
+
+options.addEventListener('click', function(event) {
+    if (event.target.classList.contains('dropdown-option')) {
+        input.value = event.target.dataset.value; // Set input value
+        options.style.display = 'none'; // Hide dropdown
+    }
+});
+
+document.addEventListener('click', function(event) {
+    if (!input.contains(event.target) && !options.contains(event.target)) {
+        options.style.display = 'none'; // Hide dropdown if click outside
+    }
+});
+
+    document.getElementById('search-button').addEventListener('click', function() {
+        const homeownerId = document.querySelector('input[name="homeowner_id"]').value;
+        const searchDate = document.getElementById('search-input').value;
+
+        fetch(`search_billing.php?homeowner_id=${homeownerId}&search=${searchDate}`)
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.querySelector('#billing-table tbody');
+                tableBody.innerHTML = ''; // Clear existing rows
+
+                if (data.length > 0) {
+                    data.forEach(record => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${record.history_id}</td>
+                            <td>${parseFloat(record.monthly_due).toFixed(2)}</td>
+                            <td>${record.billing_date}</td>
+                            <td>${record.due_date}</td>
+                            <td>${parseFloat(record.total_amount).toFixed(2)}</td>
+                            <td>${record.paid_date}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                } else {
+                    const row = document.createElement('tr');
+                    row.innerHTML = '<td colspan="6">No billing records found for this homeowner.</td>';
+                    tableBody.appendChild(row);
+                }
+            })
+            .catch(error => console.error('Error fetching billing data:', error));
+    });
+</script>
 </body>
 </html>
-
-<?php
-$conn->close();
-?>

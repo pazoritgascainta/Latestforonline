@@ -115,10 +115,20 @@ $current_page = min($current_page, $total_pages); // Ensure page is not greater 
 
         <div class="container">
             <!-- Search Form -->
-            <form method="GET" action="homeowneradmin.php" class="search-form">
-                <input type="text" name="search" placeholder="Search by name or email" value="<?= htmlspecialchars($search_query); ?>">
-                <button type="submit">Search</button>
-            </form>
+            <form id="search-form" class="search-form" onsubmit="return false;">
+    <div class="form-group" style="position: relative;"> <!-- Set position relative here -->
+        <input type="text" id="search-input" name="search" placeholder="Search by name or email" value="<?= htmlspecialchars($search_query); ?>" oninput="fetchSuggestions()" autocomplete="off">
+        <input type="hidden" id="homeowner_id" name="homeowner_id">
+        <!-- Search button -->
+    <button type="button" onclick="submitSearch()">Search</button>
+        <!-- Suggestions box -->
+        <div id="suggestions" class="suggestions"></div>
+    </div>
+    
+  
+</form>
+
+
             <!-- Sort by Date Dropdown -->
             <form method="GET" action="homeowneradmin.php" class="sort-form">
                 <input type="hidden" name="search" value="<?= htmlspecialchars($search_query); ?>">
@@ -127,7 +137,7 @@ $current_page = min($current_page, $total_pages); // Ensure page is not greater 
                     <option value="asc" <?= $sort_order === 'ASC' ? 'selected' : '' ?>>Oldest First</option>
                 </select>
             </form>
-
+<br> <br>
             <!-- Display message if no homeowners are found -->
             <?php if (!empty($_SESSION['message'])): ?>
                 <p class="<?= $_SESSION['message']['status'] ?>">
@@ -216,4 +226,52 @@ $current_page = min($current_page, $total_pages); // Ensure page is not greater 
         </div>
     </div>
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const searchInput = document.getElementById('search-input');
+        const suggestionsBox = document.getElementById('suggestions');
+
+        // Fetch suggestions based on input
+        window.fetchSuggestions = function() {
+            const query = searchInput.value;
+            suggestionsBox.innerHTML = ''; // Clear previous suggestions
+
+            if (query.length >= 1) {
+                fetch(`search_suggestions.php?search=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(suggestions => {
+                        if (suggestions.length > 0) {
+                            suggestions.forEach(suggestion => {
+                                const suggestionItem = document.createElement('div');
+                                suggestionItem.classList.add('suggestion-item');
+                                suggestionItem.textContent = `${suggestion.name} (${suggestion.email})`;
+                                suggestionItem.onclick = function() {
+                                    searchInput.value = suggestion.name; // Set input value to the suggestion
+                                    suggestionsBox.innerHTML = ''; // Clear suggestions
+                                    suggestionsBox.style.display = 'none'; // Hide suggestions
+                                };
+                                suggestionsBox.appendChild(suggestionItem);
+                            });
+                            suggestionsBox.style.display = 'block'; // Show suggestions
+                        } else {
+                            suggestionsBox.style.display = 'none'; // Hide if no suggestions
+                        }
+                    })
+                    .catch(error => console.error('Error fetching suggestions:', error));
+            } else {
+                suggestionsBox.style.display = 'none'; // Hide suggestions if input is empty
+            }
+        };
+
+        // Submit search form
+        window.submitSearch = function() {
+            const query = searchInput.value;
+            if (query) {
+                // Redirect to the search results page with the query
+                window.location.href = `homeowneradmin.php?search=${encodeURIComponent(query)}`;
+            }
+        };
+    });
+</script>
+
 </html>

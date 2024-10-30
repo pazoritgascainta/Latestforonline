@@ -13,7 +13,6 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-
 // Enable error reporting
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
@@ -21,57 +20,7 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 $status_message = "";
 
 // Handle approval or rejection of appointments
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['appointment_id']) && isset($_POST['new_status'])) {
-    $appointment_id = intval($_POST['appointment_id']);
-    $new_status = $_POST['new_status'];
-
-    // Validate new status
-    if (!in_array($new_status, ['Accepted', 'Rejected'])) {
-        $status_message = "Invalid status value.";
-    } else {
-        if ($new_status == 'Accepted') {
-            // Move the appointment to the accepted_appointments table
-            $sql_move = "INSERT INTO accepted_appointments (date, name, email, purpose, homeowner_id, timeslot_id, amenity_id)
-                         SELECT a.date, a.name, a.email, a.purpose, a.homeowner_id, a.timeslot_id, a.amenity_id
-                         FROM appointments a
-                         WHERE a.id = ?";
-            $stmt_move = $conn->prepare($sql_move);
-            $stmt_move->bind_param("i", $appointment_id);
-            if ($stmt_move->execute()) {
-                // Delete the appointment from the appointments table
-                $sql_delete = "DELETE FROM appointments WHERE id = ?";
-                $stmt_delete = $conn->prepare($sql_delete);
-                $stmt_delete->bind_param("i", $appointment_id);
-                $stmt_delete->execute();
-                $status_message = "Appointment accepted and moved successfully!";
-            } else {
-                $status_message = "Error: " . $stmt_move->error;
-            }
-        } elseif ($new_status == 'Rejected') {
-            // Move the appointment to the rejected_appointments table
-            $sql_move = "INSERT INTO rejected_appointments (date, name, email, purpose, homeowner_id, timeslot_id, amenity_id)
-                         SELECT a.date, a.name, a.email, a.purpose, a.homeowner_id, a.timeslot_id, a.amenity_id
-                         FROM appointments a
-                         WHERE a.id = ?";
-            $stmt_move = $conn->prepare($sql_move);
-            $stmt_move->bind_param("i", $appointment_id);
-            if ($stmt_move->execute()) {
-                // Delete the appointment from the appointments table
-                $sql_delete = "DELETE FROM appointments WHERE id = ?";
-                $stmt_delete = $conn->prepare($sql_delete);
-                $stmt_delete->bind_param("i", $appointment_id);
-                $stmt_delete->execute();
-                $status_message = "Appointment rejected and moved successfully!";
-            } else {
-                $status_message = "Error: " . $stmt_move->error;
-            }
-        }
-    }
-
-    // Redirect to the same page to avoid resubmission
-    header("Location: passed_appointments.php");
-    exit();
-}
+// (keep the existing code here)
 
 // Number of records to display per page
 $records_per_page = 10;
@@ -88,17 +37,19 @@ $search_query = isset($_GET['search']) ? trim($_GET['search']) : "";
 // Fetch passed appointments with pagination and search filter
 if ($search_query) {
     $sql_passed_appointments = "
-        SELECT id, date, name, email, purpose, homeowner_id, amenity_id, timeslot_id
-        FROM passed_appointments
-        WHERE name LIKE ? OR email LIKE ?
+        SELECT pa.id, pa.date, pa.name, pa.email, pa.purpose, pa.homeowner_id, pa.amenity_id, ts.time_start, ts.time_end
+        FROM passed_appointments pa
+        JOIN timeslots ts ON pa.timeslot_id = ts.id
+        WHERE pa.name LIKE ? OR pa.email LIKE ?
         LIMIT ? OFFSET ?";
     $stmt_passed_appointments = $conn->prepare($sql_passed_appointments);
     $search_term = "%" . $search_query . "%";
     $stmt_passed_appointments->bind_param("ssii", $search_term, $search_term, $records_per_page, $offset);
 } else {
     $sql_passed_appointments = "
-        SELECT id, date, name, email, purpose, homeowner_id, amenity_id, timeslot_id
-        FROM passed_appointments
+        SELECT pa.id, pa.date, pa.name, pa.email, pa.purpose, pa.homeowner_id, pa.amenity_id, ts.time_start, ts.time_end
+        FROM passed_appointments pa
+        JOIN timeslots ts ON pa.timeslot_id = ts.id
         LIMIT ? OFFSET ?";
     $stmt_passed_appointments = $conn->prepare($sql_passed_appointments);
     $stmt_passed_appointments->bind_param("ii", $records_per_page, $offset);
@@ -107,18 +58,29 @@ if ($search_query) {
 $stmt_passed_appointments->execute();
 $result_passed_appointments = $stmt_passed_appointments->get_result();
 
+$amenity_names = [
+    '1' => 'Clubhouse Court',
+    '2' => 'Townhouse Court',
+    '3' => 'Clubhouse Swimming Pool',
+    '4' => 'Townhouse Swimming Pool',
+    '5' => 'Consultation',
+    '6' => 'Bluehouse Court'
+];
+
 // Fetch total number of passed appointments for pagination (with or without search)
 if ($search_query) {
     $sql_total_passed_appointments = "
         SELECT COUNT(*) AS total
-        FROM passed_appointments
-        WHERE name LIKE ? OR email LIKE ?";
+        FROM passed_appointments pa
+        JOIN timeslots ts ON pa.timeslot_id = ts.id
+        WHERE pa.name LIKE ? OR pa.email LIKE ?";
     $stmt_total_passed_appointments = $conn->prepare($sql_total_passed_appointments);
     $stmt_total_passed_appointments->bind_param("ss", $search_term, $search_term);
 } else {
     $sql_total_passed_appointments = "
         SELECT COUNT(*) AS total
-        FROM passed_appointments";
+        FROM passed_appointments pa
+        JOIN timeslots ts ON pa.timeslot_id = ts.id";
     $stmt_total_passed_appointments = $conn->prepare($sql_total_passed_appointments);
 }
 
@@ -148,36 +110,42 @@ $total_pages_passed = ceil($total_passed_appointments / $records_per_page);
             <a href="admin_approval.php" class="btn-admin-approval">Go Back to Admin Approval</a>
         </div>
         <br>
-        <form method="GET" action="passed_appointments.php" class="search-form"> 
-            <input type="text" name="search" placeholder="Search by name or email" value="<?= htmlspecialchars($search_query); ?>">
-            <button type="submit">Search</button>
-        </form>
+        <form id="search-form" class="search-form" onsubmit="return false;"> <!-- Prevent default form submission -->
+    <div class="form-group" style="position: relative;">
+        <input type="text" id="search-input" name="search" placeholder="Search by name or email" value="<?= htmlspecialchars($search_query); ?>" oninput="fetchSuggestions()">
+        <input type="hidden" id="homeowner_id" name="homeowner_id"> <!-- Hidden field to store homeowner ID -->
+        <div id="suggestions" class="suggestions"></div> <!-- Container for suggestions -->
+    </div>
+    <button type="submit" onclick="submitSearch()">Search</button> <!-- Trigger search on button click -->
+</form>
+
         <?php if ($result_passed_appointments->num_rows > 0): ?>
             <table>
-                <tr>
-                    <th>ID</th>
-                    <th>Date</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Purpose</th>
-                    <th>Homeowner ID</th>
-                    <th>Amenity ID</th>
-                    <th>Time Slot ID</th>
-
-                </tr>
-                <?php while ($row = $result_passed_appointments->fetch_assoc()): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($row['id']) ?></td>
-                        <td><?= htmlspecialchars($row['date']) ?></td>
-                        <td><?= htmlspecialchars($row['name']) ?></td>
-                        <td><?= htmlspecialchars($row['email']) ?></td>
-                        <td><?= htmlspecialchars($row['purpose']) ?></td>
-                        <td><?= htmlspecialchars($row['homeowner_id']) ?></td>
-                        <td><?= htmlspecialchars($row['amenity_id']) ?></td>
-                        <td><?= htmlspecialchars($row['timeslot_id']) ?></td>
-                    </tr>
-                <?php endwhile; ?>
-            </table>
+    <tr>
+        <th>Date</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Purpose</th>
+        <th>Amenity</th>
+        <th>Time Slot</th>
+    </tr>
+    <?php while ($row = $result_passed_appointments->fetch_assoc()): ?>
+        <tr>
+            <td><?= htmlspecialchars($row['date']) ?></td>
+            <td><?= htmlspecialchars($row['name']) ?></td>
+            <td><?= htmlspecialchars($row['email']) ?></td>
+            <td><?= htmlspecialchars($row['purpose']) ?></td>
+            <td>
+                <?php
+                // Display the amenity name based on amenity_id
+                $amenity_id = $row['amenity_id'];
+                echo isset($amenity_names[$amenity_id]) ? $amenity_names[$amenity_id] : 'Unknown Amenity';
+                ?>
+            </td>
+            <td><?= htmlspecialchars($row['time_start'] . ' - ' . $row['time_end']) ?></td>
+        </tr>
+    <?php endwhile; ?>
+</table>
 
             <div id="pagination">
                 <?php
@@ -213,6 +181,52 @@ $total_pages_passed = ceil($total_passed_appointments / $records_per_page);
     </div>
 </div>
 </body>
+<script>
+function fetchSuggestions() {
+    const searchQuery = document.getElementById('search-input').value;
+
+    // Clear previous suggestions
+    const suggestionsContainer = document.getElementById('suggestions');
+    suggestionsContainer.innerHTML = '';
+
+    if (searchQuery.length < 1) {
+        return; // Don't search for queries less than 2 characters
+    }
+
+    // Create an AJAX request
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'search_suggestions.php?search=' + encodeURIComponent(searchQuery), true);
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            const suggestions = JSON.parse(xhr.responseText);
+            suggestions.forEach(function(suggestion) {
+                const suggestionItem = document.createElement('div');
+                suggestionItem.textContent = `${suggestion.name} (${suggestion.email})`;
+                suggestionItem.classList.add('suggestion-item');
+
+                // Add click event to fill the input with the suggestion
+                suggestionItem.addEventListener('click', function() {
+                    document.getElementById('search-input').value = suggestion.name; // Or use suggestion.email
+                    suggestionsContainer.innerHTML = ''; // Clear suggestions after selection
+                    document.getElementById('homeowner_id').value = suggestion.id; // Assuming you want to capture the ID
+                });
+
+                suggestionsContainer.appendChild(suggestionItem);
+            });
+        }
+    };
+    xhr.send();
+}
+
+function submitSearch() {
+    const searchInput = document.getElementById('search-input').value;
+    const form = document.getElementById('search-form');
+    
+    // Redirect to the same page with the search term
+    window.location.href = `rejected_appointments.php?search=${encodeURIComponent(searchInput)}`;
+}
+</script>
+
 </html>
 
 <?php

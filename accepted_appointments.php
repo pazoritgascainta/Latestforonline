@@ -175,19 +175,26 @@ $total_pages_accepted = ceil($total_accepted_appointments / $records_per_page);
         <div class="admin_approval">
             <a href="admin_approval.php" class="btn-admin-approval">Go Back to Admin Approval</a>
         </div> <br>
-        <form method="GET" action="accepted_appointments.php" class="search-form"> 
-            <input type="text" name="search" placeholder="Search by name or email" value="<?= htmlspecialchars($search_query); ?>">
-            <button type="submit">Search</button>
-        </form>
+        <form id="search-form" class="search-form">
+    <div class="form-group" style="position: relative;"> <!-- Set position relative here -->
+        <input type="text" id="search-input" name="search" placeholder="Search by name or email" value="<?= htmlspecialchars($search_query); ?>" oninput="fetchSuggestions()">
+        <input type="hidden" id="homeowner_id" name="homeowner_id">
+        <div id="suggestions" class="suggestions"></div> <!-- Suggestions will be placed here -->
+    </div>
+    <button type="submit">Search</button>
+</form>
+
+
         <?php if ($result_accepted_appointments->num_rows > 0): ?>
             <table>
                 <tr>
-                    <th>ID</th>
-                    <th>Date</th>
-                    <th>Name</th>
+                <th>Name</th>
+                 
+               
                     <th>Email</th>
                     <th>Purpose</th>
                     <th>Amenity</th>
+                    <th>Date</th>
                     <th>Time Slot</th>
                     <th>Amount</th> <!-- New Column -->
                     <th>Status</th> <!-- New Column -->
@@ -195,18 +202,18 @@ $total_pages_accepted = ceil($total_accepted_appointments / $records_per_page);
                 </tr>
                 <?php while ($row = $result_accepted_appointments->fetch_assoc()): ?>
                     <tr>
-                        <td><?= htmlspecialchars($row['id']) ?></td>
-                        <td><?= htmlspecialchars($row['date']) ?></td>
-                        <td><?= htmlspecialchars($row['name']) ?></td>
-                        <td><?= htmlspecialchars($row['email']) ?></td>
-                        <td><?= htmlspecialchars($row['purpose']) ?></td>
+                    <td><?= htmlspecialchars($row['name']) ?></td>
+                    <td><?= htmlspecialchars($row['email']) ?></td>
+                    <td><?= htmlspecialchars($row['purpose']) ?></td>
+
                         <td><?= htmlspecialchars($row['amenity']) ?></td>
+                        <td><?= htmlspecialchars($row['date']) ?></td>
                         <td><?= htmlspecialchars($row['time_start'] . ' - ' . $row['time_end']) ?></td>
                         <td>
                             <form method="POST" action="accepted_appointments.php" style="display:inline;">
                                 <input type="number" name="new_amount" value="<?= htmlspecialchars($row['amount']) ?>" step="0.01" required>
                                 <input type="hidden" name="appointment_id" value="<?= htmlspecialchars($row['id']) ?>">
-                                <button type="submit">Update Amount</button>
+                                <button type="submit">Update</button>
                             </form>
                         </td>
                         <td><?= htmlspecialchars($row['status']) ?></td>
@@ -269,4 +276,43 @@ $total_pages_accepted = ceil($total_accepted_appointments / $records_per_page);
 </div>
 
 </body>
+<script>
+function fetchSuggestions() {
+    const searchQuery = document.getElementById('search-input').value;
+
+    // Clear previous suggestions
+    const suggestionsContainer = document.getElementById('suggestions');
+    suggestionsContainer.innerHTML = '';
+
+    if (searchQuery.length < 1) {
+        return; // Don't search for queries less than 2 characters
+    }
+
+    // Create an AJAX request
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'search_suggestions.php?search=' + encodeURIComponent(searchQuery), true);
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            const suggestions = JSON.parse(xhr.responseText);
+            suggestions.forEach(function(suggestion) {
+                const suggestionItem = document.createElement('div');
+                suggestionItem.textContent = `${suggestion.name} (${suggestion.email})`;
+                suggestionItem.classList.add('suggestion-item');
+
+                // Add click event to fill the input with the suggestion and set the hidden ID
+                suggestionItem.addEventListener('click', function() {
+                    document.getElementById('search-input').value = suggestion.name; // Set the name
+                    document.getElementById('homeowner_id').value = suggestion.id; // Set the homeowner ID
+                    suggestionsContainer.innerHTML = ''; // Clear suggestions after selection
+                });
+
+                suggestionsContainer.appendChild(suggestionItem);
+            });
+        }
+    };
+    xhr.send();
+}
+</script>
+
+
 </html>

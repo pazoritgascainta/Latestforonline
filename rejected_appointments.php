@@ -97,6 +97,17 @@ $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 // Calculate the offset for the SQL LIMIT clause
 $offset = ($current_page - 1) * $records_per_page;
 
+// Amenity name mapping based on amenity_id values
+$amenity_names = [
+    1 => 'Clubhouse Court',
+    2 => 'Townhouse Court',
+    3 => 'Clubhouse Swimming Pool',
+    4 => 'Townhouse Swimming Pool',
+    5 => 'Consultation',
+    6 => 'Bluehouse Court'
+];
+
+
 // Search functionality
 $search_query = "";
 $search_term = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : "";
@@ -107,11 +118,13 @@ if ($search_term) {
 
 // Fetch rejected appointments with pagination and search
 $sql_rejected_appointments = "
-    SELECT id, date, name, email, purpose, homeowner_id, amenity_id, timeslot_id
-    FROM rejected_appointments
+    SELECT ra.id, ra.date, ra.name, ra.email, ra.purpose, ra.homeowner_id, ra.amenity_id, ts.time_start, ts.time_end
+    FROM rejected_appointments ra
+    LEFT JOIN timeslots ts ON ra.timeslot_id = ts.id
     $search_query
     LIMIT $records_per_page OFFSET $offset
 ";
+
 
 $result_rejected_appointments = $conn->query($sql_rejected_appointments);
 
@@ -159,34 +172,39 @@ $total_pages_rejected = ceil($total_rejected_appointments / $records_per_page);
         </div>
         <br>
         <!-- Search Form -->
-        <form method="GET" action="rejected_appointments.php" class="search-form">
-    <input type="text" name="search" placeholder="Search by name, email, or purpose" value="<?= htmlspecialchars($search_term) ?>" />
-    <button type="submit">Search</button>
+        <form id="search-form" class="search-form" onsubmit="return false;"> <!-- Prevent default form submission -->
+    <div class="form-group" style="position: relative;">
+        <input type="text" id="search-input" name="search" placeholder="Search by name, email, or purpose" value="<?= htmlspecialchars($search_term) ?>" oninput="fetchSuggestions()">
+        <input type="hidden" id="homeowner_id" name="homeowner_id">
+        <div id="suggestions" class="suggestions"></div>
+    </div>
+    <button type="submit" onclick="submitSearch()">Search</button>
 </form>
+
 
         <?php if ($result_rejected_appointments->num_rows > 0): ?>
             <table>
-                <tr>
-                    <th>ID</th>
-                    <th>Date</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Purpose</th>
-                    <th>Amenity</th>
-                    <th>Time Slot</th>
-                </tr>
-                <?php while ($row = $result_rejected_appointments->fetch_assoc()): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($row['id']) ?></td>
-                        <td><?= htmlspecialchars($row['date']) ?></td>
-                        <td><?= htmlspecialchars($row['name']) ?></td>
-                        <td><?= htmlspecialchars($row['email']) ?></td>
-                        <td><?= htmlspecialchars($row['purpose']) ?></td>
-                        <td><?= htmlspecialchars($row['amenity_id']) ?></td>
-                        <td><?= htmlspecialchars($row['timeslot_id']) ?></td>
-                    </tr>
-                <?php endwhile; ?>
-            </table>
+    <tr>
+        <th>Date</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Purpose</th>
+        <th>Amenity</th>
+        <th>Time Slot</th>
+    </tr>
+    <?php while ($row = $result_rejected_appointments->fetch_assoc()): ?>
+        <tr>
+            <td><?= htmlspecialchars($row['date']) ?></td>
+            <td><?= htmlspecialchars($row['name']) ?></td>
+            <td><?= htmlspecialchars($row['email']) ?></td>
+            <td><?= htmlspecialchars($row['purpose']) ?></td>
+            <td>
+                <?= isset($amenity_names[$row['amenity_id']]) ? $amenity_names[$row['amenity_id']] : 'Unknown Amenity' ?>
+            </td>
+            <td><?= htmlspecialchars($row['time_start'] . ' - ' . $row['time_end']) ?></td>
+        </tr>
+    <?php endwhile; ?>
+</table>
 
             <div id="pagination">
                 <?php
@@ -222,6 +240,52 @@ $total_pages_rejected = ceil($total_rejected_appointments / $records_per_page);
     </div>
 </div>
 </body>
+<script>
+function fetchSuggestions() {
+    const searchQuery = document.getElementById('search-input').value;
+
+    // Clear previous suggestions
+    const suggestionsContainer = document.getElementById('suggestions');
+    suggestionsContainer.innerHTML = '';
+
+    if (searchQuery.length < 1) {
+        return; // Don't search for queries less than 2 characters
+    }
+
+    // Create an AJAX request
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'search_suggestions.php?search=' + encodeURIComponent(searchQuery), true);
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            const suggestions = JSON.parse(xhr.responseText);
+            suggestions.forEach(function(suggestion) {
+                const suggestionItem = document.createElement('div');
+                suggestionItem.textContent = `${suggestion.name} (${suggestion.email})`;
+                suggestionItem.classList.add('suggestion-item');
+
+                // Add click event to fill the input with the suggestion
+                suggestionItem.addEventListener('click', function() {
+                    document.getElementById('search-input').value = suggestion.name; // Or use suggestion.email
+                    suggestionsContainer.innerHTML = ''; // Clear suggestions after selection
+                    document.getElementById('homeowner_id').value = suggestion.id; // Assuming you want to capture the ID
+                });
+
+                suggestionsContainer.appendChild(suggestionItem);
+            });
+        }
+    };
+    xhr.send();
+}
+
+function submitSearch() {
+    const searchInput = document.getElementById('search-input').value;
+    const form = document.getElementById('search-form');
+    
+    // Redirect to the same page with the search term
+    window.location.href = `rejected_appointments.php?search=${encodeURIComponent(searchInput)}`;
+}
+</script>
+
 </html>
 
 <?php

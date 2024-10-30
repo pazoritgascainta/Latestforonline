@@ -28,6 +28,61 @@ margin-left: 80px;
     cursor: pointer;
     transition: border-color 0.3s;
 }
+.custom-dropdown {
+    position: relative;
+    width: 100%;
+}
+
+#search-input {
+    width: 20%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.dropdown-options {
+    display: none; /* Initially hidden */
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    z-index: 1000;
+    width: 20%;
+    max-height: 200px; /* Limit height */
+    overflow-y: auto; /* Scrollable */
+}
+
+.dropdown-option {
+    padding: 10px;
+    cursor: pointer;
+}
+.suggestions {
+    border: 1px solid #ccc;
+    max-height: 200px; /* Maximum height of the dropdown */
+    overflow-y: auto; /* Scroll if content overflows */
+    background-color: white; /* Background color of suggestions */
+    position: absolute; /* Position absolute to place it below the input */
+    top: 100%; /* Position below the input */
+    left: 0; /* Align to the left of the input */
+    z-index: 1000; /* Ensure it appears above other elements */
+    width: 20%; /* Make suggestions full width of the container */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
+    list-style: none; /* Remove default list styling */
+    padding: 0; /* Remove padding from the list */
+    margin: 0; /* Remove margin from the list */
+}
+
+
+.suggestion-item {
+    padding: 10px; /* Padding for each suggestion */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0; /* Highlight on hover */
+}
+
+.dropdown-option:hover {
+    background-color: #e7f3fe; /* Change background on hover */
+}
 
 .sort-form select:focus {
     border-color: #007bff; /* Change border color on focus */

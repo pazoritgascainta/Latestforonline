@@ -130,8 +130,28 @@
 .search-form button:hover {
     background-color: #f87000; /* Darker shade on hover */
 }
+.suggestions {
+    border: 1px solid #ccc;
+    max-height: 200px; /* Maximum height of the dropdown */
+    overflow-y: auto; /* Scroll if content overflows */
+    background-color: white; /* Background color of suggestions */
+    position: absolute; /* Position absolute to place it below the input */
+    z-index: 1000; /* Ensure it appears above other elements */
+    width: 95%; /* Make suggestions full width of the input */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
+}
+
+.suggestion-item {
+    padding: 10px; /* Padding for each suggestion */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0; /* Highlight on hover */
+}
+
 input[type="number"] {
-    width: 100%;
+    width: 50%;
     padding: 10px;
     margin: 10px 0;
     box-sizing: border-box;

@@ -97,7 +97,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Password Reset Requests</title>
-    <link rel="stylesheet" href="homeownercss.css">
+    <link rel="stylesheet" href="archive.css">
 </head>
 
 <body>
@@ -109,10 +109,15 @@ $conn->close();
 
         <div class="container">
             <!-- Search Form -->
-            <form method="GET" action="pass_reqs.php" class="search-form">
-                <input type="text" name="search" placeholder="Search by email" value="<?= htmlspecialchars($search_query); ?>">
-                <button type="submit">Search</button>
-            </form>
+            <form id="search-form" class="search-form" style="display: inline;">
+    <input type="text" id="search-input" name="search" placeholder="Search by email" value="<?= htmlspecialchars($search_query); ?>" oninput="fetchSuggestions()" autocomplete="off">
+    <button type="button" onclick="submitSearch()">Search</button>
+</form>
+<!-- Suggestions box -->
+<div id="suggestions" class="suggestions"></div>
+
+
+
 
             <!-- Sort Form -->
             <form method="GET" action="pass_reqs.php" class="sort-form">
@@ -186,4 +191,56 @@ $conn->close();
     </div>
     <?php include 'sidebar.php'; ?>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('search-input');
+        const suggestionsContainer = document.getElementById('suggestions');
+
+        searchInput.addEventListener('input', function () {
+            const searchTerm = searchInput.value;
+
+            // If search term is empty, clear suggestions
+            if (searchTerm.length === 0) {
+                suggestionsContainer.innerHTML = '';
+                return;
+            }
+
+            // Make AJAX request
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', 'search_suggestions.php?search=' + encodeURIComponent(searchTerm), true);
+            xhr.onload = function () {
+                if (this.status === 200) {
+                    const results = JSON.parse(this.responseText);
+                    displaySuggestions(results);
+                }
+            };
+            xhr.send();
+        });
+
+        function displaySuggestions(results) {
+            suggestionsContainer.innerHTML = ''; // Clear previous suggestions
+            results.forEach(homeowner => {
+                const suggestionItem = document.createElement('div');
+                suggestionItem.classList.add('suggestion-item');
+                suggestionItem.textContent = homeowner.email; // Display email
+                suggestionItem.addEventListener('click', function () {
+                    searchInput.value = homeowner.email; // Set the input to selected email
+                    suggestionsContainer.innerHTML = ''; // Clear suggestions
+                    submitSearch(); // Automatically submit search
+                });
+                suggestionsContainer.appendChild(suggestionItem);
+            });
+        }
+    });
+
+    function submitSearch() {
+    const searchInput = document.getElementById('search-input');
+    if (searchInput.value.trim() !== '') {
+        // Submit the form only if there is a value
+        document.getElementById('search-form').submit();
+    }
+}
+
+</script>
+
 </html>

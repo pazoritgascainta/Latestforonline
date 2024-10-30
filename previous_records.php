@@ -22,11 +22,6 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-
-// Enable error reporting for debugging
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 // Function to check if a history record exists for the homeowner_id and billing_date
 function historyRecordExists($conn, $homeowner_id, $billing_date) {
     $sql_check = "SELECT COUNT(*) FROM billing_history WHERE homeowner_id = ? AND billing_date = ?";
@@ -37,7 +32,7 @@ function historyRecordExists($conn, $homeowner_id, $billing_date) {
         $stmt_check->bind_result($count);
         $stmt_check->fetch();
         $stmt_check->close();
-        return $count > 0; // Returns true if record exists
+        return $count > 0;
     } else {
         $_SESSION['message'] = "Prepare statement failed: " . $conn->error;
         return false;
@@ -45,26 +40,21 @@ function historyRecordExists($conn, $homeowner_id, $billing_date) {
 }
 
 // Initialize homeowner ID from GET request or default to 0
-$homeowner_id = isset($_GET['homeowner_id']) ? intval($_GET['homeowner_id']) : 0; 
+$homeowner_id = isset($_GET['homeowner_id']) ? intval($_GET['homeowner_id']) : 0;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['homeowner_id'])) {
-    $homeowner_id = intval($_POST['homeowner_id']); // Get homeowner ID from POST
-    $billing_date = $_POST['billing_date'] . '-01'; // Set to the first of the selected month
+    $homeowner_id = intval($_POST['homeowner_id']);
+    $billing_date = $_POST['billing_date'] . '-01';
     $paid_date = $_POST['paid_date'] . '-01';
-    $status = 'Paid'; // Only 'Paid' status for this table
+    $status = 'Paid';
 
-    // Convert dates for processing
     $billingDate = new DateTime($billing_date);
     $paidDate = new DateTime($paid_date);
 
-    // Check if history records exist and insert records for each month
     while ($billingDate <= $paidDate) {
         $currentBillingDate = $billingDate->format('Y-m-d');
 
-        if (historyRecordExists($conn, $homeowner_id, $currentBillingDate)) {
-            $_SESSION['message'] = "Billing record for $currentBillingDate already exists for this homeowner.";
-        } else {
-            // Fetch sqm value based on homeowner_id
+        if (!historyRecordExists($conn, $homeowner_id, $currentBillingDate)) {
             $sql = "SELECT sqm FROM homeowners WHERE id = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("i", $homeowner_id);
@@ -73,35 +63,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['homeowner_id'])) {
             $stmt->fetch();
             $stmt->close();
 
-            // Calculate monthly due
             $monthly_due = $sqm * 5;
             $due_date = (clone $billingDate)->modify('first day of next month')->format('Y-m-d');
             $total_amount = $monthly_due;
 
-            // Insert new billing history record
             $sql_insert = "INSERT INTO billing_history (homeowner_id, monthly_due, billing_date, due_date, status, total_amount, paid_date) 
                            VALUES (?, ?, ?, ?, ?, ?, ?)";
             $stmt_insert = $conn->prepare($sql_insert);
             if ($stmt_insert) {
                 $stmt_insert->bind_param("issssds", $homeowner_id, $monthly_due, $currentBillingDate, $due_date, $status, $total_amount, $paid_date);
                 if (!$stmt_insert->execute()) {
-                    $_SESSION['message'] = "Failed to create billing history record for $currentBillingDate: " . $stmt_insert->error; // Improved error reporting
-                    error_log("Insert error: " . $stmt_insert->error); // Log the error for further analysis
+                    $_SESSION['message'] = "Failed to create billing history record for $currentBillingDate: " . $stmt_insert->error;
+                    error_log("Insert error: " . $stmt_insert->error);
                 }
                 $stmt_insert->close();
             } else {
                 $_SESSION['message'] = "Prepare statement failed: " . $conn->error;
-                error_log("Prepare error: " . $conn->error); // Log the error
+                error_log("Prepare error: " . $conn->error);
             }
+        } else {
+            $_SESSION['message'] = "Billing record for $currentBillingDate already exists for this homeowner.";
         }
 
-        // Move to the next month
         $billingDate->modify('+1 month');
     }
 
-    // Always redirect to the input_billing.php page with the homeowner_id
     header("Location: input_billing.php?homeowner_id=" . $homeowner_id);
-    exit(); // Ensure exit after header to stop script execution
+    exit();
 }
 ?>
 
@@ -117,11 +105,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['homeowner_id'])) {
     <div class="main-content">
         <div class="container">
             <h1>Create Billing History Record</h1>
+
             <form method="POST" action="">
-                <div class="form-group">
-                    <label for="homeowner_id">Homeowner ID:</label>
-                    <input type="number" id="homeowner_id" name="homeowner_id" value="<?php echo htmlspecialchars($homeowner_id); ?>" oninput="fetchHomeownerData()" required>
-                </div>
+    <div class="form-group" style="display: none;">
+        <label for="homeowner_id">Homeowner ID:</label>
+        <input type="hidden" id="homeowner_id" name="homeowner_id" value="<?php echo htmlspecialchars($homeowner_id); ?>" required>
+    </div>
 
                 <div class="form-group">
                     <label for="homeowner_name">Homeowner Name:</label>
@@ -155,7 +144,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['homeowner_id'])) {
 
                 <div class="form-group">
                     <label for="monthly_due">Monthly Due:</label>
-                    <input type="number" step="0.01" id="monthly_due" name="monthly_due" value="" readonly>
+                    <input type="number" step="0.01" id="monthly_due" name="monthly_due" readonly>
                 </div>
 
                 <button type="submit" class="submit-btn" name="create_billing">Create Billing History Record</button>
@@ -164,46 +153,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['homeowner_id'])) {
     </div>
 
     <script>
-        let fetchedNames = {};
-
         function fetchHomeownerData() {
             const homeownerId = document.getElementById('homeowner_id').value;
             if (homeownerId) {
-                if (!fetchedNames[homeownerId]) {
-                    fetch(`get_homeowner.php?id=${homeownerId}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.name) {
-                                document.getElementById('homeowner_name').value = data.name;
-                                document.getElementById('sqm').value = data.sqm; // Set sqm value
-                                document.getElementById('monthly_due').value = (data.sqm * 5).toFixed(2); // Calculate monthly due
-                                fetchedNames[homeownerId] = { name: data.name, sqm: data.sqm };
-                            } else {
-                                document.getElementById('homeowner_name').value = '';
-                                document.getElementById('sqm').value = ''; // Clear sqm if no name found
-                                document.getElementById('monthly_due').value = ''; // Clear monthly due if no homeowner found
+                fetch(`get_homeowner.php?id=${homeownerId}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data && data.name) {
+                            document.getElementById('homeowner_name').value = data.name;
+                            document.getElementById('sqm').value = data.sqm;
+                            document.getElementById('monthly_due').value = (data.sqm * 5).toFixed(2); // Calculate monthly due
+                            // Automatically set the due date based on current billing date if it exists
+                            const billingDateInput = document.getElementById('billing_date').value;
+                            if (billingDateInput) {
+                                const billingDate = new Date(billingDateInput + '-01');
+                                billingDate.setMonth(billingDate.getMonth() + 1);
+                                document.getElementById('due_date').value = billingDate.toISOString().slice(0, 10);
                             }
-                        });
-                } else {
-                    document.getElementById('homeowner_name').value = fetchedNames[homeownerId].name;
-                    document.getElementById('sqm').value = fetchedNames[homeownerId].sqm; // Set sqm value
-                    document.getElementById('monthly_due').value = (fetchedNames[homeownerId].sqm * 5).toFixed(2); // Calculate monthly due
-                }
+                        } else {
+                            // Clear fields if no valid homeowner data found
+                            document.getElementById('homeowner_name').value = '';
+                            document.getElementById('sqm').value = '';
+                            document.getElementById('monthly_due').value = '';
+                        }
+                    })
+                    .catch(error => console.error('Error fetching homeowner data:', error));
             } else {
+                // Clear fields if no homeowner ID is entered
                 document.getElementById('homeowner_name').value = '';
-                document.getElementById('sqm').value = ''; // Clear sqm if no ID
-                document.getElementById('monthly_due').value = ''; // Clear monthly due if no ID
+                document.getElementById('sqm').value = '';
+                document.getElementById('monthly_due').value = '';
             }
         }
 
-        // Automatically set the due_date when billing_date changes
-        document.getElementById('billing_date').addEventListener('change', function() {
-            const selectedMonth = this.value; // Get the selected month (YYYY-MM)
-            const billingDate = new Date(selectedMonth + '-01'); // Always set to the first day of the month
-            billingDate.setMonth(billingDate.getMonth() + 1); // Set the due date to the first of the next month
-            const dueDate = billingDate.toISOString().slice(0, 10); // Format as YYYY-MM-DD
-            document.getElementById('due_date').value = dueDate;
-        });
+        // Automatically fetch homeowner data when the page loads if homeowner_id is set
+        window.onload = function() {
+            const homeownerId = document.getElementById('homeowner_id').value;
+            if (homeownerId) {
+                fetchHomeownerData();
+            }
+        };
     </script>
 </body>
 </html>

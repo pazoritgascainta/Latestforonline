@@ -21,8 +21,38 @@ margin-left: 80px;
 }
 
 
+.suggestions {
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    display: none; /* Hidden by default */
+    position: absolute;
+    z-index: 1000;
+    background: white;
+    /* Add these properties for testing */
+    width: 100%; /* Ensure it aligns with the input field */
+}
 
 
+.suggestions-box {
+    border: 1px solid #ccc; /* Border for suggestions box */
+    max-height: 200px; /* Maximum height of the dropdown */
+    overflow-y: auto; /* Scroll if content overflows */
+    background-color: white; /* Background color of suggestions */
+    position: absolute; /* Position absolute to place it below the input */
+    z-index: 1000; /* Ensure it appears above other elements */
+    width: 14%; /* Make suggestions full width of the input */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
+}
+
+.suggestion-item {
+    padding: 10px; /* Padding for each suggestion */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0; /* Highlight on hover */
+}
 
 /* Table styles */
 .table {
@@ -242,7 +272,7 @@ label {
 }
 input[type="text"],
 textarea {
-    width: 100%;
+    width: 14%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
