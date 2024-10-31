@@ -186,6 +186,8 @@ $totalCombinedEarnings = $totalEarnings + $acceptedAppointmentsEarnings; // Comb
 <html lang="en">
 <head>
     <title>St. Monique Report</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="reportadmin.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>

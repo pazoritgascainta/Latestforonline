@@ -98,6 +98,8 @@ function calculateTotalAmount($conn, $homeowner_id, $billing_date, $monthly_due)
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Billing Record</title>
     <link rel="stylesheet" href="create_billing.css">
 </head>
