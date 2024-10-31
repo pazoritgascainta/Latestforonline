@@ -6,14 +6,13 @@ body {
 
 .container {
     max-width: 800px;
-    margin: auto; /* Centers horizontally */
+    margin: auto;
     padding: 50px;
-    background-color: #fff; /* Ensure the background color is white */
+    background-color: #fff;
     border-radius: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Increased shadow for more visibility */
-    position: relative; /* Enables vertical centering */
-    top: auto; /* Moves the top edge to the vertical center */
-    transform: translateY(20%); /* Adjusts vertically to center */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    transform: translateY(20%);
 }
 
 h2 {
@@ -38,7 +37,7 @@ label {
 .btn {
     padding: 8px 16px;
     border: none;
-    background-color: #ff8b2c; /* Changed button color */
+    background-color: #ff8b2c;
     color: #fff;
     border-radius: 4px;
     cursor: pointer;
@@ -54,7 +53,7 @@ label {
 }
 
 .btn:hover {
-    background-color: #e78a25; /* Darker shade on hover for better visibility */
+    background-color: #e78a25;
 }
 
 .btn-outline-primary:hover {
@@ -74,4 +73,57 @@ label {
 .error-message {
     color: red;
     margin-top: 5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        margin-left: 7vh;
+        max-width: 81%;
+        padding: 20px; /* Less padding for smaller viewports */
+        transform: translateY(10%); /* Adjusted vertical alignment */
+    }
+
+    h2 {
+        font-size: 20px; /* Smaller font for headers on mobile */
+    }
+
+    .btn, .btn-outline-primary {
+        width: 77%;
+        font-size: 16px;
+        padding: 10px;
+    }
+
+    .form-control {
+        font-size: 16px; /* Larger input text for better readability */
+        padding: 10px;
+    }
+
+    label {
+        font-size: 16px; /* Slightly larger label text */
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    .btn, .btn-outline-primary {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .form-control {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    label {
+        font-size: 14px;
+    }
 }

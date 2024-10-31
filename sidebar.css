@@ -561,10 +561,91 @@ hr.active {
     }
 
     .sidebar.active {
-        width: 200px; /* Expanded sidebar width */
+        width: 100%; /* Expanded sidebar width */
+        max-width: 100%;
     }
 
     .main-content {
-        margin-left: 70px; /* Adjust for sidebar */
+        margin-left:37px; /* Adjust for sidebar */
+        width: 100%;
+    }
+    #logo-img {
+        height: 35px; /* Adjust logo size */
+        content-visibility: hidden;
+    }
+}
+@media (max-width: 768px) {
+    nav {
+        height: 70px;
+        padding: 0px 3%;
+        flex-direction: column;
+    }
+    
+    nav ul {
+        width: 100%;
+    }
+    .profile-img{
+        height: 38px;
+        width: 45px;
+    }
+    .nav-links-wrapper{
+        margin-left: 175px;
+    }
+    .top{
+        height: 75px;
+        width: 500%;
+    }
+
+    .nav-link {
+        margin: 10px 0; /* Space between links */
+    }
+
+    #logo-img {
+        height: 35px; /* Adjust logo size */
+        content-visibility: hidden;
+    }
+
+    .sidebar {
+        width: 60px; /* Default sidebar width for mobile */
+    }
+
+    .sidebar.active {
+        width: 100%;/* Expanded width for mobile */
+        height: 100%;
+    }
+
+}
+
+/* Adjustments for smaller devices */
+@media (max-width: 480px) {
+    nav {
+        padding: 10px 2%;
+    }
+    .profile-img{
+        height: 38px;
+        width: 45px;
+        margin-top: 15px;
+    }
+    .nav-links-wrapper{
+        margin-left: 5vh;
+    }
+
+    .user-pic {
+        height: 38px;
+        width: 45px;
+        margin-left: 15px;
+    }
+    .top , .logo{
+        height: 38px;
+        width: 45px;
+    }
+
+    .sidebar {
+        width: 50px; /* Further reduce sidebar width for very small screens */
+    }
+
+    .sidebar.active {
+        width: 100%; /* Adjust active state width */
+        max-width: 75%;
     }
 }

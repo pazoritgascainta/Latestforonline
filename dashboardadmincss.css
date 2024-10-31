@@ -19,6 +19,8 @@
 	@media (max-width: 600px) {
 		grid-template-columns: 1fr; /* 1 column for mobile screens */
 		justify-content: center; /* Center-align on small screens */
+		width: 36vh;
+        height: 87vh;
 	}
 }
 
@@ -96,6 +98,10 @@
 			right: 0;
 			bottom: 0;
 		}
+		@media (max-width: 600px) {
+			font-size: 12px;
+		}
+
 	}
 }
 
@@ -129,4 +135,10 @@
     margin: 50px 0;
     font-size: 50px;
     font-weight: bold;
+	@media (max-width: 600px) {
+		min-height: 150px; /* Reduce height for mobile */
+		font-size: 20px;
+		margin-bottom: -15vh;
+	}
 }
+

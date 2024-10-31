@@ -146,7 +146,7 @@
     }
 
     #calendar-nav button {
-        font-size: 1.5em; /* Smaller button text */
+        font-size: 1.1em; /* Smaller button text */
     }
 
     #calendar-nav #month-year {
@@ -156,12 +156,12 @@
 
 @media (max-width: 480px) {
     #calendar-nav {
-        flex-direction: column; /* Stack navigation items */
         align-items: flex-start; /* Align to the left */
     }
 
     #calendar {
-        grid-template-columns: repeat(3, 1fr); /* Further reduce columns */
+        grid-template-columns: repeat(8, 3fr);
+        height: 30vh;
     }
 
     .calendar-cell {
