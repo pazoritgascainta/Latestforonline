@@ -602,7 +602,7 @@ hr.active {
         width: calc(100% - 60px); /* Adjust for sidebar width */
     }
     .main-content {
-        margin-top: 100px;
+        margin-top: 55vh;
 
         margin-left: auto;
         width: 100%; /* Full width for mobile */
