@@ -9,71 +9,71 @@ body {
     background-color: #ffffff;  
     border: 1px solid #ccc; 
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
-    padding: 10px; 
-    margin-top: 10px; 
+    padding: 20px; 
+    margin: 10px auto;
+    max-width: 90%;
 }
 
 /* Main Content Styling */
 .main-content {
-    margin: 0 auto; /* Center the content horizontally */
-margin-left: 80px;
-    max-width: 90%; /* Optional: Set a maximum width to prevent it from becoming too wide */
+    margin: 0 auto;
+    max-width: 100%; /* Full width on mobile */
+    padding: 0 15px;
 }
 
 .suggestions {
-    border: 1px solid #ccc;               /* Border around the suggestions box */
-    max-height: 200px;                    /* Maximum height of the dropdown */
-    overflow-y: auto;                     /* Scroll if content overflows */
-    background-color: white;              /* Background color of suggestions */
-    position: absolute;                    /* Position absolute to place it below the input */
-    z-index: 1000;                        /* Ensure it appears above other elements */
-    width: 96%;                          /* Make suggestions full width of the input */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
-    margin-top: 5px;                      /* Space between the input and suggestions */
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: white;
+    position: absolute;
+    z-index: 1000;
+    width: 96%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 5px;
 }
 
 .suggestion-item {
-    padding: 10px;                        /* Padding for each suggestion */
-    cursor: pointer;                      /* Pointer cursor on hover */
-    transition: background-color 0.3s;   /* Smooth transition for background color */
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .suggestion-item:hover {
-    background-color: #f0f0f0;           /* Highlight on hover */
+    background-color: #f0f0f0;
 }
-
-
 
 h2 {
     margin-top: 0;
 }
+
 /* Table styles */
 .table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 20px;
 }
 
 .table th,
 .table td {
-    padding: 20px;
-    border-bottom: 3px solid #ddd;
-    text-align: center; /* Center-align text horizontally */
-    vertical-align: middle; /* Center-align text vertically */
+    padding: 15px;
+    border-bottom: 2px solid #ddd;
+    text-align: center;
+    vertical-align: middle;
 }
 
 .table thead th {
-    background-color: #ff8b2c; /* Set the background color to peachpuff */
-    color: #fff; /* Optional: Change text color for better contrast */
+    background-color: #ff8b2c;
+    color: #fff;
 }
 
 .table tbody tr {
-    background-color: #fff; /* Set the default background color for table rows */
+    background-color: #fff;
 }
 
 .table tbody tr:hover {
-    background-color: peachpuff; /* Maintain hover effect for table rows */
+    background-color: peachpuff;
 }
-
 
 /* Button styles */
 .btn {
@@ -93,94 +93,92 @@ h2 {
     background-color: #ff7300;
 }
 
-/* Add margin to the right of the "Edit" button */
 .btn-edit {
     margin-right: 10px;
 }
+
 .button-margin {
-    margin-right: 5px; /* Adjust this value to add more or less space */
+    margin-right: 5px;
 }
+
 /* Pagination Styling */
 .page-link {
     display: none;
 }
+
 .page-link.active {
-    background-color: #ff8b2c; /* Primary color for active link */
-    color: white; /* White text color */
-    border: 1px solid #ff8b2c; /* Match border color with active background */
+    background-color: #ff8b2c;
+    color: white;
+    border: 1px solid #ff8b2c;
 }
+
 #pagination {
     margin-top: 20px;
-    text-align: center; /* Center align pagination controls */
+    text-align: center;
 }
+
 #pagination a {
-    display: inline-block; /* Ensure pagination links are inline */
-    margin: 0 8px; /* Space between pagination links */
-    text-decoration: none; /* Remove underline from links */
-    color: #ff8b2c; /* Link color */
-    padding: 8px 12px; /* Padding inside pagination links */
-    border: 1px solid #ff8b2c; /* Blue border to match theme */
-    border-radius: 4px; /* Rounded corners */
-    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
+    display: inline-block;
+    margin: 0 8px;
+    text-decoration: none;
+    color: #ff8b2c;
+    padding: 8px 12px;
+    border: 1px solid #ff8b2c;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
+
 #pagination a.active {
-    background-color: #ff8b2c; /* Active background color */
-    color: white; /* White text color */
+    background-color: #ff8b2c;
+    color: white;
 }
+
 #pagination a:hover {
-    background-color: #f0f0f0; /* Light gray background on hover */
-    color: #ff8b2c; /* Blue text color */
+    background-color: #f0f0f0;
+    color: #ff8b2c;
 }
 
 #pagination input {
     text-align: center;
     width: 50px;
     padding: 8px;
-    color: #ff8b2c; /* Blue text color */
-    border: 1px solid #ff8b2c; /* Blue border */
-    border-radius: 4px; /* Rounded corners */
-    margin: 0 8px; /* Space around the input */
+    color: #ff8b2c;
+    border: 1px solid #ff8b2c;
+    border-radius: 4px;
+    margin: 0 8px;
 }
 
-/* Button styling */
 #pagination button {
-    background-color: #ff8b2c; /* Blue background */
-    color: white; /* White text */
-    border: none; /* Remove border */
-    padding: 8px 12px; /* Add padding */
-    text-align: center; /* Center text */
-    text-decoration: none; /* Remove underline */
-    display: inline-block; /* Display inline */
-    font-size: 16px; /* Font size */
-    margin: 4px 2px; /* Add margin */
-    cursor: pointer; /* Add pointer cursor on hover */
-    border-radius: 4px; /* Rounded corners */
-    transition-duration: 0.4s; /* Add transition effect */
+    background-color: #ff8b2c;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    text-align: center;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition-duration: 0.4s;
 }
 
 #pagination button:hover {
-    background-color: white; /* White background on hover */
-    color: #ff8b2c; /* Blue text on hover */
-    border: 1px solid #ff8b2c; /* Blue border on hover */
+    background-color: white;
+    color: #ff8b2c;
+    border: 1px solid #ff8b2c;
 }
 
 #pagination button:disabled {
-    background-color: #ddd; /* Grey background for disabled buttons */
-    color: #999; /* Grey text for disabled buttons */
-    cursor: not-allowed; /* No pointer cursor for disabled buttons */
+    background-color: #ddd;
+    color: #999;
+    cursor: not-allowed;
 }
 
-#pagination input[type="number"] {
-    border: 1px solid #ff8b2c; /* Blue border */
-    border-radius: 4px; /* Rounded corners */
-    padding: 5px;
-    font-size: 14px;
-    width: 60px;
-}
 .search-form {
-    margin-bottom: 20px; /* Space below the search form */
+    margin-bottom: 20px;
     display: flex;
+    flex-wrap: wrap; /* Enable wrapping on smaller screens */
     align-items: center;
+    gap: 10px;
 }
 
 .search-form input[type="text"] {
@@ -188,15 +186,14 @@ h2 {
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
-    width: 250px; /* Adjust width as needed */
-    margin-right: 10px; /* Space between input and button */
+    flex-grow: 1; /* Expand input to fit available space */
 }
 
 .search-form button {
     padding: 8px 16px;
     border: none;
     border-radius: 4px;
-    background-color: #ff8b2c; /* Bootstrap primary color */
+    background-color: #ff8b2c;
     color: white;
     font-size: 16px;
     cursor: pointer;
@@ -204,12 +201,13 @@ h2 {
 }
 
 .search-form button:hover {
-    background-color: #ff7300; /* Darker shade on hover */
+    background-color: #ff7300;
 }
+
 .sort-form {
     display: inline-flex;
     align-items: center;
-    gap: 10px; /* Spacing between elements */
+    gap: 10px;
 }
 
 .sort-form select {
@@ -224,17 +222,58 @@ h2 {
 }
 
 .sort-form select:focus {
-    border-color: #ff7300; /* Change border color on focus */
+    border-color: #ff7300;
 }
 
 @media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .search-form {
+        flex-direction: column;
+        gap: 5px;
+    }
+
     .sort-form {
         flex-direction: column;
         align-items: flex-start;
         width: 100%;
     }
 
-    .sort-form select {
-        width: 100%; /* Full width on mobile */
+    .table th,
+    .table td {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    #pagination input {
+        width: 40px;
+    }
+
+    #pagination button {
+        font-size: 14px;
+        padding: 6px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+
+    .table th,
+    .table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .search-form input[type="text"] {
+        width: 100%;
+    }
+
+    #pagination button {
+        font-size: 12px;
+        padding: 5px 8px;
     }
 }

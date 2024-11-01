@@ -88,7 +88,7 @@ $result_payments = $stmt_payments->get_result();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment History</title>
-    <link rel="stylesheet" href="payment.css">
+    <link rel="stylesheet" href="payment_history_user.css">
 </head>
 <body>
     <?php include 'usersidebar.php'; ?>
@@ -96,8 +96,10 @@ $result_payments = $stmt_payments->get_result();
     <div class="main-content">
         <h1>Your Payment History</h1>
 
-        <!-- Search bar -->
-        <form method="GET" action="payment_history_user.php" class="search-form">
+ 
+<div class="container">
+           <!-- Search bar -->
+           <form method="GET" action="payment_history_user.php" class="search-form">
     <input type="text" name="search" placeholder="Search by billing date (YYYY-MM-DD)" list="billing-dates" value="<?= htmlspecialchars($search_date); ?>">
     <datalist id="billing-dates">
         <?php foreach ($billing_dates as $date): ?>
@@ -165,8 +167,8 @@ $result_payments = $stmt_payments->get_result();
                 <?php endif; ?>
             <?php endif; ?>
         </div>
+        </div>
     </div>
-
-
+</div>
 </body>
 </html>

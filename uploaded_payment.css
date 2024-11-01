@@ -213,6 +213,8 @@ body {
 @media (max-width: 768px) {
     .recent-payments {
         padding: 10px; /* Reduced padding for smaller screens */
+        margin-top: 11vh;
+        margin-left: 4vh;
     }
 
     .payment {

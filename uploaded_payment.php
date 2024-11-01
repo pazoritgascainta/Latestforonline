@@ -58,7 +58,7 @@ $result_images = $stmt_images->get_result();
     <title>Uploaded Images</title>
     <link rel="stylesheet" href="uploaded_payment.css">
     <style>
-    .back-button {
+        .back-button {
     padding: 10px 20px;
     font-size: 16px;
     color: #fff;
@@ -67,13 +67,37 @@ $result_images = $stmt_images->get_result();
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin-left: 160vh;
-    margin-bottom : 20px;
+    margin: 20px 0; /* Adds some spacing around the button */
 }
 
+/* Hover Effect */
 .back-button:hover {
     background-color: #b45303e8;
 }
+
+/* Responsive adjustments */
+@media (min-width: 992px) {
+    .back-button {
+        margin-left: auto;
+    }
+}
+
+@media (max-width: 991px) {
+    .back-button {
+        width: 10%; /* Full width on medium screens */
+        margin-left: 0; /* Center-align */
+        text-align: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .back-button {
+        width: 100%; /* Full width for mobile */
+        font-size: 14px; /* Slightly smaller text on mobile */
+        padding: 8px 16px; /* Adjust padding */
+    }
+}
+
         .modal {
             display: none; /* Hidden by default */
             position: fixed; /* Stay in place */

@@ -160,6 +160,8 @@ $total_pages = ceil($total_appointments / $records_per_page);
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Admin Approval</title>
     <link rel="stylesheet" href="admin_approval.css">
     <link rel="stylesheet" href="calendar.css">

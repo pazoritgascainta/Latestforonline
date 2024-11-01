@@ -19,7 +19,7 @@ margin-left: 80px;
 }
 /* Base styles for the announcement widget */
 .announcement-widget {
-    max-width: 50%;
+    max-width: 100%;
     max-height: 600px;
     background-color: peachpuff;
     padding: 20px;
@@ -306,6 +306,26 @@ tbody tr td[colspan="4"] {
         left: 10px;
         font-weight: bold;
         color: #555;
+    }
+}
+@media (max-width: 768px) {
+    .announcement-widget, .recent-payments {
+        width: 100%; /* Full width on smaller screens */
+        margin: 10px 0; /* Add top and bottom margin for spacing */
+    }
+
+    .recent-payments h2, .announcement-widget h2 {
+        font-size: 20px; /* Slightly smaller heading on mobile */
+    }
+
+    .payment img {
+        width: 100px; /* Adjust image size for mobile */
+        height: 100px;
+        margin: 0 10px;
+    }
+    .container{
+        width: 105%; /* Expanded sidebar width */
+
     }
 }
 

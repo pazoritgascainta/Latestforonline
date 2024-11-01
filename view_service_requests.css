@@ -278,6 +278,7 @@ a.cancel-btn {
 @media (max-width: 480px) {
     .container {
         padding: 10px;
+        margin-top :15vh;
     }
 
     /* Adjust table layout on small screens */

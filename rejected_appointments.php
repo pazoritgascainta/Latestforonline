@@ -156,7 +156,8 @@ $total_pages_rejected = ceil($total_rejected_appointments / $records_per_page);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+        <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rejected Appointments</title>
     <link rel="stylesheet" href="admin_approval.css">
     <link rel="stylesheet" href="accepted_appointments.css">

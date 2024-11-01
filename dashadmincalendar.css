@@ -146,7 +146,7 @@
     }
 
     #calendar-nav button {
-        font-size: 1.5em; /* Smaller button text */
+        font-size: 1.1em; /* Smaller button text */
     }
 
     #calendar-nav #month-year {
@@ -156,12 +156,12 @@
 
 @media (max-width: 480px) {
     #calendar-nav {
-        flex-direction: column; /* Stack navigation items */
         align-items: flex-start; /* Align to the left */
     }
 
     #calendar {
-        grid-template-columns: repeat(3, 1fr); /* Further reduce columns */
+        grid-template-columns: repeat(8, 3fr);
+        height: 30vh;
     }
 
     .calendar-cell {
@@ -170,3 +170,31 @@
     }
 }
 
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .chart-container {
+        flex: 0 0 100%; /* Full width on smaller screens */
+        margin: 5px; /* Reduce margin */
+    }
+}
+
+@media (max-width: 768px) {
+    .chart-container, #calendar-box {
+        flex: 0 0 100%; /* Make each item take up full width */
+        margin: 5px; /* Reduce spacing */
+    }
+
+    .chart-container {
+        padding: 8px; /* Adjust padding */
+        border-radius: 5px; /* Adjust border radius for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .chart-container, #calendar-box {
+        margin: 2px; /* Further reduce margin */
+        padding: 5px; /* Smaller padding for compact view */
+        font-size: 14px; /* Adjust font size for smaller screens */
+        width: 60px;
+    }
+}

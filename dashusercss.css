@@ -176,12 +176,15 @@
 
   .dashboard {
     grid-template-columns: 1fr; /* Stack columns vertically */
+    padding: 25px;
   }
 
   .payment-history,
   .payment-summary {
     grid-column: auto; /* Reset column position for mobile */
     max-height: fit-content;
+    width: 20vh;
+    padding: 0px;
   }
 
   .appointments button, 
@@ -191,8 +194,11 @@
   .h2{
     margin-left: 40vh;
   }
+  .container{
+    margin-top: 50vh;
+    width: 43vh; 
+  }
 }
-
 
 @media (max-width: 480px) {
   .payment-history img {

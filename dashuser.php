@@ -94,6 +94,9 @@ $user_name = $_SESSION['homeowner_name'];
     <div class="main-content">
         <div class="container">
             <h2>Welcome, <?php echo htmlspecialchars($homeowner['name']); ?></h2>
+            <div class="date-section">
+                    <h1>Date Today: <span id="current-date"></span></h1>
+                </div>
             <div class="dashboard">
             <div class="announcement-container">
         <div class="announcement-main">
@@ -208,7 +211,6 @@ $user_name = $_SESSION['homeowner_name'];
                 </div>
             </div>
 
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         let btn = document.querySelector('#btn');
@@ -253,6 +255,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
     </script>
  <script src="dashusercalendar.js"></script>
+
 
 </body>
 </html>
