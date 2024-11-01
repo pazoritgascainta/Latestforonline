@@ -5,16 +5,6 @@ body {
     padding: 0;
 }
 
-/* General styling for the container */
-.container {
-    max-width: 900px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: peachpuff;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
-}
 
 
 body {
@@ -170,12 +160,14 @@ body {
 
 /* General styling for recent payments section */
 .recent-payments {
+    width: 800px; /* Fixed width */
+    margin: 20px auto; /* Center the element horizontally */
     padding: 20px;
-    background-color: #ffffff; /* White background for a clean look */
+    background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    font-family: 'Arial', sans-serif; /* Consistent font */
-    margin-top: 20px; /* Added margin for spacing */
+    font-family: 'Arial', sans-serif;
+    margin-top: 20px;
 }
 
 .recent-payments h2 {
@@ -186,25 +178,8 @@ body {
     font-weight: bold; /* Bold headings */
 }
 
-.payment {
-    display: flex;
-    align-items: center;
-    justify-content: center; /* Center the content horizontally */
-    background-color: #fff;
-    border-bottom: 1px solid #ddd;
-    padding: 15px 0; /* Increased padding for better spacing */
-}
 
-/* Styling for the payment details */
-.payment-details {
-    flex: 1; /* Allow details to take the remaining space */
-    padding: 0 15px; /* Space between text and image */
-}
 
-.payment-details p {
-    margin: 5px 0;
-    color: #555; /* Softer color for paragraph text */
-}
 
 .payment-details span {
     font-weight: bold;
@@ -212,17 +187,26 @@ body {
     display: block; /* Each span on its own line */
 }
 
-/* Adjust image display */
-.payment img {
-    width: 100%; /* Responsive to container's width */
-    max-width: 120px; /* Limit max width for larger screens */
-    height: auto; /* Maintain aspect ratio */
-    object-fit: cover; /* Ensure images fill the box proportionally */
-    border-radius: 8px; /* Rounded corners for images */
-    margin-left: 20px;
-    margin-right: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    cursor: pointer; /* Add pointer cursor */
+/* Add margin to the delete button container */
+.delete-button-container {
+    margin-left: auto; /* Push the delete button to the right */
+    display: flex; /* Use flex to center align if necessary */
+    align-items: center; /* Vertically align items */
+}
+
+/* Adjust delete button styles */
+.delete-button {
+    background-color: #ff4d4d; /* Red background for delete button */
+    color: white; /* White text for visibility */
+    border: none; /* Remove border */
+    padding: 8px 12px; /* Padding for button */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth transition for hover */
+}
+
+.delete-button:hover {
+    background-color: #ff0000; /* Darker red on hover */
 }
 
 /* Media query for mobile responsiveness */
@@ -232,19 +216,29 @@ body {
     }
 
     .payment {
-        flex-direction: column; /* Stack image and details vertically */
-        align-items: center; /* Center align items */
-        padding: 10px 0; /* Adjust padding for smaller screens */
+        display: flex;
+        align-items: center;
+        justify-content: space-between; /* Space out elements */
+        background-color: #fff;
+        border-bottom: 1px solid #ddd;
+        padding: 15px 0; /* Increased padding for better spacing */
     }
-
+    
     .payment img {
-        width: 100%; /* Full width image for mobile */
-        max-width: none; /* Remove max-width on mobile */
-        margin: 10px 0; /* Add margin to center images */
+        width: 120px; /* Fixed width for consistent size */
+        height: auto; /* Maintain aspect ratio */
+        object-fit: cover; /* Ensure images fill the box proportionally */
+        border-radius: 8px; /* Rounded corners for images */
+        margin-right: 30px; /* Increase margin to the right for more spacing */
     }
-
+    
     .payment-details {
         text-align: center; /* Center align text for mobile */
         padding: 0; /* Remove side padding on smaller screens */
+    }
+
+    .delete-button-container {
+        margin-left: 0; /* Reset margin for mobile */
+        margin-top: 10px; /* Add margin for spacing */
     }
 }

@@ -119,31 +119,31 @@ $conn->close();
                 <label>Profile Image:</label>   <img src="<?php echo htmlspecialchars($profile_image); ?>" alt="Profile Image" id="profile_image_display"> 
                 <input type="file" id="profile_image" name="profile_image" class="editable" style="display:none;">
                 <span id="profile_image_edit" class="edit-button" onclick="enableEdit('profile_image', 'profile_image_save')">edit</span>
-                <span id="profile_image_save" class="save-button" onclick="disableEdit('profile_image', 'profile_image_save')">save</span>
+                
             </div><br>
 
             <div>
                 <label for="name">Name:</label>              
                 <input type="text" id="name" name="name" class="editable" value="<?php echo htmlspecialchars($homeowner['name']); ?>" style="display:flex;">              
-                <span id="name_save" class="save-button" onclick="saveChanges('name')">save</span>
+                
             </div><br>
 
             <div>
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" class="editable" value="<?php echo htmlspecialchars($homeowner['email']); ?>" style="display:flex;">
-                <span id="email_save" class="save-button" onclick="saveChanges('email')">save</span>
+                
             </div><br>
 
             <div>
                 <label for="phone_number">Phone Number:</label>
                 <input type="text" id="phone_number" name="phone_number" class="editable" value="<?php echo htmlspecialchars($homeowner['phone_number']); ?>" style="display:flex;">
-                <span id="phone_number_save" class="save-button" onclick="saveChanges('phone_number')">save</span>
+              
             </div><br>
 
             <div>
                 <label for="address">Address:</label>
                 <input type="text" id="address" name="address" class="editable" value="<?php echo htmlspecialchars($homeowner['address']); ?>" style="display:flex;">
-                <span id="address_save" class="save-button" onclick="saveChanges('address')">save</span>
+              
             </div><br>
 
             <input type="submit" value="Update Profile">

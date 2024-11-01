@@ -125,7 +125,7 @@ form input[type="email"]:focus {
 
 /* Submit Button Styling */
 input[type="submit"] {
-    background-color: #007bff; /* Blue color */
+ background-color: rgb(255, 166, 88);
     color: white; /* White text */
     border: none; /* No border */
     padding: 12px 24px; /* Padding for better click area */
@@ -137,5 +137,5 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color:  rgb(255, 166, 88);
 }

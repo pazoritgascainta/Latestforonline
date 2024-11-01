@@ -2,7 +2,7 @@
 function enableEdit(fieldId, buttonId) {
     const fieldElement = document.getElementById(fieldId);
     const saveButton = document.getElementById(buttonId);
-    const editButton = document.getElementById(fieldId + '_edit'); // Check if this is correct
+    const editButton = document.getElementById(fieldId + '_edit');
 
     if (fieldElement && saveButton && editButton) {
         fieldElement.style.display = 'inline'; // Show the file input
@@ -16,7 +16,6 @@ function enableEdit(fieldId, buttonId) {
         });
     }
 }
-
 // Disable editing of a form field
 function disableEdit(fieldId, buttonId) {
     const fieldElement = document.getElementById(fieldId);
@@ -107,4 +106,3 @@ function saveChanges(fieldId) {
         console.error('Element not found:', fieldId);
     }
 }
-

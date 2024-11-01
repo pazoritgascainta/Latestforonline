@@ -60,13 +60,16 @@ $conn->close();
     <div class="container">
 
         <form id="profileForm" action="update_admin_profile.php" method="post" enctype="multipart/form-data">
-                <div>
-            <label for="profile_image_input">Profile Image:</label>
-            <img src="<?php echo htmlspecialchars($admin['profile_image'] ?? 'profile.png'); ?>" alt="Profile Image" id="profile_image_displays">
-            <input type="file" id="profile_image_input" name="profile_image" class="editable" style="display:none;">
-            <span id="profile_image_input_edit" class="edit-button" onclick="enableEdit('profile_image_input', 'profile_image_input_save')">edit</span>
-            <span id="profile_image_input_save" class="save-button" onclick="saveChanges('profile_image_input')">save</span>
-              </div><br>
+        <div>
+    <label for="profile_image_input">Profile Image:</label>
+    <img src="<?php echo htmlspecialchars($admin['profile_image'] ?? 'profile.png'); ?>" alt="Profile Image" id="profile_image_displays">
+    <input type="file" id="profile_image_input" name="profile_image" class="editable" style="display:none;">
+    <span id="profile_image_input_edit" class="edit-button" onclick="enableEdit('profile_image_input', 'profile_image_input_save')">edit</span>
+    <span id="profile_image_input_save" class="edit-button" style="display:none;" onclick="saveChanges('profile_image_input')">Save</span>
+</div>
+
+
+              <br>
 
             <div>
                 <label for="id">ID:</label>
@@ -76,7 +79,7 @@ $conn->close();
             <div>
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($admin['username']); ?>" class="editable">
-            <span id="username_save" class="save-button" onclick="saveChanges('username')">save</span>
+           
             </div><br>
 
             <input type="submit" value="Update Profile">

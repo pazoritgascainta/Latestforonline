@@ -140,6 +140,22 @@ $result_images = $stmt_images->get_result();
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow for depth */
             cursor: pointer; /* Add cursor pointer for clickable effect */
         }
+        .delete-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #e74c3c; /* Red color for delete */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 10px; /* Adjust as needed */
+}
+
+.delete-button:hover {
+    background-color: #c0392b; /* Darker red on hover */
+}
+
     </style>
 </head>
 <body>
@@ -147,7 +163,8 @@ $result_images = $stmt_images->get_result();
 
     <div class="main-content">
         <h1>Your Uploaded Images</h1>
-<button onclick="history.back()" class="back-button">Go Back</button>
+        <button onclick="history.back()" class="back-button">Go Back</button>
+        
         <div class="recent-payments">
             <?php if ($result_images->num_rows > 0): ?>
                 <?php while ($row = $result_images->fetch_assoc()): ?>
@@ -162,12 +179,19 @@ $result_images = $stmt_images->get_result();
                                 <p>No image available</p>
                             <?php endif; ?>
                         </div>
+                        <div class="delete-button-container">
+                            <!-- Delete button -->
+                            <form method="POST" action="delete_image.php" style="display:inline;">
+                                <input type="hidden" name="file_path" value="<?php echo htmlspecialchars($row['file_path']); ?>">
+                                <button type="submit" class="delete-button">Delete</button>
+                            </form>
+                        </div>
                     </div>
                 <?php endwhile; ?>
             <?php else: ?>
-                <p>No images found.</p>
+                <p>No images uploaded.</p> <!-- Message if no images are available -->
             <?php endif; ?>
-     
+        </div>
 
         <!-- Pagination controls -->
         <div id="pagination">
@@ -195,12 +219,15 @@ $result_images = $stmt_images->get_result();
             <?php endif; ?>
         </div>
     </div>
-    </div>
+
+    <!-- Modal for image zoom -->
     <div id="myModal" class="modal">
         <span class="close">&times;</span>
         <img class="modal-content" id="img01">
         <div id="caption"></div>
     </div>
+</body>
+
 
     <script>
               const modal = document.getElementById('myModal');
@@ -229,6 +256,11 @@ $result_images = $stmt_images->get_result();
             }
         }
     </script>
+<script>
+    function confirmDelete() {
+        return confirm("Are you sure you want to delete this image?");
+    }
+</script>
 
 </body>
 </html>

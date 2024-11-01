@@ -29,6 +29,15 @@
         width: 100%; /* Full width for very small screens */
     }
 }
+#message-container .message-error {
+    color: red;         /* Make the text red */
+    font-weight: bold;  /* Make the text bold */
+}
+
+#message-container .message-success {
+    color: green;       /* Optional: make success message green */
+    font-weight: bold;  /* Make the text bold */
+}
 
 /* Heading Styling */
 h2 {
