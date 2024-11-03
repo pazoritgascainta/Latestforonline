@@ -4,34 +4,27 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Start session with a specific name
 session_name('admin_session');
 require __DIR__ . "/vendor/autoload.php";
 
 use Dotenv\Dotenv;
-
 use Infobip\Configuration;
 use Infobip\Api\SmsApi;
 use Infobip\Model\SmsDestination;
 use Infobip\Model\SmsTextualMessage;
 use Infobip\Model\SmsAdvancedTextualRequest;
 
-// Load environment variables from the .env file
+// Load environment variables
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-// Get API URL and API key from environment variables
+// Infobip API credentials
 $apiURL = $_ENV['API_URL'];
 $apiKey = $_ENV['API_KEY'];
 
-// Configure API
+// Setup Infobip API configuration
 $configuration = new Configuration(host: $apiURL, apiKey: $apiKey);
 $api = new SmsApi(config: $configuration);
-
-// Function to validate phone numbers using a basic E.164 format
-function validatePhoneNumber($phoneNumber) {
-    return preg_match('/^\+?[1-9]\d{1,14}$/', $phoneNumber);
-}
 
 // Database connection details
 $servername = "localhost";
@@ -39,8 +32,8 @@ $username = "u780935822_homeowner";
 $password = "Boot@o29";
 $dbname = "u780935822_homeowner";
 
+// Establish a database connection
 try {
-    // Establish a database connection
     $pdo = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -62,11 +55,11 @@ try {
         // Check if the phone number is valid
         if (!validatePhoneNumber($phoneNumber)) {
             error_log("Invalid phone number: $phoneNumber");
-            continue; // Skip invalid phone numbers
+            continue;
         }
 
-        // Prepare the overdue message
-        $message = "Please be advised that your monthly payment is overdue. We kindly request that you settle the amount immediately to avoid any inconvenience.";
+        // Prepare overdue message
+        $message = "Your monthly payment is overdue. Please settle the amount to avoid inconvenience.";
 
         // Send SMS for overdue homeowners
         sendSms($pdo, $api, $homeownerId, $phoneNumber, $message);
@@ -91,24 +84,30 @@ try {
         // Check if the phone number is valid
         if (!validatePhoneNumber($phoneNumber)) {
             error_log("Invalid phone number: $phoneNumber");
-            continue; // Skip invalid phone numbers
+            continue;
         }
 
         // Prepare the message for upcoming bills
-        $message = "Please be reminded that your monthly payment will be due soon. We appreciate your attention to this matter and kindly request that you make the payment on or before the due date to ensure no inconvenience.";
+        $message = "Your monthly payment is due soon. Please make the payment by the due date to avoid inconvenience.";
 
         // Send SMS for pending homeowners
         sendSms($pdo, $api, $homeownerId, $phoneNumber, $message);
     }
 
+    echo "SMS notifications processed successfully.\n";
+
 } catch (PDOException $e) {
-    error_log('Database error: ' . $e->getMessage());
-    echo 'Failed to connect to the database.';
+    error_log("Database error: " . $e->getMessage());
+    echo "Failed to connect to the database.\n";
+}
+
+// Function to validate phone numbers in E.164 format
+function validatePhoneNumber($phoneNumber) {
+    return preg_match('/^\+?[1-9]\d{1,14}$/', $phoneNumber);
 }
 
 // Function to send SMS and log it to the database
 function sendSms($pdo, $api, $homeownerId, $phoneNumber, $message) {
-    // Prepare the SMS message
     $destination = new SmsDestination(to: $phoneNumber);
     $theMessage = new SmsTextualMessage(
         destinations: [$destination],
@@ -117,103 +116,35 @@ function sendSms($pdo, $api, $homeownerId, $phoneNumber, $message) {
     );
     $request = new SmsAdvancedTextualRequest(messages: [$theMessage]);
 
-    // Try sending the message
     try {
-        $response = $api->sendSmsMessage($request);
+        $api->sendSmsMessage($request);
 
         // Log the sent SMS to the database
         $stmt = $pdo->prepare("
             INSERT INTO sms_history (homeowner_id, phone_number, message, status)
-            VALUES (:homeowner_id, :phone_number, :message, :status)
+            VALUES (:homeowner_id, :phone_number, :message, 'Sent')
         ");
         $stmt->execute([
             ':homeowner_id' => $homeownerId,
             ':phone_number' => $phoneNumber,
-            ':message' => $message,
-            ':status' => 'Sent'
+            ':message' => $message
         ]);
 
         echo "Message sent to $phoneNumber: $message\n";
 
     } catch (Exception $e) {
-        // Log failed SMS attempt
+        // Log the failure
         $stmt = $pdo->prepare("
             INSERT INTO sms_history (homeowner_id, phone_number, message, status)
-            VALUES (:homeowner_id, :phone_number, :message, :status)
+            VALUES (:homeowner_id, :phone_number, :message, 'Failed')
         ");
         $stmt->execute([
             ':homeowner_id' => $homeownerId,
             ':phone_number' => $phoneNumber,
-            ':message' => $message,
-            ':status' => 'Failed'
+            ':message' => $message
         ]);
 
-        error_log('Error sending message: ' . $e->getMessage());
-        echo 'Failed to send message to ' . $phoneNumber . "\n";
+        error_log("Failed to send message to $phoneNumber: " . $e->getMessage());
     }
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SMS Notification History</title>
-    <link rel="stylesheet" href="billcss.css">
-</head>
-<body>
-    <!-- Sidebar -->
-    <?php include "sidebar.php"; ?>
-
-    <div class="main-content">
-        <header>
-            <h1>SMS Notification History</h1>
-            <p>Here you can view the history of all SMS notifications sent to homeowners.</p>
-        </header>
-
-        <br>
-
-        <div class="container">
-            <!-- SMS History Section -->
-            <section>
-                <h2>SMS History Log</h2>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Homeowner ID</th>
-                            <th>Phone Number</th>
-                            <th>Message</th>
-                            <th>Status</th>
-                            <th>Sent At</th>
-                        </tr>
-                    </thead>
-                   <tbody>
-                        <?php
-                        // Fetch and display SMS history from the database
-                        $stmt = $pdo->prepare("SELECT * FROM sms_history ORDER BY sent_at DESC");
-                        $stmt->execute();
-                        $smsHistory = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    
-                        if (count($smsHistory) > 0) {
-                            foreach ($smsHistory as $sms) {
-                                echo "<tr>";
-                                echo "<td>" . htmlspecialchars($sms['homeowner_id'] ?? '') . "</td>";
-                                echo "<td>" . htmlspecialchars($sms['phone_number'] ?? '') . "</td>";
-                                echo "<td>" . htmlspecialchars($sms['message'] ?? '') . "</td>";
-                                echo "<td>" . htmlspecialchars($sms['status'] ?? '') . "</td>";
-                                echo "<td>" . htmlspecialchars($sms['sent_at'] ?? '') . "</td>";
-                                echo "</tr>";
-                            }
-                        } else {
-                            echo "<tr><td colspan='5'>No SMS history found.</td></tr>";
-                        }
-                        ?>
-                    </tbody>
-
-                </table>
-            </section>
-        </div>
-    </div>
-</body>
-</html>

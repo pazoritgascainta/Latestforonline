@@ -53,7 +53,6 @@ $conn->close();
 // Display logout message if redirected from logout
 $logout_message = isset($_GET['message']) && $_GET['message'] == 'loggedout' ? "You have been logged out successfully." : '';
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -74,40 +73,48 @@ $logout_message = isset($_GET['message']) && $_GET['message'] == 'loggedout' ? "
 </head>
 
 <body>
+    <?php session_start(); ?>
+    
+    <!-- Check for session message -->
+    <script>
+        <?php if (isset($_SESSION['message'])): ?>
+            alert("<?php echo $_SESSION['message']; ?>");
+            <?php unset($_SESSION['message']); // Clear the message after showing it ?>
+        <?php endif; ?>
+    </script>
+
     <div class="logo">
         <p>St. Monique Valais Homeowners' Association</p>
     </div>
-    <section class = "HomeLogo">
-    <div class="logoo">
-    <a href="index.php"><img src="monique logo.png" alt="Your Logo"></a>
-    </div>
+    <section class="HomeLogo">
+        <div class="logoo">
+            <a href="index.php"><img src="monique logo.png" alt="Your Logo"></a>
+        </div>
     </section>
     <header>
-    <nav>
-        <!-- Burger icon for mobile -->
-        <div class="burger-menu" id="burgerMenu" onclick="toggleMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        
-        <ul id="navLinks">
-            <li><a href="index.php">Home</a></li>
-            <li><a href="#" id="loginBtn">Login</a></li>
-            <li><a href="ContacUS.php">Contact</a></li>
-            <li><a href="Amenities.php">Amenities</a></li>
-        </ul>
-    </nav>
-</header>
+        <nav>
+            <!-- Burger icon for mobile -->
+            <div class="burger-menu" id="burgerMenu" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
 
-    
+            <ul id="navLinks">
+                <li><a href="index.php">Home</a></li>
+                <li><a href="#" id="loginBtn">Login</a></li>
+                <li><a href="ContacUS.php">Contact</a></li>
+                <li><a href="Amenities.php">Amenities</a></li>
+            </ul>
+        </nav>
+    </header>
+
     <div id="backdrop" style="display: none;"></div>
-
 
     <div class="container" id="container" style="display: none;">
         <div class="form-container sign-in">
             <form method="POST">
-            <img id="mobileLogo" src="monique logo.png" alt="St Monique Valais Logo">
+                <img id="mobileLogo" src="monique logo.png" alt="St Monique Valais Logo">
                 <h1>Sign In</h1>
                 <span>use your email & password provided by Admin</span>
 
@@ -146,6 +153,10 @@ $logout_message = isset($_GET['message']) && $_GET['message'] == 'loggedout' ? "
             </div>
         </div>
     </div>
+</body>
+
+</html>
+
     <script>
     const loginBtn = document.getElementById("loginBtn");
     const toggleContainer = document.querySelector(".toggle-container");

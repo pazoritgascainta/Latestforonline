@@ -111,8 +111,7 @@ $current_page = min($current_page, $total_pages); // Ensure page is not greater 
         <!-- Action Buttons -->
         <a class="btn btn-primary" href="create.php" role="button">New Homeowner</a>
         <a class="btn btn-primary" href="archive.php" role="button">Archived Homeowners</a>
-        <a class="btn btn-primary" href="pass_reqs.php" role="button">Password Reset Requests</a>
-
+        
         <div class="container">
             <!-- Search Form -->
             <form id="search-form" class="search-form" onsubmit="return false;">

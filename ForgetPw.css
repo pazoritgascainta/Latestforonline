@@ -17,6 +17,65 @@ body{
     flex-direction: column;
     height: 100vh;
 }
+/* Modal Styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1002; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.7); /* Dark background with opacity */
+    backdrop-filter: blur(5px); /* Optional: Adds a blur effect to the background */
+}
+
+.modal-content {
+    background-color: #fff; /* Modal content background */
+    margin: 10% auto; /* Centered with top margin */
+    padding: 20px; /* Padding inside the modal */
+    border: 1px solid #ccc; /* Border style */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Shadow effect */
+    width: 90%; /* Width of modal */
+    max-width: 400px; /* Maximum width */
+    animation: fadeIn 0.4s; /* Animation for modal appearance */
+}
+
+/* Button styles in modal */
+.modal button {
+    background-color: #aa5f0a; /* Button background */
+    color: #fff; /* Button text color */
+    border: none; /* No border */
+    padding: 10px 20px; /* Button padding */
+    border-radius: 5px; /* Rounded button corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Transition effect */
+}
+
+.modal button:hover {
+    background-color: #b9731e; /* Darker background on hover */
+}
+
+/* Input styles inside the modal */
+.modal input {
+    background-color: #eee; /* Input background */
+    border: none; /* No border */
+    margin: 8px 0; /* Margin around inputs */
+    padding: 10px 15px; /* Input padding */
+    border-radius: 8px; /* Rounded corners */
+    width: 100%; /* Full width */
+    outline: none; /* No outline */
+}
+
+/* Back Button */
+.back-btn-container {
+    position: absolute;
+    top: 10px; /* Adjust the top position as needed */
+    right: 10px; /* Adjust the right position as needed */
+    z-index: 1003; /* Ensure it's above the modal */
+}
 
 .container{ /* optional */
     background-color: #ffffff;
