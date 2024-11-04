@@ -1,5 +1,5 @@
 <?php
-session_start();
+session_start(); // Start the session at the top of the file
 require __DIR__ . '/vendor/autoload.php'; // Ensure you have composer autoload
 
 // Database connection variables
@@ -26,18 +26,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("si", $hashed_password, $homeowner_id);
         if ($stmt->execute()) {
-            $_SESSION['message'] = "Password reset successfully."; // Store success message
+            echo "Password reset successfully."; // Success message
         } else {
-            $_SESSION['message'] = "Error updating password."; // Store error message
+            echo "Error updating password: " . $conn->error; // Error message
         }
         $stmt->close();
     } else {
-        $_SESSION['message'] = "Invalid OTP. Please try again."; // Store invalid OTP message
+        echo "Invalid OTP. Please try again."; // Invalid OTP message
     }
     
-    // Redirect back to index.php
-    header("Location: index.php");
-    exit(); // Always call exit after header redirect
+    // Close the database connection
+    $conn->close();
 }
-$conn->close();
 ?>

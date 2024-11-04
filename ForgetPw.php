@@ -21,9 +21,12 @@ session_start(); // Start the session at the top of the file
             </form>
         </div>
 
-        <div class="modal" id="otpModal" style="display:none;"> <!-- Modal for OTP entry -->
+        <!-- OTP Modal -->
+        <div class="modal" id="otpModal" style="display:none;">
             <div class="modal-content">
+                <a href="#" id="modalExitLink" class="exit-link" onclick="hideOtpModal()">X</a> <!-- Exit link -->
                 <h2>Enter OTP</h2>
+                <div id="otpMessage" class="message" style="display: none;"></div> <!-- Message display area -->
                 <form id="otpForm" method="POST" action="verify_otp.php"> <!-- Form for OTP verification -->
                     <input type="text" name="otp" placeholder="Enter OTP" required>
                     <input type="password" name="new_password" placeholder="Enter New Password" required>
@@ -67,6 +70,69 @@ session_start(); // Start the session at the top of the file
             })
             .catch(error => console.error('Error:', error)); // Log any fetch errors
         };
+
+      // Handle the OTP form submission for verifying the OTP
+document.getElementById('otpForm').onsubmit = function(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    const formData = new FormData(this); // Create FormData object from the OTP form
+    fetch('verify_otp.php', { // Send the request to verify_otp.php
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text()) // Change to text response
+    .then(data => {
+        // Display the response as a message inside the modal
+        const otpMessageDiv = document.getElementById('otpMessage');
+        otpMessageDiv.innerHTML = data; // Set the message
+        otpMessageDiv.style.display = 'block'; // Make the message visible
+        
+        // If the response indicates success, redirect to index.php
+        if (data.includes("Password reset successfully.")) {
+            setTimeout(() => {
+                window.location.href = 'index.php'; // Redirect after a delay
+            }, 2000); // Delay to allow message to be read
+        }
+    })
+    .catch(error => console.error('Error:', error)); // Log any fetch errors
+};
+
+
+        // Function to hide the OTP modal
+        function hideOtpModal() {
+            document.getElementById('otpModal').style.display = 'none';
+        }
     </script>
+
+    <style>
+        /* Style for the modal exit link */
+        .exit-link {
+            position: relative;
+            top: 0px;
+            right: -340px;
+            color: #f44336;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            padding: 5px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .exit-link:hover {
+            color: #d32f2f;
+        }
+
+        /* Style for the message display in the modal */
+        .message {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            color: #333;
+        }
+    </style>
 </body>
 </html>
