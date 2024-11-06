@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
 
-/* Your existing CSS styles */
+
 *{
     margin: 0;
     padding: 0;
@@ -17,67 +17,67 @@ body{
     flex-direction: column;
     height: 100vh;
 }
-/* Modal Styles */
+
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1002; /* Sit on top */
+    display: none; 
+    position: fixed; 
+    z-index: 1002; 
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0, 0, 0, 0.7); /* Dark background with opacity */
-    backdrop-filter: blur(5px); /* Optional: Adds a blur effect to the background */
+    width: 100%;
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0, 0, 0, 0.7); 
+    backdrop-filter: blur(5px); 
 }
 
 .modal-content {
-    background-color: #fff; /* Modal content background */
-    margin: 10% auto; /* Centered with top margin */
-    padding: 20px; /* Padding inside the modal */
-    border: 1px solid #ccc; /* Border style */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Shadow effect */
-    width: 90%; /* Width of modal */
-    max-width: 400px; /* Maximum width */
-    animation: fadeIn 0.4s; /* Animation for modal appearance */
+    background-color: #fff; 
+    margin: 10% auto; 
+    padding: 20px; 
+    border: 1px solid #ccc; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); 
+    width: 90%; 
+    max-width: 400px;
+    animation: fadeIn 0.4s; 
 }
 
-/* Button styles in modal */
+
 .modal button {
-    background-color: #aa5f0a; /* Button background */
-    color: #fff; /* Button text color */
-    border: none; /* No border */
-    padding: 10px 20px; /* Button padding */
-    border-radius: 5px; /* Rounded button corners */
-    cursor: pointer; /* Pointer cursor on hover */
-    transition: background-color 0.3s; /* Transition effect */
+    background-color: #aa5f0a; 
+    color: #fff; 
+    border: none;
+    padding: 10px 20px; 
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .modal button:hover {
-    background-color: #b9731e; /* Darker background on hover */
+    background-color: #b9731e; 
 }
 
-/* Input styles inside the modal */
+
 .modal input {
-    background-color: #eee; /* Input background */
-    border: none; /* No border */
-    margin: 8px 0; /* Margin around inputs */
-    padding: 10px 15px; /* Input padding */
-    border-radius: 8px; /* Rounded corners */
-    width: 100%; /* Full width */
-    outline: none; /* No outline */
+    background-color: #eee;
+    border: none;
+    margin: 8px 0;
+    padding: 10px 15px; 
+    border-radius: 8px; 
+    width: 100%; 
+    outline: none; 
 }
 
-/* Back Button */
+
 .back-btn-container {
     position: absolute;
-    top: 10px; /* Adjust the top position as needed */
-    right: 10px; /* Adjust the right position as needed */
-    z-index: 1003; /* Ensure it's above the modal */
+    top: 10px; 
+    right: 10px; 
+    z-index: 1003; 
 }
 
-.container{ /* optional */
+.container{ 
     background-color: #ffffff;
     border-radius: 30px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
@@ -214,50 +214,50 @@ body{
 
 .back-btn-container {
     position: absolute;
-    top: 10px; /* Adjust the top position as needed */
-    right: 10px; /* Adjust the right position as needed */
+    top: 10px; 
+    right: 10px; 
 
 }
 
 @media (max-width: 768px) {
     .container {
-        width: 90%; /* Smaller width for mobile */
-        min-height: 300px; /* Smaller height for mobile */
+        width: 90%; 
+        min-height: 300px; 
     }
 
     .container p {
-        font-size: 10px; /* Smaller font size for mobile */
+        font-size: 10px; 
     }
 
     .container span {
-        font-size: 8px; /* Smaller span font size for mobile */
+        font-size: 8px; 
     }
 
     .container a {
-        font-size: 9px; /* Smaller link font size for mobile */
+        font-size: 9px; 
     }
 
     .container button {
-        font-size: 8px; /* Smaller button font size for mobile */
+        font-size: 8px;
     }
 
     .container input {
-        font-size: 9px; /* Smaller input font size for mobile */
+        font-size: 9px;
     }
-      /* Toggle Container Adjustments */
+     
       .toggle-panel {
-        padding: 0 15px; /* Reduce padding for mobile */
+        padding: 0 15px; 
     }
 
     .toggle-panel h2, .toggle-panel p {
-        font-size: 10px; /* Smaller font size for toggle panel headings and paragraphs */
+        font-size: 10px; 
     }
 
     .toggle-panel a {
-        font-size: 9px; /* Smaller font size for toggle panel links */
+        font-size: 9px; 
     }
 
     .toggle-panel button {
-        font-size: 8px; /* Smaller button font size for toggle panel */
+        font-size: 8px; 
     }
 }

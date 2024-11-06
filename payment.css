@@ -29,7 +29,37 @@ body {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+.upload-input {
+    padding: 12px;
+    background-color: #f0f0f0;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%;
+    margin-top: 10px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
 
+.upload-input:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+.upload-input::file-selector-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    font-size: 14px;
+}
+
+.upload-input::file-selector-button:hover {
+    background-color: #45a049;
+}
 .back-button {
     padding: 10px 20px;
     font-size: 16px;

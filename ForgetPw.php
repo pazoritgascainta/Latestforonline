@@ -1,5 +1,5 @@
 <?php
-session_start(); // Start the session at the top of the file
+session_start(); 
 ?>
 
 <!DOCTYPE html>
@@ -8,13 +8,13 @@ session_start(); // Start the session at the top of the file
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="forgetpw.css"> <!-- Your custom CSS file -->
+    <link rel="stylesheet" href="forgetpw.css">
     <title>St. Monique - Forgot Password</title>
 </head>
 <body>
     <div class="container" id="container">
         <div class="form-container forgetpw">
-            <form id="emailForm" method="POST" action="request_otp.php"> <!-- Form action points to request_otp.php -->
+            <form id="emailForm" method="POST" action="request_otp.php"> 
                 <h2>Forgot Password</h2>
                 <input type="email" name="email" placeholder="Enter your email" required>
                 <button type="submit">Request OTP</button>
@@ -24,10 +24,10 @@ session_start(); // Start the session at the top of the file
         <!-- OTP Modal -->
         <div class="modal" id="otpModal" style="display:none;">
             <div class="modal-content">
-                <a href="#" id="modalExitLink" class="exit-link" onclick="hideOtpModal()">X</a> <!-- Exit link -->
+                <a href="#" id="modalExitLink" class="exit-link" onclick="hideOtpModal()">X</a> 
                 <h2>Enter OTP</h2>
-                <div id="otpMessage" class="message" style="display: none;"></div> <!-- Message display area -->
-                <form id="otpForm" method="POST" action="verify_otp.php"> <!-- Form for OTP verification -->
+                <div id="otpMessage" class="message" style="display: none;"></div> 
+                <form id="otpForm" method="POST" action="verify_otp.php">
                     <input type="text" name="otp" placeholder="Enter OTP" required>
                     <input type="password" name="new_password" placeholder="Enter New Password" required>
                     <button type="submit">Verify and Reset Password</button>
@@ -47,65 +47,96 @@ session_start(); // Start the session at the top of the file
         </div>
     </div>
 
-    <script src="forgetpw.js"></script> <!-- Custom JavaScript file -->
+    <script src="forgetpw.js"></script> 
     <script>
-        // Handle the form submission for requesting the OTP
+      
         document.getElementById('emailForm').onsubmit = function(event) {
-            event.preventDefault(); // Prevent the default form submission
+            event.preventDefault(); 
             
-            const formData = new FormData(this); // Create FormData object from the form
-            fetch('request_otp.php', { // Send the request to request_otp.php
+            const formData = new FormData(this); 
+            fetch('request_otp.php', { 
                 method: 'POST',
                 body: formData
             })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Show the OTP modal if the OTP was sent successfully
+                   
                     document.getElementById('otpModal').style.display = 'block';
                 } else {
-                    // Show an alert if there was an error sending the OTP
+                 
                     alert(data.message || 'Error sending OTP.');
                 }
             })
-            .catch(error => console.error('Error:', error)); // Log any fetch errors
+            .catch(error => console.error('Error:', error)); 
         };
 
-      // Handle the OTP form submission for verifying the OTP
-document.getElementById('otpForm').onsubmit = function(event) {
-    event.preventDefault(); // Prevent the default form submission
+        document.getElementById('otpForm').onsubmit = function(event) {
+    event.preventDefault();
 
-    const formData = new FormData(this); // Create FormData object from the OTP form
-    fetch('verify_otp.php', { // Send the request to verify_otp.php
+    const newPassword = document.querySelector('input[name="new_password"]').value;
+    const passwordCriteria = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    // Check if the password meets the criteria
+    if (!passwordCriteria.test(newPassword)) {
+        alert("Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character.");
+        return;
+    }
+
+    const formData = new FormData(this); 
+    fetch('verify_otp.php', { 
         method: 'POST',
         body: formData
     })
-    .then(response => response.text()) // Change to text response
+    .then(response => response.text())
     .then(data => {
-        // Display the response as a message inside the modal
         const otpMessageDiv = document.getElementById('otpMessage');
-        otpMessageDiv.innerHTML = data; // Set the message
-        otpMessageDiv.style.display = 'block'; // Make the message visible
-        
-        // If the response indicates success, redirect to index.php
+        otpMessageDiv.innerHTML = data; 
+        otpMessageDiv.style.display = 'block'; 
+
         if (data.includes("Password reset successfully.")) {
             setTimeout(() => {
-                window.location.href = 'index.php'; // Redirect after a delay
-            }, 2000); // Delay to allow message to be read
+                window.location.href = 'index.php';
+            }, 2000); 
         }
     })
-    .catch(error => console.error('Error:', error)); // Log any fetch errors
+    .catch(error => console.error('Error:', error)); 
+};
+
+document.getElementById('otpForm').onsubmit = function(event) {
+    event.preventDefault();
+
+    const formData = new FormData(this); 
+    fetch('verify_otp.php', { 
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text()) 
+    .then(data => {
+     
+        const otpMessageDiv = document.getElementById('otpMessage');
+        otpMessageDiv.innerHTML = data; 
+        otpMessageDiv.style.display = 'block'; 
+        
+ 
+        if (data.includes("Password reset successfully.")) {
+            setTimeout(() => {
+                window.location.href = 'index.php';
+            }, 2000); 
+        }
+    })
+    .catch(error => console.error('Error:', error)); 
 };
 
 
-        // Function to hide the OTP modal
+    
         function hideOtpModal() {
             document.getElementById('otpModal').style.display = 'none';
         }
     </script>
 
     <style>
-        /* Style for the modal exit link */
+    
         .exit-link {
             position: relative;
             top: 0px;
@@ -124,7 +155,7 @@ document.getElementById('otpForm').onsubmit = function(event) {
             color: #d32f2f;
         }
 
-        /* Style for the message display in the modal */
+       
         .message {
             margin: 15px 0;
             padding: 10px;

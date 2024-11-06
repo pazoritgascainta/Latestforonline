@@ -2,13 +2,12 @@
 session_name('user_session'); 
 session_start();
 
-// Check if homeowner is logged in
+
 if (!isset($_SESSION['homeowner_id'])) {
     header("Location: login.php");
     exit;
 }
 
-// Database connection details
 $servername = "localhost";
 $username = "u780935822_homeowner";
 $password = "Boot@o29";
@@ -21,7 +20,7 @@ if ($conn->connect_error) {
 
 $homeowner_id = $_SESSION['homeowner_id'];
 
-// Query to fetch the sum of total_amount for the homeowner
+
 $sql_total_balance = "SELECT SUM(total_amount) as total_balance FROM billing WHERE homeowner_id = ?";
 $stmt_total_balance = $conn->prepare($sql_total_balance);
 $stmt_total_balance->bind_param("i", $homeowner_id);
@@ -29,7 +28,7 @@ $stmt_total_balance->execute();
 $result_total_balance = $stmt_total_balance->get_result();
 $row_total_balance = $result_total_balance->fetch_assoc();
 
-// Get the total balance (if no records, set to 0)
+
 $total_balance = isset($row_total_balance['total_balance']) ? $row_total_balance['total_balance'] : 0;
 
 // Query to fetch all the billing data for the homeowner
@@ -47,19 +46,19 @@ $stmt_accepted_appointments->bind_param("i", $homeowner_id);
 $stmt_accepted_appointments->execute();
 $result_accepted_appointments = $stmt_accepted_appointments->get_result();
 
-// Initialize total appointments amount
+
 $total_appointments_amount = 0;
 
-// Calculate total amount for accepted appointments
+
 while ($row = $result_accepted_appointments->fetch_assoc()) {
     $total_appointments_amount += $row['amount'];
 }
 
 
-// Reset the pointer of the result set to use it again for displaying in the table
-$result_accepted_appointments->data_seek(0); // Move the pointer back to the start
 
-// Define an associative array to map amenity IDs to names
+$result_accepted_appointments->data_seek(0); 
+
+
 $amenity_names = [
     1 => 'Clubhouse Court',
     2 => 'Townhouse Court',
@@ -102,7 +101,10 @@ $amenity_names = [
                     </div>
                 </div>
             </header>
-
+            <section class="proof-of-payment">
+    <h3>View Payment History</h3>
+    <a href="payment_history_user.php" id="payment-history-link">Payment History</a>
+</section>
             <section class="combined-schedule">
                 <h2>Payments</h2>
                 <table>
@@ -118,7 +120,7 @@ $amenity_names = [
                     </thead>
                     <tbody>
                         <?php 
-                        // Loop through each billing record and display it in the table
+                       
                         while ($row = $result_billing->fetch_assoc()) {
                             echo "<tr>";
                             echo "<td data-label='Billing Date'>" . htmlspecialchars($row['billing_date']) . "</td>";
@@ -145,47 +147,46 @@ $amenity_names = [
                     </thead>
                     <tbody>
                         <?php
-                        // Initialize an array to store the grouped appointments by date
+                      
                         $appointments_by_date = [];
-                        $grand_total_amount = 0; // Variable to hold the grand total amount
+                        $grand_total_amount = 0; 
 
-                        // Loop through each accepted appointment and group by date
                         while ($row = $result_accepted_appointments->fetch_assoc()) {
                             $date = $row['date'];
 
-                            // Initialize an array for this date if not already set
+                           
                             if (!isset($appointments_by_date[$date])) {
                                 $appointments_by_date[$date] = [
                                     'amount' => 0,
-                                    'status' => ucfirst($row['status']), // Capture the status
-                                    'purpose' => $row['purpose'], // Capture the purpose
-                                    'amenity_id' => $row['amenity_id'] // Capture the amenity_id
+                                    'status' => ucfirst($row['status']),
+                                    'purpose' => $row['purpose'], 
+                                    'amenity_id' => $row['amenity_id'] 
                                 ];
                             }
 
-                            // Add the amount to the total for this date
+                            
                             $appointments_by_date[$date]['amount'] += $row['amount'];
                         }
 
-                        // Now loop through the grouped data and display it
+                       
                         foreach ($appointments_by_date as $date => $data) {
                             echo "<tr>";
-                            echo "<td>" . htmlspecialchars($date) . "</td>"; // Display the grouped date
+                            echo "<td>" . htmlspecialchars($date) . "</td>";
                             $amenity_id = $data['amenity_id'];
                             $amenity_name = isset($amenity_names[$amenity_id]) ? $amenity_names[$amenity_id] : 'Unknown Amenity';
                             
-                            echo "<td>" . htmlspecialchars($amenity_name) . "</td>"; // Display the amenity name
-                            echo "<td>" . htmlspecialchars($data['purpose']) . "</td>"; // Display the purpose
-                            echo "<td>₱" . number_format($data['amount'], 2) . "</td>"; // Display the total amount for this date
-                            echo "<td>" . $data['status'] . "</td>"; // Display the status (same for all records of the same date)
+                            echo "<td>" . htmlspecialchars($amenity_name) . "</td>";
+                            echo "<td>" . htmlspecialchars($data['purpose']) . "</td>"; 
+                            echo "<td>₱" . number_format($data['amount'], 2) . "</td>"; 
+                            echo "<td>" . $data['status'] . "</td>"; 
                          
                             echo "</tr>";
 
-                            // Add to the grand total amount
+                           
                             $grand_total_amount += $data['amount'];
                         }
                         ?>
-                        <!-- Total Row -->
+                        
                         <tr>
                             <td><strong>Total</strong></td>
                             <td><strong>₱<?php echo number_format($grand_total_amount, 2); ?></strong></td>
@@ -197,9 +198,10 @@ $amenity_names = [
                 </table>
             </section>
             <section class="proof-of-payment">
-    <h3>View Payment History</h3>
-    <a href="payment_history_user.php" id="payment-history-link">Payment History</a>
+    <h3>Pay Here</h3>
+    <a href="payment_page.php" target="_blank" id="pay-here-link">Proceed to Payment</a>
 </section>
+
 
 <section class="proof-of-payment">
     <h3>View Billing Statement</h3>
@@ -215,7 +217,7 @@ $amenity_names = [
         <input type="hidden" name="billing_reference" id="billingReference">
         <button type="submit" id="upload-button">Upload</button>
     </form>
-    <div id="loader" class="loader" style="display: none;"></div> <!-- Loader element -->
+    <div id="loader" class="loader" style="display: none;"></div> 
 </section>
 
         </div>
@@ -224,41 +226,41 @@ $amenity_names = [
     <script src="payment.js"></script>
     <script>
    document.getElementById('upload-form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent default form submission
+    event.preventDefault(); 
 
     const fileInput = document.getElementById('upload-file');
     const file = fileInput.files[0];
     const loader = document.getElementById('loader');
     const uploadButton = document.getElementById('upload-button');
 
-    // Check if a file is selected and if it's an image
+ 
     if (file && file.type.startsWith('image/')) {
-        // Show loader and disable upload button
+      
         loader.style.display = 'block';
         uploadButton.disabled = true;
 
-        // Prepare form data for AJAX upload
+     
         const formData = new FormData();
         formData.append('upload-file', file);
         formData.append('homeowner_id', document.querySelector('input[name="homeowner_id"]').value);
         formData.append('billing_reference', document.getElementById('billingReference').value);
 
-        // Send the request using fetch API
+    
         fetch('upload.php', {
             method: 'POST',
             body: formData
         })
-        .then(response => response.text()) // Adjust based on your server's response
+        .then(response => response.text()) 
         .then(data => {
-            alert("Upload successful!"); // Notify user of successful upload
-            loader.style.display = 'none'; // Hide loader
-            uploadButton.disabled = false; // Re-enable button
-            console.log(data); // Debugging response
+            alert("Upload successful!"); 
+            loader.style.display = 'none';
+            uploadButton.disabled = false; 
+            console.log(data); 
         })
         .catch(error => {
             alert("There was an error uploading the file.");
-            loader.style.display = 'none'; // Hide loader
-            uploadButton.disabled = false; // Re-enable button
+            loader.style.display = 'none'; 
+            uploadButton.disabled = false; 
             console.error('Error:', error);
         });
     } else {
@@ -269,8 +271,8 @@ $amenity_names = [
 </script>
 <script>
 function openBillingStatement(event) {
-    event.preventDefault(); // Prevent the default link behavior
-    window.open('BillingStatement.php', '_blank'); // Opens the link in a new tab
+    event.preventDefault();
+    window.open('BillingStatement.php', '_blank');
 }
 </script>
 
