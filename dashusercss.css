@@ -5,12 +5,12 @@
   margin-top: 10px; 
 }
 
-/* Main Content Styling */
 .main-content {
-  margin: 0 auto; /* Center the content horizontally */
+  margin: 0 auto;
   margin-left: 80px;
-  max-width: 90%; /* Optional: Set a maximum width to prevent it from becoming too wide */
+  max-width: 90%;
 }
+
 .dashboard {
   display: grid;
   grid-template-columns: 2fr;
@@ -20,7 +20,7 @@
 
 .payment-history {
   grid-column: 1 / 2;
-  background-color:peachpuff;
+  background-color: peachpuff;
   padding: 10px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -119,18 +119,17 @@
   color: black;
 }
 
-
 .button-container {
   grid-column: 2 / 2;
   display: flex;
-  justify-content: space-between; /* Or use center if needed */
-  gap: 20px; /* Space between buttons */
+  justify-content: space-between;
+  gap: 20px;
 }
 
 .appointments {
   display: flex;
-  flex-direction: column; /* Stack buttons vertically */
-  gap: 20px; /* Space between buttons */
+  flex-direction: column;
+  gap: 20px;
 }
 
 .appointments button {
@@ -140,15 +139,15 @@
   cursor: pointer;
   height: 15vh;
   width: 15vh;
-
 }
+
 .button-title {
   width: 20px;
-  font-size: 15px; /* Adjust font size */
-  font-weight: bold; /* Make text bold */
-  color: #fff; /* Text color */
-  text-align: center; /* Center text */
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Add subtle shadow for better readability */
+  font-size: 15px;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 .appointments button img {
   width: 70px;
@@ -164,24 +163,24 @@
   background-color: #d88d01cb;
 }
 
-.complaint-button{
+.complaint-button {
   background-color: #c0613b;
 }
 
 @media (max-width: 768px) {
   .main-content {
-    margin-left: 10px; /* Remove left margin for mobile */
-    padding: 0 10px; /* Add padding to sides */
+    margin-left: 10px;
+    padding: 0 10px;
   }
 
   .dashboard {
-    grid-template-columns: 1fr; /* Stack columns vertically */
+    grid-template-columns: 1fr;
     padding: 25px;
   }
 
   .payment-history,
   .payment-summary {
-    grid-column: auto; /* Reset column position for mobile */
+    grid-column: auto;
     max-height: fit-content;
     width: 20vh;
     padding: 0px;
@@ -189,12 +188,12 @@
 
   .appointments button, 
   .services button {
-    padding: 30px; /* Reduce padding on buttons */
+    padding: 30px;
   }
-  .h2{
+  .h2 {
     margin-left: 40vh;
   }
-  .container{
+  .container {
     margin-top: 50vh;
     width: 43vh; 
   }
@@ -202,23 +201,23 @@
 
 @media (max-width: 480px) {
   .payment-history img {
-    width: 30px; /* Smaller images for mobile */
+    width: 30px;
     height: 30px;
   }
-  .h2{
+  .h2 {
     margin-left: 40vh;
   }
 
   .payment-summary h2 {
-    font-size: 20px; /* Reduce font size */
+    font-size: 20px;
   }
 
   .view-toggle button {
-    padding: 4px 8px; /* Smaller button sizes */
+    padding: 4px 8px;
   }
 
   .appointments button, 
   .services button {
-    padding: 20px; /* Further reduce padding for smaller screens */
+    padding: 20px;
   }
 }

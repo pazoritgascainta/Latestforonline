@@ -1,7 +1,7 @@
 body {
   font-family: Arial, sans-serif;
   margin: 0;
-  padding: 20px; /* Adjust padding as needed */
+  padding: 20px; 
 }
 
 /* Calendar styles */
@@ -11,7 +11,7 @@ body {
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  overflow: hidden; /* Ensure calendar contents do not overflow */
+  overflow: hidden; 
 }
 
 .month {
@@ -20,15 +20,14 @@ body {
   font-weight: bold;
   margin: 10px 0;
   padding: 10px 0;
-  background-color: #007BFF; /* Adjust background color */
-  color: #fff; /* Adjust text color */
+  background-color: #007BFF; 
+  color: #fff; 
 }
 .days {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 3px;
-  background-color: #f0f0f0; /* Change to desired background color */
-  font-weight: bold;
+  background-color: #f0f0f0; 
   padding: 10px 0;
 }
 
@@ -49,30 +48,29 @@ body {
   margin-top: 20px;
 }
 
-/* Adjusted CSS for calendar days */
 .dates {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 10px; /* Increase gap between cells */
+  gap: 10px; 
   padding: 20px;
 }
 
 .date {
-  text-align: right; /* Align text to the right */
-  padding: 15px; /* Adjust padding as desired */
+  text-align: right;
+  padding: 15px; 
   border: 1px solid #ccc;
   border-radius: 8px;
   display: table-cell;
   vertical-align: middle;
   box-sizing: border-box;
   font-size: 1.2em;
-  height: 100px; /* Adjust height as needed */
+  height: 100px; 
   line-height: 60px;
 }
 
 .date:hover {
-  background-color: #007BFF; /* Change to desired hover color */
-  color: #fff; /* Change to desired text color */
+  background-color: #007BFF; 
+  color: #fff; 
 }
 
 .date.empty {
@@ -81,11 +79,11 @@ body {
 
 .month-navigation {
   display: flex;
-  justify-content: space-between; /* Adjust spacing as needed */
+  justify-content: space-between; 
   align-items: center;
-  background-color: #007BFF; /* Change to desired background color */
+  background-color: #007BFF; 
   padding: 10px;
-  color: #fff; /* Change to desired text color */
+  color: #fff; 
 }
 
 .month-navigation button {
@@ -98,6 +96,6 @@ body {
 }
 
 .month-navigation button:hover {
-  color: #fff; /* Change to desired hover color */
-  transform: scale(1.2); /* Slightly increase size on hover */
+  color: #fff; 
+  transform: scale(1.2); 
 }

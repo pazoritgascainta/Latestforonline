@@ -7,7 +7,7 @@
 }
 
 .inbox-container {
-    max-width: 90vw; /* Adjusted for better responsiveness */
+    max-width: 90vw; 
     margin: 20px;
     padding: 14px;
     background-color: peachpuff;
@@ -25,7 +25,7 @@ h1 {
 
 .inbox-item {
     display: flex;
-    flex-wrap: wrap; /* Ensures items don't overflow on small screens */
+    flex-wrap: wrap; 
     justify-content: flex-start;
     padding: 15px;
     border-bottom: 1px solid #ddd;
@@ -36,7 +36,6 @@ h1 {
     background-color: rgb(255, 165, 86);
 }
 
-/* Modal Styling */
 .modal {
     display: none;
     position: fixed;
@@ -51,11 +50,11 @@ h1 {
 
 .modal-content {
     background-color: #fefefe;
-    margin: 10% auto; /* Reduced margin for better placement */
+    margin: 10% auto; 
     padding: 20px;
     border: 1px solid #888;
-    width: 90%; /* More flexibility for different screen sizes */
-    max-width: 600px; /* Set a max-width for larger screens */
+    width: 90%; 
+    max-width: 600px; 
 }
 
 .close {
@@ -98,15 +97,14 @@ h1 {
     color: white;
 }
 
-/* Mobile responsiveness */
 @media (max-width: 768px) {
     .container {
-        margin-left: 0; /* Remove unnecessary margins on mobile */
+        margin-left: 0; 
         padding: 10px;
     }
 
     .inbox-item {
-        flex-direction: column; /* Stack items on smaller screens */
+        flex-direction: column; 
     }
 
     .modal-content {
@@ -116,7 +114,7 @@ h1 {
     }
 
     .pagination a {
-        padding: 8px 12px; /* Slightly larger padding for easier tap */
+        padding: 8px 12px; 
     }
     .inbox-container{
         margin-left: 10%;

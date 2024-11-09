@@ -10,9 +10,9 @@
 
 /* Main Content Styling */
 .main-content {
-    margin: 0 auto; /* Center the content horizontally */
+    margin: 0 auto; 
 margin-left: 80px;
-    max-width: 90%; /* Optional: Set a maximum width to prevent it from becoming too wide */
+    max-width: 90%; 
 }
 .legend-container {
     display: flex;
@@ -59,15 +59,15 @@ margin-left: 80px;
   
 @media (max-width: 768px) {
     .main-content {
-        width: 90%; /* Increase width for medium-sized screens */
-        padding: 0 10px; /* Reduce padding for smaller screens */
+        width: 90%;
+        padding: 0 10px;
     }
 }
 
 @media (max-width: 480px) {
     .main-content {
-        width: 100%; /* Full width for very small screens */
-        padding: 0 5px; /* Minimal padding for very small screens */
+        width: 100%; 
+        padding: 0 5px; 
     }
 }
 
@@ -75,47 +75,46 @@ margin-left: 80px;
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px; /* Space above the table */
+    margin-top: 20px; 
 }
 
 /* Table Headers and Cells */
 th, td {
-    border: 1px solid #ddd; /* Light gray border */
-    padding: 12px; /* Added padding for readability */
-    text-align: left; /* Align text to the left */
-    max-width: 200px; /* Set a max-width for the cells */
-    word-wrap: break-word; /* Allow text to wrap within the cell */
-    white-space: normal; /* Allow text to wrap to the next line */
+    border: 1px solid #ddd;
+    padding: 12px; 
+    text-align: left;
+    max-width: 200px; 
+    word-wrap: break-word; 
+    white-space: normal;
 }
 
 /* Table Header Styling */
 th {
-    background-color: #ff8b2c; /* Light gray background for headers */
-    color: #fff; /* Darker text color for better contrast */
-    font-weight: bold; /* Bold text for headers */
-}
+    background-color: #ff8b2c;
+    color: #fff; 
+    font-weight: bold; 
 
 /* Button Styling */
 button {
-    margin: 0 6px; /* Slightly increased margin for better spacing */
-    padding: 10px 15px; /* Added padding inside buttons */
-    border: none; /* Remove default border */
-    border-radius: 4px; /* Rounded corners */
-    background-color: #ff8b2c; /* Primary button color */
-    color: white; /* Text color */
-    cursor: pointer; /* Pointer cursor on hover */
-    font-size: 16px; /* Larger font size for readability */
-    transition: background-color 0.3s ease; /* Smooth background color transition */
+    margin: 0 6px; 
+    padding: 10px 15px; 
+    border: none; 
+    border-radius: 4px; 
+    background-color: #ff8b2c;
+    color: white; 
+    cursor: pointer; 
+    font-size: 16px; 
+    transition: background-color 0.3s ease;
 }
 
 /* Button Hover Effect */
 button:hover {
-    background-color: #ff8b2c; /* Darker color on hover */
+    background-color: #ff8b2c; 
 }
 .button-container {
     display: flex;
-    justify-content: flex-start; /* Align buttons to the left */
-    gap: 10px; /* Space between buttons */
+    justify-content: flex-start; 
+    gap: 10px;
 }
 
 /* Button Styling */
@@ -138,12 +137,12 @@ button:hover {
 
 
 .centered-actions {
-    text-align: center; /* Center-align text and inline elements */
+    text-align: center; 
 }
-/* Manage Timeslots Button Styling */
+/* Manage Timeslots Button*/
 .manage-timeslots {
-    margin-bottom: 20px; /* Space below the link */
-    text-align: left; /* Center the link */
+    margin-bottom: 20px; 
+    text-align: left; 
 }
 
 .btn-manage-timeslots {
@@ -160,80 +159,81 @@ button:hover {
 .btn-manage-timeslots:hover {
     background-color: #ff7403;
 }
-/* Pagination Styling */
+/* Pagination */
 .page-link {
     display: none;
 }
 .page-link.active {
-    background-color: #ff8b2c; /* Primary color for active link */
-    color: white; /* White text color */
-    border: 1px solid #ff8b2c; /* Match border color with active background */
+    background-color: #ff8b2c; 
+    color: white;
+    border: 1px solid #ff8b2c;
 }
 #pagination {
     margin-top: 20px;
-    text-align: center; /* Center align pagination controls */
+    text-align: center; 
 }
 #pagination a {
-    display: inline-block; /* Ensure pagination links are inline */
-    margin: 0 8px; /* Space between pagination links */
-    text-decoration: none; /* Remove underline from links */
-    color: #ff8b2c; /* Link color */
-    padding: 8px 12px; /* Padding inside pagination links */
-    border: 1px solid #ff8b2c; /* Blue border to match theme */
-    border-radius: 4px; /* Rounded corners */
-    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
+    display: inline-block; 
+    margin: 0 8px; 
+    text-decoration: none; 
+    color: #ff8b2c; 
+    padding: 8px 12px; 
+    border: 1px solid #ff8b2c;
+    border-radius: 4px; 
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 #pagination a.active {
-    background-color: #ff8b2c; /* Active background color */
-    color: white; /* White text color */
+    background-color: #ff8b2c; 
+    color: white; 
 }
 #pagination a:hover {
-    background-color: #f0f0f0; /* Light gray background on hover */
-    color: #ff8b2c; /* Blue text color */
+    background-color: #f0f0f0; 
+    color: #ff8b2c; 
 }
 
 #pagination input {
     text-align: center;
     width: 50px;
     padding: 8px;
-    color: #ff8b2c; /* Blue text color */
-    border: 1px solid #ff8b2c; /* Blue border */
-    border-radius: 4px; /* Rounded corners */
-    margin: 0 8px; /* Space around the input */
+    color: #ff8b2c; 
+    border: 1px solid #ff8b2c; 
+    border-radius: 4px; 
+    margin: 0 8px; 
 }
 
 /* Button styling */
 #pagination button {
-    background-color: #ff8b2c; /* Blue background */
-    color: white; /* White text */
-    border: none; /* Remove border */
-    padding: 8px 12px; /* Add padding */
-    text-align: center; /* Center text */
-    text-decoration: none; /* Remove underline */
-    display: inline-block; /* Display inline */
-    font-size: 16px; /* Font size */
-    margin: 4px 2px; /* Add margin */
-    cursor: pointer; /* Add pointer cursor on hover */
-    border-radius: 4px; /* Rounded corners */
-    transition-duration: 0.4s; /* Add transition effect */
+    background-color: #ff8b2c;
+    color: white; 
+    border: none; 
+    padding: 8px 12px; 
+    text-align: center; 
+    text-decoration: none; 
+    display: inline-block; 
+    font-size: 16px;
+    margin: 4px 2px; 
+    cursor: pointer; 
+    border-radius: 4px; 
+    transition-duration: 0.4s; 
 }
 
 #pagination button:hover {
-    background-color: white; /* White background on hover */
-    color: #ff8b2c; /* Blue text on hover */
-    border: 1px solid #ff8b2c; /* Blue border on hover */
+    background-color: white; 
+    color: #ff8b2c; 
+    border: 1px solid #ff8b2c; 
 }
 
 #pagination button:disabled {
-    background-color: #ddd; /* Grey background for disabled buttons */
-    color: #999; /* Grey text for disabled buttons */
-    cursor: not-allowed; /* No pointer cursor for disabled buttons */
+    background-color: #ddd; 
+    color: #999; 
+    cursor: not-allowed; 
 }
 
 #pagination input[type="number"] {
-    border: 1px solid #ff8b2c; /* Blue border */
-    border-radius: 4px; /* Rounded corners */
+    border: 1px solid #ff8b2c; 
+    border-radius: 4px; 
     padding: 5px;
     font-size: 14px;
     width: 60px;
+}
 }

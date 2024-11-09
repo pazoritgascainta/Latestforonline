@@ -21,7 +21,7 @@ body {
     text-align: left;
     position: relative;
     margin-top: 20px;
-    z-index: 99; /* Ensure popup appears above overlay */
+    z-index: 99; 
 }
 
 .popup p {
@@ -45,8 +45,8 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
-    z-index: 100; /* Lower z-index to keep overlay below popup */
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 100; 
 }
 
 .exit-button {
@@ -58,7 +58,7 @@ body {
     border: none;
     font-size: 20px;
     cursor: pointer;
-    z-index: 102; /* Ensured higher z-index for exit button */
+    z-index: 102;
 }
 
 .exit-button:hover {
@@ -68,17 +68,17 @@ body {
 .form-container {
     display: none;
     position: fixed;
-    top: 50%; /* Centering the form vertically */
-    left: 50%; /* Centering the form horizontally */
+    top: 50%; 
+    left: 50%;
     transform: translate(-50%, -50%);
-    width: 80%; /* Adjusted width for better visibility */
-    max-width: 550px; /* Added max-width for responsiveness */
+    width: 80%; 
+    max-width: 550px;
     padding: 20px;
-    background-color: #878992; /* Background color for the panel */
-    border: 1px solid #ccc; /* Border around the panel */
-    border-radius: 10px; /* Rounded corners for the panel */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional shadow effect */
-    z-index: 102; /* Ensure form container appears above overlay */
+    background-color: #878992; 
+    border: 1px solid #ccc; 
+    border-radius: 10px; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 102; 
 }
 
 .form label {
@@ -91,9 +91,9 @@ body {
 .form input[type="text"],
 .form input[type="email"],
 .form select {
-    width: calc(100% - 20px); /* Adjusted width for input fields */
-    padding: 8px; /* Adjusted padding for input fields */
-    margin-bottom: 15px; /* Increased margin-bottom for input fields */
+    width: calc(100% - 20px); 
+    padding: 8px; 
+    margin-bottom: 15px; 
     box-sizing: border-box;
 }
 
@@ -116,14 +116,14 @@ body {
 }
 
 .success-message {
-    display: none; /* Hide success message by default */
+    display: none; 
     color: green;
     font-weight: bold;
     margin-top: 10px;
 }
 
 .booked-date {
-    background-color: #f0f0f0; /* Light gray background for booked dates */
+    background-color: #f0f0f0;
     border-radius: 50%;
     width: 30px;
     height: 30px;
@@ -156,7 +156,7 @@ td {
 
 th,
 td {
-    padding: 12px; /* Adjusted padding for table cells */
+    padding: 12px;
 }
 
 th {

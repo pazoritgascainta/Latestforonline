@@ -5,7 +5,7 @@ body, html {
     width: 100%;
     text-align: center;
     user-select: none;
-    overflow-x: hidden; /* Hide horizontal overflow */
+    overflow-x: hidden; 
 }
 .ImageSlider body,.ImageSlider html {
     padding: 0;
@@ -16,7 +16,7 @@ body, html {
 
 .ImageSlider1{
     margin:0;
-    padding: 10px; /* Ensure padding is in px */
+    padding: 10px; 
 }
 .ImageSlider1 .ImageSlider body {
     background-color: #ffffff;
@@ -138,7 +138,7 @@ body, html {
     transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
     opacity: 1;
     overflow: hidden;
-    clip-path: inset(0 0 0 0); /* Ensures content fits within boundaries */
+    clip-path: inset(0 0 0 0); 
 }
 
 .ImageSlider1 .ImageSlider input:checked ~ .slide {
@@ -180,7 +180,7 @@ body, html {
     left: 0;
     width: 100%;
     padding: 20px;
-    background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
+    background-color: rgba(0, 0, 0, 0.5);
     color: white;
     box-sizing: border-box;
     transition: all 0.3s ease;
@@ -196,9 +196,8 @@ body, html {
     transform: translateY(0);
     overflow: hidden;
 }
-/* Handle the overflow and hide peaking images */
 .ImageSlider1 .ImageSlider {
-    overflow: hidden; /* This ensures no images outside the container are visible */
+    overflow: hidden; 
 }
 
 /* Mobile Responsiveness */
@@ -207,8 +206,8 @@ body, html {
         display: flex;
         justify-content: center;
         align-items: flex-end;
-        padding-bottom: 90px; /* Space from bottom */
-        position: relative; /* Add this to ensure dots stay inside */
+        padding-bottom: 90px; 
+        position: relative; 
     }
 
     .ImageSlider1 .ImageSlider label {
@@ -216,12 +215,12 @@ body, html {
         height: 8px;
         margin-left: 5px;
         margin-right: 5px;
-        position: relative; /* Remove extra positioning */
+        position: relative;
         display: inline-block;
     }
 
     .ImageSlider1 .ImageSlider input + label {
-        bottom: 0px; /* Ensure dots stay at the bottom */
+        bottom: 0px;
         margin-left: 0;
         display: inline-block;
     }
@@ -233,8 +232,6 @@ body, html {
     .ImageSlider1 .ImageSlider input:checked + label + .slide + input + label + .slide {
         display: none;
     }
-
-    /* Adjust description for smaller screens */
     .ImageSlider1 .ImageSlider .description {
         padding: 10px;
         font-size: 12px;
@@ -246,8 +243,8 @@ body, html {
         display: flex;
         justify-content: center;
         align-items: flex-end;
-        padding-bottom: 90px; /* Space from bottom */
-        position: relative; /* Add this to ensure dots stay inside */
+        padding-bottom: 90px; 
+        position: relative; 
     }
 
     .ImageSlider1 .ImageSlider label {
@@ -258,7 +255,7 @@ body, html {
     }
 
     .ImageSlider1 .ImageSlider input + label {
-        bottom: 0px; /* Adjust vertical position for smaller screens */
+        bottom: 0px;
         margin-left: 0;
         display: inline-block;
     }

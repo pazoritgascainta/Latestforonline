@@ -14,7 +14,6 @@ body {
     display: inline-block;
     margin-left: 10px;
 }
-/* Main content container */
 .main-content {
     display: flex;
     justify-content: center;
@@ -23,7 +22,6 @@ body {
     background-color: #f4f4f9;
 }
 
-/* Inner container */
 .container {
     padding: 20px;
     background-color: #fff;
@@ -32,7 +30,6 @@ body {
     font-family: Arial, sans-serif;
 }
 
-/* Page title */
 .container h1 {
     text-align: center;
     font-size: 24px;
@@ -40,7 +37,6 @@ body {
     margin-bottom: 20px;
 }
 
-/* Complaint details */
 .service-request p {
     font-size: 16px;
     color: #555;
@@ -51,7 +47,6 @@ body {
     color: #333;
 }
 
-/* Form for updating status */
 form {
     margin-top: 20px;
     text-align: center;
@@ -75,7 +70,6 @@ select {
     box-sizing: border-box;
 }
 
-/* Update button */
 button[type="submit"] {
     padding: 10px 20px;
     background-color: #ff8b2c;
@@ -90,7 +84,6 @@ button[type="submit"]:hover {
     background-color: #ff8b2c;
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
     .container {
         width: 90%;

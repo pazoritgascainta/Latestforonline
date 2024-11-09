@@ -43,10 +43,10 @@
 /* General Announcement Section Styles */
 .announcement-container {
     display: flex;
-    justify-content: center; /* Centering the announcement-main */
+    justify-content: center; 
     padding: 30px;
     background-image: url('Announcement.jpg');
-    background-size: cover; /* Ensures background image covers the entire container */
+    background-size: cover;
     background-position: center;
     width: 100%;
     grid-column: 1 / 4
@@ -54,20 +54,20 @@
 
 .announcement-main {
     width: 100%;
-    max-width: 800px; /* Set a max width for better responsiveness */
+    max-width: 800px;
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 10px;
     padding: 20;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative; /* Ensures positioning of controls relative to this container */
+    position: relative; 
 }
 
 .carousel {
     position: relative;
     width: 100%;
-    max-width: 800px; /* Set max width for responsiveness */
+    max-width: 800px; 
     margin: 0 auto;
     overflow: hidden;
     border-radius: 10px;
@@ -98,21 +98,21 @@
     color: white;
     padding: 10px;
     cursor: pointer;
-    z-index: 10; /* Ensure controls are above other elements */
-    font-size: 1em; /* Larger font size for controls */
+    z-index: 10; 
+    font-size: 1em;
 }
 
 .carousel-control-prev {
-    left: 10px; /* Adjust positioning as needed */
+    left: 10px; 
 }
 
 .carousel-control-next {
-    right: 10px; /* Adjust positioning as needed */
+    right: 10px;
 }
 
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
-    font-size: 2em; /* Ensure icons are visible */
+    font-size: 2em;
 }
 
 .announcement-news {

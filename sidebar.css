@@ -8,41 +8,43 @@
 nav {
     background: #ffdab9;
     width: 100%;
-    padding: 15px 10%; /* Adjust padding as needed */
+    padding: 15px 10%;
     display: flex;
     align-items: center;
     flex: 1;
-    justify-content: flex-end; /* Space between logo and nav links */
+    justify-content: flex-end;
     position: fixed;
     z-index: 1000;
     top: 0;
 }
+
 .user-names {
-    font-weight: bold; /* Make text bold */
-    
+    font-weight: bold;
 }
 
 nav ul {
-    display: flex; /* Align items horizontally */
+    display: flex;
     list-style: none;
     margin: 0;
     padding: 0;
-    gap: 20px; /* Space between links */
+    gap: 20px;
 }
+
 .notifications-link {
     position: relative;
-    /* Additional styling for Notifications link if needed */
 }
+
 .notification-dot {
     width: 10px;
     height: 10px;
     background-color: red;
     border-radius: 50%;
     position: absolute;
-    top: 10px; /* Adjust as needed */
-    right: 10px; /* Adjust as needed */
-    display: none; /* Hide by default */
+    top: 10px;
+    right: 10px;
+    display: none;
 }
+
 #inboxNotificationDot {
     display: none;
     width: 10px;
@@ -54,36 +56,34 @@ nav ul {
     right: 5px;
 }
 
-/* Move the "Home" and "Notifications" links to the right */
 .nav-links-wrapper {
     display: flex;
     align-items: center;
 }
 
 .nav-link {
-    margin: 0 -10px; /* Space between links */
+    margin: 0 -10px;
     text-decoration: none;
     color: #000;
     font-weight: bold;
 }
-/* Style the individual nav links */
+
 nav li {
-    margin: 0; /* No margin needed here */
+    margin: 0;
 }
 
 nav li a {
-    color: #000; /* Adjust color as needed */
+    color: #000;
     text-decoration: none;
-    /* margin-left: 620px; */
 }
-/* usersidebar.css */
+
 .headnavbar {
     position: relative;
-    background-color: #f4f4f4; /* Adjust as needed */
-    padding: 10px; /* Adjust padding as needed */
+    background-color: #f4f4f4;
+    padding: 10px;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Distribute space between items */
+    justify-content: space-between;
 }
 
 .headnavbar nav {
@@ -106,22 +106,18 @@ nav li a {
     list-style: none;
     margin: 0;
     padding: 0;
-    flex: 1; /* Allow list items to take available space */
-    justify-content: center; /* Center list items horizontally */
+    flex: 1;
+    justify-content: center;
 }
 
 .headnavbar li {
-    margin: 0 15px; /* Space between list items */
+    margin: 0 15px;
 }
 
-
-
-/* Ensure profile and notifications menus are positioned correctly */
 .sub-menu-wrap {
     position: absolute;
     top: 100%;
     right: 0;
-    /* Other styling as needed */
 }
 
 .logo {
@@ -131,7 +127,7 @@ nav li a {
 .hide-logo {
     display: none;
 }
-/* Notifications submenu styles */
+
 #notificationsMenu {
     position: absolute;
     top: 100%;
@@ -151,8 +147,8 @@ nav li a {
     background: #fae2ce;
     padding: 20px;
     margin: 10px;
-    position: relative; /* Ensure the sub-menu is positioned relative to its normal position */
-    left: 10px; /
+    position: relative;
+    left: 10px;
 }
 
 #notificationsMenu .sub-menu a {
@@ -194,6 +190,7 @@ nav li a {
     cursor: pointer;
     margin-left: 30px;
 }
+
 nav > ul {
     width: 100%;
     text-align: right;
@@ -209,6 +206,7 @@ nav > ul > li > a {
     color: #fff;
     text-decoration: none;
 }
+
 .sub-menu-wrap {
     position: absolute;
     top: 100%;
@@ -216,42 +214,42 @@ nav > ul > li > a {
     width: 320px;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.5s ease, opacity 0.5s ease; /* Smooth transitions */
+    transition: max-height 0.5s ease, opacity 0.5s ease;
     z-index: 900;
-    opacity: 0; /* Initial opacity for fade effect */
+    opacity: 0;
 }
 
 .sub-menu-wrap.open-menu {
     max-height: 400px;
-    opacity: 1; /* Make visible when open */
+    opacity: 1;
 }
 
 .sub-menu {
     background: #fae2ce;
     padding: 20px;
     margin: 10px;
-    border-radius: 10px; /* Rounded corners for a softer look */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .sub-menu .user-info {
     display: flex;
     align-items: center;
-    margin-bottom: 20px; /* Space below user info section */
+    margin-bottom: 20px;
 }
 
 .sub-menu .user-info img {
     width: 60px;
-    height: 60px; /* Ensure circle is perfect */
+    height: 60px;
     border-radius: 50%;
     margin-right: 15px;
-    object-fit: cover; /* Ensure image covers the circle */
+    object-fit: cover;
 }
 
 .sub-menu .user-info h2 {
     font-weight: 500;
-    font-size: 18px; /* Slightly larger font for the name */
-    color: #333; /* Darker text color for contrast */
+    font-size: 18px;
+    color: #333;
 }
 
 .sub-menu hr {
@@ -259,7 +257,7 @@ nav > ul > li > a {
     height: 1px;
     width: 100%;
     background: #ccc;
-    margin: 20px 0; /* Adjusted margin for better spacing */
+    margin: 20px 0;
 }
 
 .sub-menu a {
@@ -268,19 +266,19 @@ nav > ul > li > a {
     text-decoration: none;
     color: #525252;
     margin: 12px 0;
-    border-radius: 5px; /* Rounded corners */
-    padding: 10px; /* Padding for better click area */
-    transition: background 0.3s ease; /* Smooth background change on hover */
+    border-radius: 5px;
+    padding: 10px;
+    transition: background 0.3s ease;
 }
 
 .sub-menu a:hover {
-    background: #e5c8b2; /* Subtle background color change on hover */
+    background: #e5c8b2;
 }
 
 .sub-menu a p {
     width: 100%;
-    font-size: 16px; /* Adjust font size for better readability */
-    margin: 0; /* Remove default margin */
+    font-size: 16px;
+    margin: 0;
 }
 
 .sub-menu a img {
@@ -288,24 +286,24 @@ nav > ul > li > a {
     background: #e5e5e5;
     border-radius: 50%;
     padding: 8px;
-    margin-right: 15px; /* Adjust margin-right to create space */
-    vertical-align: middle; /* Align the image vertically */
-    transition: background 0.3s ease; /* Smooth background change on hover */
+    margin-right: 15px;
+    vertical-align: middle;
+    transition: background 0.3s ease;
 }
 
 .sub-menu a:hover img {
-    background: #ccc; /* Subtle background color change on hover */
+    background: #ccc;
 }
 
 .sub-menu a span {
     margin-left: -20px;
     font-size: 22px;
-    transition: transform 0.3s ease, color 0.3s ease; /* Smooth transform and color transition */
+    transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .sub-menu a:hover span {
     transform: translateX(5px);
-    color: #fff; /* Change color to white on hover */
+    color: #fff;
 }
 
 .sub-menu a:hover p {
@@ -313,17 +311,14 @@ nav > ul > li > a {
 }
 
 .sub-menu-wrap .user-name {
-    font-size: 18px; /* Matches the font size of h2 in the user info section */
-    font-weight: 600; /* Bold font weight to make it stand out */
-    color: #333; /* Darker color for better readability */
-    margin: 0 0 15px; /* Space below the name */
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 15px;
     display: flex;
     align-items: center;
-    padding-left: 15px; /* Adjust padding to move name to the right */
+    padding-left: 15px;
 }
-
-
-/* Sidebar */
 
 .profile-img {
     width: 55px;
@@ -343,9 +338,10 @@ hr {
     width: 100%;
     background: #000000;
     margin: 15px 0 10px;
-    opacity: 0; 
-    transition: opacity 0.5s ease; 
+    opacity: 0;
+    transition: opacity 0.5s ease;
 }
+
 hr.active {
     opacity: 1;
 }
@@ -355,23 +351,20 @@ hr.active {
     top: 0;
     left: 0;
     height: 100vh;
-    width: 80px; /* Default width */
+    width: 80px;
     background-color: #ffdab9;
     padding: .4rem .8rem;
     transition: all 0.5s ease;
-    z-index: 1000; /* Higher z-index than main-content */
+    z-index: 1000;
 }
 
-
-/* Sidebar active state */
 .sidebar.active {
-    width: 250px; /* Expanded width */
+    width: 250px;
 }
 
 .sidebar.active ~ .main-content {
-    margin-left: 250px; /* Adjust main-content margin */
+    margin-left: 250px;
 }
-
 
 .sidebar.active {
     width: 250px;
@@ -379,9 +372,8 @@ hr.active {
 
 .sidebar.active ~ .main-content {
     opacity: 1;
-    width: calc(95% - 220px); /* Adjust width when sidebar is expanded */
-    
-    height: 100vh; /* Extend height to match the height of the viewport */
+    width: calc(95% - 220px);
+    height: 100vh;
 }
 
 .sidebar #btn {
@@ -401,8 +393,8 @@ hr.active {
 
 .sidebar #btn:hover {
     background-color: transparent;
-    transform: scale(1.2); /* Scale the button on hover */
-    transition: color 0.3s, transform 0.3s; /* Add smooth transition */
+    transform: scale(1.2);
+    transition: color 0.3s, transform 0.3s;
     border-radius: 0.2rem;
 }
 
@@ -479,9 +471,11 @@ hr.active {
 .sideimg {
     margin-left: 10px;
 }
+
 .sidebar .nav-item.disable-hover {
-    pointer-events: none; /* Disable hover */
+    pointer-events: none;
 }
+
 .sidebar ul li a:hover {
     background-color: #fff;
     color: #000;
@@ -500,7 +494,6 @@ hr.active {
     transition: opacity 0.3s ease;
 }
 
-
 .sidebar.active .nav-item {
     opacity: 1;
 }
@@ -516,10 +509,10 @@ hr.active {
 
 .sidebar ul li .tooltip {
     position: absolute;
-    left: 60%; 
-    top: -30px; 
+    left: 60%;
+    top: -30px;
     transform: translateX(-50%);
-    background-color: rgba(51, 51, 51, 0.9); 
+    background-color: rgba(51, 51, 51, 0.9);
     color: #fff;
     padding: 8px 12px;
     border-radius: 4px;
@@ -545,35 +538,37 @@ hr.active {
 
 .main-content {
     position: absolute;
-    margin-top: 60px; 
+    margin-top: 60px;
     padding: 20px;
     background-color: #ffffff;
-    box-sizing: border-box; 
+    box-sizing: border-box;
     min-height: 100vh;
     width: calc(100% - 80px);
-    z-index: 1; 
+    z-index: 1;
     margin-left: 10vh;
 }
 
 @media (max-width: 768px) {
     .sidebar {
-        width: 60px; /* Collapsed sidebar width */
+        width: 60px;
     }
 
     .sidebar.active {
-        width: 100%; /* Expanded sidebar width */
+        width: 100%;
         max-width: 100%;
     }
 
     .main-content {
-        margin-left:37px; /* Adjust for sidebar */
+        margin-left: 37px;
         width: 100%;
     }
+
     #logo-img {
-        height: 35px; /* Adjust logo size */
+        height: 35px;
         content-visibility: hidden;
     }
 }
+
 @media (max-width: 768px) {
     nav {
         height: 70px;
@@ -584,49 +579,52 @@ hr.active {
     nav ul {
         width: 100%;
     }
-    .profile-img{
+
+    .profile-img {
         height: 38px;
         width: 45px;
     }
-    .nav-links-wrapper{
+
+    .nav-links-wrapper {
         margin-left: 175px;
     }
-    .top{
+
+    .top {
         height: 75px;
         width: 500%;
     }
 
     .nav-link {
-        margin: 10px 0; /* Space between links */
+        margin: 10px 0;
     }
 
     #logo-img {
-        height: 35px; /* Adjust logo size */
+        height: 35px;
         content-visibility: hidden;
     }
 
     .sidebar {
-        width: 60px; /* Default sidebar width for mobile */
+        width: 60px;
     }
 
     .sidebar.active {
-        width: 100%;/* Expanded width for mobile */
+        width: 100%;
         height: 100%;
     }
-
 }
 
-/* Adjustments for smaller devices */
 @media (max-width: 480px) {
     nav {
         padding: 10px 2%;
     }
-    .profile-img{
+
+    .profile-img {
         height: 38px;
         width: 45px;
         margin-top: 15px;
     }
-    .nav-links-wrapper{
+
+    .nav-links-wrapper {
         margin-left: 5vh;
     }
 
@@ -635,17 +633,18 @@ hr.active {
         width: 45px;
         margin-left: 15px;
     }
-    .top , .logo{
+
+    .top, .logo {
         height: 38px;
         width: 45px;
     }
 
     .sidebar {
-        width: 50px; /* Further reduce sidebar width for very small screens */
+        width: 50px;
     }
 
     .sidebar.active {
-        width: 100%; /* Adjust active state width */
+        width: 100%;
         max-width: 75%;
     }
 }

@@ -5,11 +5,10 @@
     position: fixed;
     top: 0px;
     left: 10px;
-    z-index: 1001; /* Ensure the logo appears above the navigation */
-    margin-bottom: 60vh;
+    z-index: 1001; 
 }
 .HomeLogo .logoo img {
-    width: 150px; /* Adjust the width of the logo as needed */
+    width: 150px;
 }
 .HomeLogo a {
     display: block;
@@ -20,11 +19,11 @@
 }
 @media (max-width: 768px) {
     .HomeLogo .logoo img {
-        width: 135px; /* Adjust the width of the logo for smaller screens */
+        width: 135px;
         height: 50px;
     }
 
     .HomeLogo a {
-        padding: 10px 15px; /* Adjust the padding for smaller screens */
+        padding: 10px 15px; 
     }
 }

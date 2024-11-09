@@ -1,4 +1,3 @@
-
 #calendar-box {
     display: flex;
     flex-direction: column;
@@ -8,16 +7,15 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     width: 60vh;
-    height: 49vh; /* Set height */
-    position: relative; /* Positioning to allow for flexible layout */
-    margin-left: auto; /* Adjust positioning */
+    height: 49vh;
+    position: relative;
+    margin-left: auto;
     margin-right: auto;
     grid-column: 3 / 4;
-    
 }
-/* Calendar box styling */
+
 #calendar-nav {
-    flex-shrink: 0; 
+    flex-shrink: 0;
     background-color: #fd8326;
     color: #fff;
     padding: 10px;
@@ -27,7 +25,6 @@
     border-bottom: 1px solid #ccc;
 }
 
-/* Calendar navigation buttons styling */
 #calendar-nav button {
     background: none;
     border: none;
@@ -52,58 +49,51 @@
     text-align: center;
 }
 
-/* Calendar grid styling */
 #calendar {
     display: grid;
-    grid-template-columns: repeat(6, 2fr); /* Ensure it still has 7 columns */
+    grid-template-columns: repeat(6, 2fr);
     gap: 5px;
     padding: 5px;
-    height: calc(100% - 60px); /* Deduct space for navigation */
+    height: calc(100% - 60px);
     box-sizing: border-box;
 }
 
-/* Calendar header cell styling */
 .calendar-header-cell {
     text-align: center;
     padding: 5px;
     background-color: #f4f4f4;
     font-weight: bold;
-    font-size: 1em; 
+    font-size: 1em;
 }
 
-/* Calendar cell styling */
 .calendar-cell {
     text-align: right;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 8px;
     box-sizing: border-box;
-    font-size: 0.9em; 
-    height: 60px; /* Adjust cell height to fit within container */
+    font-size: 0.9em;
+    height: 60px;
     line-height: 40px;
     cursor: pointer;
 }
 
-/* Hover effect for calendar cells */
 .calendar-cell:hover {
     background-color: peachpuff;
 }
 
-/* Empty date cell styling */
 .date.empty {
     background-color: #f0f0f0;
 }
 
-/* General calendar cell styles */
 .calendar-cell {
-    width: 100%; 
+    width: 100%;
     padding: 5px;
     box-sizing: border-box;
     text-align: center;
     border: 1px solid #ddd;
 }
 
-/* Adjusting color for past and today */
 .past-day {
     background-color: lightgrey;
     color: #777;
@@ -113,40 +103,40 @@
     background-color: peachpuff;
     color: black;
 }
+
 @media (max-width: 768px) {
     #calendar-box {
-        width: 100%; /* Full width on smaller screens */
-        height: auto; /* Allow height to adjust */
-        margin-left: 0; /* Center it on mobile */
+        width: 100%;
+        height: auto;
+        margin-left: 0;
         visibility: hidden;
     }
 
     #calendar {
-        grid-template-columns: repeat(4, 1fr); /* Reduce columns */
+        grid-template-columns: repeat(4, 1fr);
     }
 
     #calendar-nav button {
-        font-size: 1.5em; /* Smaller button text */
+        font-size: 1.5em;
     }
 
     #calendar-nav #month-year {
-        font-size: 1.2em; /* Adjust month/year font size */
+        font-size: 1.2em;
     }
 }
 
 @media (max-width: 480px) {
     #calendar-nav {
-        flex-direction: column; /* Stack navigation items */
-        align-items: flex-start; /* Align to the left */
+        flex-direction: column;
+        align-items: flex-start;
     }
 
     #calendar {
-        grid-template-columns: repeat(3, 1fr); /* Further reduce columns */
+        grid-template-columns: repeat(3, 1fr);
     }
 
     .calendar-cell {
-        height: 50px; /* Decrease cell height */
-        font-size: 0.8em; /* Smaller text */
+        height: 50px;
+        font-size: 0.8em;
     }
 }
-

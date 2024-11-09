@@ -1,15 +1,13 @@
-/* General body styling */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
 }
 
-/* General styling for the container */
 .container {
     max-width: 900px;
     margin: 50px auto;
-    margin-top:10vh;
+    margin-top: 10vh;
     padding: 20px;
     background-color: peachpuff;
     border-radius: 8px;
@@ -17,7 +15,6 @@ body {
     font-family: Arial, sans-serif;
 }
 
-/* Page title */
 .container h2 {
     font-size: 24px;
     color: #333;
@@ -25,20 +22,19 @@ body {
     margin-bottom: 20px;
 }
 
-/* Styling the table */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
-    table-layout: fixed; /* Added to ensure fixed column widths */
+    table-layout: fixed; 
 }
 
 table th, table td {
     padding: 12px 15px;
     text-align: left;
     border-bottom: 1px solid #ddd;
-    word-wrap: break-word; /* Allow long words to break and wrap */
-    white-space: normal;   /* Allow normal text wrapping */
+    word-wrap: break-word; 
+    white-space: normal;   
 }
 
 table th {
@@ -55,7 +51,6 @@ tr:hover {
     background-color: peachpuff;
 }
 
-/* Cancel Button Styling */
 .cancel-btn {
     background-color: #f44336;
     color: white;
@@ -80,81 +75,84 @@ a.cancel-btn {
 .page-link {
     display: none;
 }
+
 .page-link.active {
-    background-color: #ff8b2c; /* Primary color for active link */
-    color: white; /* White text color */
-    border: 1px solid #ff8b2c; /* Match border color with active background */
+    background-color: #ff8b2c;
+    color: white;
+    border: 1px solid #ff8b2c;
 }
+
 #pagination {
     margin-top: 20px;
-    text-align: center; /* Center align pagination controls */
+    text-align: center; 
 }
+
 #pagination a {
-    display: inline-block; /* Ensure pagination links are inline */
-    margin: 0 8px; /* Space between pagination links */
-    text-decoration: none; /* Remove underline from links */
-    color: #ff8b2c; /* Link color */
-    padding: 8px 12px; /* Padding inside pagination links */
-    border: 1px solid #ff8b2c; /* Blue border to match theme */
-    border-radius: 4px; /* Rounded corners */
-    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
+    display: inline-block;
+    margin: 0 8px; 
+    text-decoration: none; 
+    color: #ff8b2c; 
+    padding: 8px 12px; 
+    border: 1px solid #ff8b2c; 
+    border-radius: 4px; 
+    transition: background-color 0.3s ease, color 0.3s ease; 
 }
+
 #pagination a.active {
-    background-color: #ff8b2c; /* Active background color */
-    color: white; /* White text color */
+    background-color: #ff8b2c; 
+    color: white; 
 }
+
 #pagination a:hover {
-    background-color: #f0f0f0; /* Light gray background on hover */
-    color: #ff8b2c; /* Blue text color */
+    background-color: #f0f0f0; 
+    color: #ff8b2c; 
 }
 
 #pagination input {
     text-align: center;
     width: 50px;
     padding: 8px;
-    color: #ff8b2c; /* Blue text color */
-    border: 1px solid #ff8b2c; /* Blue border */
-    border-radius: 4px; /* Rounded corners */
-    margin: 0 8px; /* Space around the input */
+    color: #ff8b2c; 
+    border: 1px solid #ff8b2c; 
+    border-radius: 4px; 
+    margin: 0 8px; 
 }
 
-/* Button styling */
 #pagination button {
-    background-color: #ff8b2c; /* Blue background */
-    color: white; /* White text */
-    border: none; /* Remove border */
-    padding: 8px 12px; /* Add padding */
-    text-align: center; /* Center text */
-    text-decoration: none; /* Remove underline */
-    display: inline-block; /* Display inline */
-    font-size: 16px; /* Font size */
-    margin: 4px 2px; /* Add margin */
-    cursor: pointer; /* Add pointer cursor on hover */
-    border-radius: 4px; /* Rounded corners */
-    transition-duration: 0.4s; /* Add transition effect */
+    background-color: #ff8b2c; 
+    color: white; 
+    border: none; 
+    padding: 8px 12px; 
+    text-align: center; 
+    text-decoration: none; 
+    display: inline-block; 
+    font-size: 16px; 
+    margin: 4px 2px; 
+    cursor: pointer; 
+    border-radius: 4px; 
+    transition-duration: 0.4s; 
 }
 
 #pagination button:hover {
-    background-color: white; /* White background on hover */
-    color: #ff8b2c; /* Blue text on hover */
-    border: 1px solid #ff8b2c; /* Blue border on hover */
+    background-color: white; 
+    color: #ff8b2c; 
+    border: 1px solid #ff8b2c; 
 }
 
 #pagination button:disabled {
-    background-color: #ddd; /* Grey background for disabled buttons */
-    color: #999; /* Grey text for disabled buttons */
-    cursor: not-allowed; /* No pointer cursor for disabled buttons */
+    background-color: #ddd; 
+    color: #999; 
+    cursor: not-allowed; 
 }
 
 #pagination input[type="number"] {
-    border: 1px solid #ff8b2c; /* Blue border */
-    border-radius: 4px; /* Rounded corners */
+    border: 1px solid #ff8b2c; 
+    border-radius: 4px; 
     padding: 5px;
     font-size: 14px;
     width: 60px;
 }
 
-/* Message when no complaints are found */
 .container p {
     text-align: center;
     color: #333;
@@ -162,7 +160,6 @@ a.cancel-btn {
     margin-top: 20px;
 }
 
-/* Link to submit a new complaint */
 .container a {
     display: block;
     text-align: center;
@@ -174,6 +171,7 @@ a.cancel-btn {
 .container a:hover {
     text-decoration: underline;
 }
+
 .submit-complaint {
     text-align: center;
     margin-top: 20px;
@@ -192,8 +190,6 @@ a.cancel-btn {
     background-color: #e9701d;
 }
 
-
-/* Responsive Design */
 @media (max-width: 768px) {
     .container {
         max-width: 85%;
@@ -201,7 +197,7 @@ a.cancel-btn {
         margin-left: 55px;
         margin-top: 100px;
     }
-    
+
     table, table tr, table th, table td {
         display: block;
         width: 100%;
@@ -210,10 +206,10 @@ a.cancel-btn {
     table th, table td {
         text-align: left;
         display: inline-block;
-        width: 48%; /* Allow room for each cell in the row */
+        width: 48%; 
         box-sizing: border-box;
     }
-    
+
     table th {
         background-color: #fd8326;
         color: white;
@@ -231,13 +227,13 @@ a.cancel-btn {
     .container {
         padding: 10px;
     }
-    
+
     table th, table td {
         padding: 8px 10px;
         font-size: 14px;
         width: 100%;
     }
-    
+
     #pagination {
         font-size: 14px;
     }
@@ -247,6 +243,7 @@ a.cancel-btn {
         margin: 0 5px;
     }
 }
+
 .complaint-card {
     padding: 10px;
     background-color: #fff;
@@ -291,7 +288,6 @@ a.cancel-btn {
     background-color: #d12c2c;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
     .complaint-item {
         flex-direction: column;

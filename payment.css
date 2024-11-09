@@ -3,18 +3,18 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
     padding: 10px; 
     margin-top: 10px; 
-  }
-  
-  /* Main Content Styling */
-  .main-content {
-    margin: 0 auto; /* Center the content horizontally */
-  margin-left: 80px;
-    max-width: 90%; /* Optional: Set a maximum width to prevent it from becoming too wide */
-  }
+}
+
+.main-content {
+    margin: 0 auto;
+    margin-left: 80px;
+    max-width: 90%; 
+}
+
 body {
     font-family: Arial, sans-serif;
-
 }
+
 .loader {
     border: 8px solid #f3f3f3;
     border-top: 8px solid #3498db;
@@ -22,13 +22,14 @@ body {
     width: 40px;
     height: 40px;
     animation: spin 1s linear infinite;
-    margin: 20px auto; /* Center the loader */
+    margin: 20px auto; 
 }
 
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
 .upload-input {
     padding: 12px;
     background-color: #f0f0f0;
@@ -60,6 +61,7 @@ body {
 .upload-input::file-selector-button:hover {
     background-color: #45a049;
 }
+
 .back-button {
     padding: 10px 20px;
     font-size: 16px;
@@ -70,12 +72,13 @@ body {
     cursor: pointer;
     transition: background-color 0.3s;
     margin-left: 160vh;
-    margin-bottom : 20px;
+    margin-bottom: 20px;
 }
 
 .back-button:hover {
     background-color: #b45303e8;
 }
+
 header {
     display: flex;
     justify-content: space-between;
@@ -150,13 +153,15 @@ table th {
 table td {
     text-align: left;
 }
-/* Consistent row background color */
+
 table tr {
     background-color: #f2f2f2;
 }
+
 tr:hover {
     background-color: peachpuff;
 }
+
 .paid {
     color: green;
     font-weight: bold;
@@ -186,92 +191,95 @@ tr:hover {
     border-radius: 5px;
     margin-left: 10px;
 }
-a{
+
+a {
     color: green;
     font-weight: bold;
 }
 
-/* Pagination Styling */
 .page-link {
     display: none;
 }
+
 .page-link.active {
-    background-color: #ff8b2c; /* Primary color for active link */
-    color: white; /* White text color */
-    border: 1px solid #ff8b2c; /* Match border color with active background */
+    background-color: #ff8b2c; 
+    color: white; 
+    border: 1px solid #ff8b2c; 
 }
+
 #pagination {
     margin-top: 20px;
-    text-align: center; /* Center align pagination controls */
+    text-align: center; 
 }
+
 #pagination a {
-    display: inline-block; /* Ensure pagination links are inline */
-    margin: 0 8px; /* Space between pagination links */
-    text-decoration: none; /* Remove underline from links */
-    color: #ff8b2c; /* Link color */
-    padding: 8px 12px; /* Padding inside pagination links */
-    border: 1px solid #ff8b2c; /* Blue border to match theme */
-    border-radius: 4px; /* Rounded corners */
-    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
+    display: inline-block; 
+    margin: 0 8px; 
+    text-decoration: none; 
+    color: #ff8b2c; 
+    padding: 8px 12px; 
+    border: 1px solid #ff8b2c; 
+    border-radius: 4px; 
+    transition: background-color 0.3s ease, color 0.3s ease; 
 }
+
 #pagination a.active {
-    background-color: #ff8b2c; /* Active background color */
-    color: white; /* White text color */
+    background-color: #ff8b2c; 
+    color: white; 
 }
+
 #pagination a:hover {
-    background-color: #f0f0f0; /* Light gray background on hover */
-    color: #ff8b2c; /* Blue text color */
+    background-color: #f0f0f0; 
+    color: #ff8b2c; 
 }
 
 #pagination input {
     text-align: center;
     width: 50px;
     padding: 8px;
-    color: #ff8b2c; /* Blue text color */
-    border: 1px solid #ff8b2c; /* Blue border */
-    border-radius: 4px; /* Rounded corners */
-    margin: 0 8px; /* Space around the input */
+    color: #ff8b2c; 
+    border: 1px solid #ff8b2c; 
+    border-radius: 4px; 
+    margin: 0 8px; 
 }
 
-/* Button styling */
 #pagination button {
-    background-color: #ff8b2c; /* Blue background */
-    color: white; /* White text */
-    border: none; /* Remove border */
-    padding: 8px 12px; /* Add padding */
-    text-align: center; /* Center text */
-    text-decoration: none; /* Remove underline */
-    display: inline-block; /* Display inline */
-    font-size: 16px; /* Font size */
-    margin: 4px 2px; /* Add margin */
-    cursor: pointer; /* Add pointer cursor on hover */
-    border-radius: 4px; /* Rounded corners */
-    transition-duration: 0.4s; /* Add transition effect */
+    background-color: #ff8b2c; 
+    color: white; 
+    border: none; 
+    padding: 8px 12px; 
+    text-align: center; 
+    text-decoration: none; 
+    display: inline-block; 
+    font-size: 16px; 
+    margin: 4px 2px; 
+    cursor: pointer; 
+    border-radius: 4px; 
+    transition-duration: 0.4s; 
 }
 
 #pagination button:hover {
-    background-color: white; /* White background on hover */
-    color: #ff8b2c; /* Blue text on hover */
-    border: 1px solid #ff8b2c; /* Blue border on hover */
+    background-color: white; 
+    color: #ff8b2c; 
+    border: 1px solid #ff8b2c; 
 }
 
 #pagination button:disabled {
-    background-color: #ddd; /* Grey background for disabled buttons */
-    color: #999; /* Grey text for disabled buttons */
-    cursor: not-allowed; /* No pointer cursor for disabled buttons */
+    background-color: #ddd; 
+    color: #999; 
+    cursor: not-allowed; 
 }
 
 #pagination input[type="number"] {
-    border: 1px solid #ff8b2c; /* Blue border */
-    border-radius: 4px; /* Rounded corners */
+    border: 1px solid #ff8b2c; 
+    border-radius: 4px; 
     padding: 5px;
     font-size: 14px;
     width: 60px;
 }
 
-
 .search-form {
-    margin-bottom: 20px; /* Space below the search form */
+    margin-bottom: 20px; 
     display: flex;
     align-items: center;
 }
@@ -281,15 +289,15 @@ a{
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
-    width: 250px; /* Adjust width as needed */
-    margin-right: 10px; /* Space between input and button */
+    width: 250px; 
+    margin-right: 10px; 
 }
 
 .search-form button {
     padding: 8px 16px;
     border: none;
     border-radius: 4px;
-    background-color: #ff8b2c; /* Primary color */
+    background-color: #ff8b2c; 
     color: white;
     font-size: 16px;
     cursor: pointer;
@@ -297,14 +305,15 @@ a{
 }
 
 .search-form button:hover {
-    background-color: #f87000; /* Darker shade on hover */
+    background-color: #f87000; 
 }
+
 .recent-payments {
     padding: 20px;
-    background-color: peachpuff; /* Change background to pure white for cleaner look */
+    background-color: peachpuff; 
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    font-family: 'Arial', sans-serif; /* Ensure consistent font */
+    font-family: 'Arial', sans-serif; 
 }
 
 .recent-payments h2 {
@@ -312,7 +321,7 @@ a{
     margin-bottom: 20px;
     text-align: center;
     color: #333;
-    font-weight: bold; /* Bold text for headings */
+    font-weight: bold; 
 }
 
 .payment {
@@ -320,18 +329,18 @@ a{
     align-items: center;
     background-color: blanchedalmond;
     border-bottom: 1px solid #ddd;
-    padding: 15px 0; /* Increase padding for better spacing */
+    padding: 15px 0; 
 }
 
 .payment img {
-    width: 120px; /* Increased size for a more prominent view */
+    width: 120px; 
     height: 120px; 
     object-fit: cover;
     border-radius: 8px;
     margin-left: 20px;
     margin-right: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow for depth */
-    cursor: pointer; /* Add cursor pointer for clickable effect */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    cursor: pointer; 
 }
 
 .payment-details {
@@ -346,40 +355,40 @@ a{
 .payment-details span {
     font-weight: bold;
     color: #333;
-    display: block; /* Ensure each span is on its own line */
+    display: block; 
 }
+
 @media (max-width: 768px) {
     .main-content {
-        margin-left: 10px; /* Reduce margin on smaller screens */
-        margin-right: 10px; /* Add right margin for better spacing */
+        margin-left: 10px; 
+        margin-right: 10px; 
     }
 
     header {
-        flex-direction: column; /* Stack header elements */
-        align-items: flex-start; /* Align items to the start */
+        flex-direction: column; 
+        align-items: flex-start; 
     }
 
     .balance-section {
-        gap: 11px; /* Reduce gap */
+        gap: 11px; 
         flex-flow: column;
         width: 35vh;
-
     }
 
     .payment-schedule input {
-        width: 100%; /* Full width on smaller screens */
+        width: 100%; 
     }
 
     #refresh-button {
-        width: 100%; /* Full width button */
-        margin-top: 10px; /* Add space above button */
+        width: 100%; 
+        margin-top: 10px; 
     }
+
     table, thead, tbody, th, td, tr {
         display: block;
         width: 100%;
     }
 
-    /* Ensure table rows have enough spacing */
     table tr {
         margin-bottom: 20px;
         padding: 10px;
@@ -388,7 +397,6 @@ a{
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
-    /* Show table header as labels */
     table td {
         display: block;
         text-align: right;
@@ -397,7 +405,6 @@ a{
         border: none;
     }
 
-    /* Display table header in mobile view as labels */
     table td::before {
         content: attr(data-label);
         position: absolute;
@@ -407,16 +414,15 @@ a{
         color: #fd8326;
     }
 
-    /* Remove table headers in mobile */
     thead {
         display: none;
     }
 
-    /* Responsive adjustments for smaller devices */
     table td:last-child {
         border-bottom: 0;
     }
-    .container{
+
+    .container {
         margin-left: 2vh;
     }
 }

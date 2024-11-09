@@ -17,9 +17,9 @@ body {
 
 /* Main Content Styling */
 .main-content {
-    margin: 0 auto; /* Center the content horizontally */
+    margin: 0 auto; 
     margin-left: 80px;
-    max-width: 90%; /* Optional: Set a maximum width to prevent it from becoming too wide */
+    max-width: 90%; 
 }
  /* General styles */
 .container h1 {
@@ -88,10 +88,10 @@ body {
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 4px;
-    width: 31%; /* Make it as wide as the input field */
-    max-height: 200px; /* Set a maximum height */
-    overflow-y: auto; /* Enable vertical scrolling for overflow */
-    z-index: 1000; /* Make sure it's on top of other elements */
+    width: 31%; 
+    max-height: 200px;
+    overflow-y: auto; 
+    z-index: 1000; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 

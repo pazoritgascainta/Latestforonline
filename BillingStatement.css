@@ -110,9 +110,6 @@ small {
   font-size: 80%;
 }
 
-/*
-Prevent `sub` and `sup` elements from affecting the line height in all browsers.
-*/
 
 sub,
 sup {
@@ -167,19 +164,14 @@ textarea {
   /* 3 */
 }
 
-/*
-Remove the inheritance of text transform in Edge and Firefox.
-*/
+
 
 button,
 select {
   text-transform: none;
 }
 
-/*
-1. Correct the inability to style clickable types in iOS and Safari.
-2. Remove default button styles.
-*/
+
 
 button,
 [type='button'],
@@ -193,9 +185,7 @@ button,
   /* 2 */
 }
 
-/*
-Use the modern Firefox focus style for all focusable elements.
-*/
+
 
 :-moz-focusring {
   outline: auto;
@@ -207,17 +197,13 @@ Use the modern Firefox focus style for all focusable elements.
   box-shadow: none;
 }
 
-/*
-Add the correct vertical alignment in Chrome and Firefox.
-*/
+
 
 progress {
   vertical-align: baseline;
 }
 
-/*
-Correct the cursor style of increment and decrement buttons in Safari.
-*/
+
 
 ::-webkit-inner-spin-button,
 ::-webkit-outer-spin-button {
@@ -300,9 +286,6 @@ dialog {
   padding: 0;
 }
 
-/*
-Prevent resizing textareas horizontally by default.
-*/
 
 textarea {
   resize: vertical;
@@ -317,18 +300,12 @@ textarea::placeholder {
   /* 2 */
 }
 
-/*
-Set the default cursor for buttons.
-*/
 
 button,
 [role="button"] {
   cursor: pointer;
 }
 
-/*
-Make sure disabled buttons don't get the pointer cursor.
-*/
 
 :disabled {
   cursor: default;
@@ -357,7 +334,6 @@ video {
   height: auto;
 }
 
-/* Make elements with the HTML hidden attribute stay hidden by default */
 
 [hidden] {
   display: none;

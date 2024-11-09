@@ -8,19 +8,19 @@
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    width: 100%; /* Ensure it occupies full width of its container */
+    width: 100%; 
 }
 
 /* Calendar navigation styling */
 #calendar-nav {
-    flex-shrink: 0; /* Prevent shrinking */
-    background-color: #ff8b2c; /* Adjust background color */
-    color: #fff; /* Adjust text color */
+    flex-shrink: 0; 
+    background-color: #ff8b2c; 
+    color: #fff; 
     padding: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #ccc; /* Optional border to separate from calendar */
+    border-bottom: 1px solid #ccc; 
 }
 
 /* Calendar navigation buttons styling */
@@ -34,8 +34,8 @@
 }
 
 #calendar-nav button:hover {
-    color: #fff; /* Change to desired hover color */
-    transform: scale(1.2); /* Slightly increase size on hover */
+    color: #fff; 
+    transform: scale(1.2); 
 }
 
 #calendar-nav #month-year {
@@ -53,18 +53,17 @@
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 5px;
-    width: 100%; /* Ensure it occupies full width */
+    width: 100%; 
     margin: 0 auto;
-    padding: 10px; /* Optional padding for spacing */
+    padding: 10px; 
 }
 
 /* Calendar header cell styling */
 .calendar-header-cell {
     text-align: center;
     padding: 10px;
-    background-color: #f4f4f4; /* Light gray background for header */
+    background-color: #f4f4f4; 
     font-weight: bold;
-    /* Remove border from header cells */
     border: none;
 }
 
@@ -72,24 +71,24 @@
 .calendar-cell {
     text-align: right;
     padding: 15px;
-    border: 1px solid #ccc; /* Apply border only to day cells */
+    border: 1px solid #ccc; 
     border-radius: 8px;
     box-sizing: border-box;
     font-size: 1.2em;
     height: 100px;
     line-height: 60px;
     cursor: pointer;
-    position: relative; /* Make positioning relative for grid */
+    position: relative; 
 }
 
 /* Hover effect for calendar cells */
 .calendar-cell:hover {
-    background-color: peachpuff; /* Light blue background on hover */
+    background-color: peachpuff; 
 }
 
 /* Empty date cell styling */
 .calendar-cell.empty {
-    background-color: #f0f0f0; /* Light gray background for empty cells */
+    background-color: #f0f0f0; 
 }
 
 /* Color grid inside calendar cell */
@@ -117,17 +116,17 @@
 /* Style for the appointment info container */
 .appointment-info {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); /* Responsive grid for appointment info */
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); 
     gap: 5px;
     align-items: center;
     justify-items: center;
-    position: absolute; /* Ensure it overlays properly */
+    position: absolute; 
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    overflow: auto; /* Handle overflow of grid items */
-    padding: 5px; /* Add padding inside the cell */
+    overflow: auto; 
+    padding: 5px;
     box-sizing: border-box;
 }
 
@@ -138,7 +137,7 @@
     color: white;
     font-size: 12px;
     text-align: center;
-    width: 100%; /* Make sure it occupies full width of grid cell */
+    width: 100%; 
     box-sizing: border-box;
 }
 #refresh-button {
@@ -161,27 +160,27 @@
 }
 
 .today {
-    background-color: peachpuff; /* Peach color for today */
+    background-color: peachpuff; 
     color: black;
 }
 
 @media (max-width: 768px) {
     #calendar-nav {
-        flex-direction: column; /* Stack nav items on smaller screens */
-        align-items: stretch; /* Stretch buttons */
+        flex-direction: column;
+        align-items: stretch; 
     }
 
     #calendar-nav button {
-        font-size: 1.5em; /* Smaller button size */
-        margin: 5px 0; /* Adjust margin for vertical layout */
+        font-size: 1.5em; 
+        margin: 5px 0; 
     }
 
     #calendar {
-        grid-template-columns: repeat(3, 1fr); /* Fewer columns for smaller screens */
+        grid-template-columns: repeat(3, 1fr);
     }
 
     .calendar-cell {
-        height: auto; /* Auto height for flexibility */
-        line-height: normal; /* Normal line height for text */
+        height: auto; 
+        line-height: normal;
     }
 }

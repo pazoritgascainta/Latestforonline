@@ -8,65 +8,58 @@
 nav {
     background: #ffdab9;
     width: 100%;
-    padding: 10px 10%; /* Adjust padding as needed */
+    padding: 10px 10%;
     display: flex;
     align-items: center;
     flex: 1;
-    justify-content: flex-end; /* Space between logo and nav links */
+    justify-content: flex-end;
     position: fixed;
     z-index: 1000;
     top: 0;
 }
 .user-names {
-    font-weight: bold; /* Make text bold */
-    
+    font-weight: bold;
 }
 
 .home-link {
-    /* Additional styling for Home link if needed */
 }
 
 .notifications-link {
-    /* Additional styling for Notifications link if needed */
 }
 nav ul {
-    display: flex; /* Align items horizontally */
+    display: flex;
     list-style: none;
     margin: 0;
     padding: 0;
-    gap: 20px; /* Space between links */
+    gap: 20px;
 }
 
-/* Move the "Home" and "Notifications" links to the right */
 .nav-links-wrapper {
     display: flex;
     align-items: center;
 }
 
 .nav-link {
-    margin: 0 -10px; /* Space between links */
+    margin: 0 -10px;
     text-decoration: none;
     color: #000;
     font-weight: bold;
 }
-/* Style the individual nav links */
 nav li {
-    margin: 0; /* No margin needed here */
+    margin: 0;
 }
 
 nav li a {
-    color: #000; /* Adjust color as needed */
+    color: #000;
     text-decoration: none;
-    /* margin-left: 620px; */
 }
-/* usersidebar.css */
 .headnavbar {
     position: relative;
-    background-color: #f4f4f4; /* Adjust as needed */
-    padding: 10px; /* Adjust padding as needed */
+    background-color: #f4f4f4;
+    padding: 10px;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Distribute space between items */
+    justify-content: space-between;
 }
 
 .headnavbar nav {
@@ -89,22 +82,18 @@ nav li a {
     list-style: none;
     margin: 0;
     padding: 0;
-    flex: 1; /* Allow list items to take available space */
-    justify-content: center; /* Center list items horizontally */
+    flex: 1;
+    justify-content: center;
 }
 
 .headnavbar li {
-    margin: 0 15px; /* Space between list items */
+    margin: 0 15px;
 }
 
-
-
-/* Ensure profile and notifications menus are positioned correctly */
 .sub-menu-wrap {
     position: absolute;
     top: 100%;
     right: 0;
-    /* Other styling as needed */
 }
 
 .logo {
@@ -114,7 +103,6 @@ nav li a {
 .hide-logo {
     display: none;
 }
-/* Notifications submenu styles */
 #notificationsMenu {
     position: absolute;
     top: 100%;
@@ -134,8 +122,8 @@ nav li a {
     background: #fae2ce;
     padding: 20px;
     margin: 10px;
-    position: relative; /* Ensure the sub-menu is positioned relative to its normal position */
-    left: 10px; /
+    position: relative;
+    left: 10px;
 }
 
 #notificationsMenu .sub-menu a {
@@ -199,42 +187,42 @@ nav > ul > li > a {
     width: 320px;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.5s ease, opacity 0.5s ease; /* Smooth transitions */
+    transition: max-height 0.5s ease, opacity 0.5s ease;
     z-index: 900;
-    opacity: 0; /* Initial opacity for fade effect */
+    opacity: 0;
 }
 
 .sub-menu-wrap.open-menu {
     max-height: 400px;
-    opacity: 1; /* Make visible when open */
+    opacity: 1;
 }
 
 .sub-menu {
     background: #fae2ce;
     padding: 20px;
     margin: 10px;
-    border-radius: 10px; /* Rounded corners for a softer look */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .sub-menu .user-info {
     display: flex;
     align-items: center;
-    margin-bottom: 20px; /* Space below user info section */
+    margin-bottom: 20px;
 }
 
 .sub-menu .user-info img {
     width: 60px;
-    height: 60px; /* Ensure circle is perfect */
+    height: 60px;
     border-radius: 50%;
     margin-right: 15px;
-    object-fit: cover; /* Ensure image covers the circle */
+    object-fit: cover;
 }
 
 .sub-menu .user-info h2 {
     font-weight: 500;
-    font-size: 18px; /* Slightly larger font for the name */
-    color: #333; /* Darker text color for contrast */
+    font-size: 18px;
+    color: #333;
 }
 
 .sub-menu hr {
@@ -242,7 +230,7 @@ nav > ul > li > a {
     height: 1px;
     width: 100%;
     background: #ccc;
-    margin: 20px 0; /* Adjusted margin for better spacing */
+    margin: 20px 0;
 }
 
 .sub-menu a {
@@ -251,19 +239,19 @@ nav > ul > li > a {
     text-decoration: none;
     color: #525252;
     margin: 12px 0;
-    border-radius: 5px; /* Rounded corners */
-    padding: 10px; /* Padding for better click area */
-    transition: background 0.3s ease; /* Smooth background change on hover */
+    border-radius: 5px;
+    padding: 10px;
+    transition: background 0.3s ease;
 }
 
 .sub-menu a:hover {
-    background: #e5c8b2; /* Subtle background color change on hover */
+    background: #e5c8b2;
 }
 
 .sub-menu a p {
     width: 100%;
-    font-size: 16px; /* Adjust font size for better readability */
-    margin: 0; /* Remove default margin */
+    font-size: 16px;
+    margin: 0;
 }
 
 .sub-menu a img {
@@ -271,24 +259,24 @@ nav > ul > li > a {
     background: #e5e5e5;
     border-radius: 50%;
     padding: 8px;
-    margin-right: 15px; /* Adjust margin-right to create space */
-    vertical-align: middle; /* Align the image vertically */
-    transition: background 0.3s ease; /* Smooth background change on hover */
+    margin-right: 15px;
+    vertical-align: middle;
+    transition: background 0.3s ease;
 }
 
 .sub-menu a:hover img {
-    background: #ccc; /* Subtle background color change on hover */
+    background: #ccc;
 }
 
 .sub-menu a span {
     margin-left: -20px;
     font-size: 22px;
-    transition: transform 0.3s ease, color 0.3s ease; /* Smooth transform and color transition */
+    transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .sub-menu a:hover span {
     transform: translateX(5px);
-    color: #fff; /* Change color to white on hover */
+    color: #fff;
 }
 
 .sub-menu a:hover p {
@@ -296,11 +284,11 @@ nav > ul > li > a {
 }
 
 .sub-menu-wrap .user-name {
-    font-size: 18px; /* Matches the font size of h2 in the user info section */
-    font-weight: 600; /* Bold font weight to make it stand out */
-    color: #333; /* Darker color for better readability */
-    margin: 0 0 15px; /* Space below the name */
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 15px;
     display: flex;
     align-items: center;
-    padding-left: 15px; /* Adjust padding to move name to the right */
+    padding-left: 15px;
 }

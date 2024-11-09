@@ -17,7 +17,7 @@ body {
 /* Main Content Styling */
 .main-content {
     margin: 0 auto;
-    max-width: 100%; /* Full width on mobile */
+    max-width: 100%;
     padding: 0 15px;
 }
 
@@ -176,7 +176,7 @@ h2 {
 .search-form {
     margin-bottom: 20px;
     display: flex;
-    flex-wrap: wrap; /* Enable wrapping on smaller screens */
+    flex-wrap: wrap; 
     align-items: center;
     gap: 10px;
 }
@@ -186,7 +186,7 @@ h2 {
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
-    flex-grow: 1; /* Expand input to fit available space */
+    flex-grow: 1; 
 }
 
 .search-form button {
