@@ -1,19 +1,34 @@
 <?php
-
-
 session_name('user_session'); 
 session_start();
 
+// Database connection setup
 $servername = "localhost";
 $username = "u780935822_homeowner";
 $password = "Boot@o29";
 $dbname = "u780935822_homeowner";
 
+// Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Query to get all images from the announcement_images table
+$sql = "SELECT file_path FROM announcement_images ORDER BY uploaded_at DESC"; // Get all images sorted by uploaded_at
+$result = $conn->query($sql);
+
+// Store images in an array
+$images = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $images[] = htmlspecialchars($row['file_path']);  // Store each image file path in the $images array
+    }
+}
+
+// Query to get latest announcements (optional if you want to display them too)
 $announcementsQuery = "SELECT * FROM announcements ORDER BY date DESC LIMIT 5";
 $announcementsResult = $conn->query($announcementsQuery);
 
@@ -53,6 +68,8 @@ $conn->close();
 // Display logout message if redirected from logout
 $logout_message = isset($_GET['message']) && $_GET['message'] == 'loggedout' ? "You have been logged out successfully." : '';
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -277,20 +294,26 @@ window.addEventListener("click", function(event) {
     Your browser does not support the video tag.
 </video>
 </div>
+
+
     <div class="announcement-container">
         <div class="announcement-main">
             <div class="carousel">
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="https://thumbs.dreamstime.com/b/under-maintenance-detailed-illustration-grungy-maintanance-construction-background-61865170.jpg" alt="Announcement Image 1">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="webinar.jpg" alt="Announcement Image 2">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="basketball-poster.jpg" alt="Announcement Image 3">
-                    </div>
-                </div>
+    <?php
+    if (count($images) > 0) {
+        $first = true;
+        foreach ($images as $image) {
+            $activeClass = $first ? 'active' : '';
+            echo '<div class="carousel-item ' . $activeClass . '">';
+            echo '<img src="' . $image . '" alt="Announcement Image">';
+            echo '</div>';
+            $first = false;
+        }
+    }
+    ?>
+</div>
+                
                 <a class="carousel-control-prev" role="button">
                     <span class="carousel-control-prev-icon" aria-hidden="false">&lt;</span>
                 </a>

@@ -21,61 +21,60 @@ if ($conn->connect_error) {
 
 $homeowner_id = $_SESSION['homeowner_id'];
 
-
+// Query to fetch the latest announcements
 $announcementsQuery = "SELECT * FROM announcements ORDER BY date DESC LIMIT 5";
 $announcementsResult = $conn->query($announcementsQuery);
 
+// Query to fetch the total balance for the homeowner
 $sql_total_balance = "SELECT SUM(total_amount) as total_balance FROM billing WHERE homeowner_id = ?";
 $stmt_total_balance = $conn->prepare($sql_total_balance);
 $stmt_total_balance->bind_param("i", $homeowner_id);
 $stmt_total_balance->execute();
 $result_total_balance = $stmt_total_balance->get_result();
 $row_total_balance = $result_total_balance->fetch_assoc();
-
-// Get the total balance (if no records, set to 0)
 $total_balance = isset($row_total_balance['total_balance']) ? $row_total_balance['total_balance'] : 0;
 
-// Query to fetch accepted appointments for the homeowner
+// Fetch accepted appointments for the homeowner
 $sql_accepted_appointments = "SELECT date, amount, status FROM accepted_appointments WHERE homeowner_id = ?";
 $stmt_accepted_appointments = $conn->prepare($sql_accepted_appointments);
 $stmt_accepted_appointments->bind_param("i", $homeowner_id);
 $stmt_accepted_appointments->execute();
 $result_accepted_appointments = $stmt_accepted_appointments->get_result();
 
-// Initialize total appointments amount
-$total_appointments_amount = 0;
-
 // Calculate total amount for accepted appointments
+$total_appointments_amount = 0;
 while ($row = $result_accepted_appointments->fetch_assoc()) {
     $total_appointments_amount += $row['amount'];
 }
-
-// Reset the pointer of the result set to use it again for displaying in the table
-$result_accepted_appointments->data_seek(0); // Move the pointer back to the start
+$result_accepted_appointments->data_seek(0);
 
 // Prepare billing query
 $sql_billing = "SELECT billing_date, due_date, monthly_due, status, total_amount FROM billing WHERE homeowner_id = ?";
 $stmt_billing = $conn->prepare($sql_billing);
 $stmt_billing->bind_param("i", $homeowner_id);
 
-// Check if the statement executes successfully
+// Execute billing query and handle errors
 if ($stmt_billing->execute()) {
     $result_billing = $stmt_billing->get_result();
 } else {
     die("Error fetching billing data: " . $stmt_billing->error);
 }
 
-// Ensure homeowner_id is set in the session
-if (!isset($_SESSION['homeowner_id'])) {
-    die("Homeowner ID not found in session.");
+// Fetch announcement images from the database
+$sql_images = "SELECT file_path FROM announcement_images ORDER BY uploaded_at DESC";
+$imagesResult = $conn->query($sql_images);
+$images = [];
+
+if ($imagesResult->num_rows > 0) {
+    while ($row = $imagesResult->fetch_assoc()) {
+        $images[] = htmlspecialchars($row['file_path']);
+    }
 }
-
-
-$homeowner_id = $_SESSION['homeowner_id'];
 
 // Retrieve user name from session
 $user_name = $_SESSION['homeowner_name'];
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -101,17 +100,25 @@ $user_name = $_SESSION['homeowner_name'];
             <div class="announcement-container">
         <div class="announcement-main">
             <div class="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="undermaintenance.jpg" alt="Announcement Image 1">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="webinar.jpg" alt="Announcement Image 2">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="basketball-poster.jpg" alt="Announcement Image 3">
-                    </div>
-                </div>
+           <div class="carousel-inner">
+    <?php
+    if (count($images) > 0) {
+        $first = true;
+        foreach ($images as $image) {
+            $activeClass = $first ? 'active' : '';
+            echo '<div class="carousel-item ' . $activeClass . '">';
+            echo '<img src="' . $image . '" alt="Announcement Image">';
+            echo '</div>';
+            $first = false;
+        }
+    } else {
+        echo '<div class="carousel-item active">';
+        echo '<img src="no-image.jpg" alt="No images available">';
+        echo '</div>';
+    }
+    ?>
+</div>
+
                 <a class="carousel-control-prev" role="button">
                     <span class="carousel-control-prev-icon" aria-hidden="false">&lt;</span>
                 </a>

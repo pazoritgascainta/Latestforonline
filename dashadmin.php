@@ -156,6 +156,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_announcement'])
     $updateStmt->close();
 }
 
+
 // Fetch announcements to display
 $query = "SELECT * FROM announcements";
 $announcementsResult = $conn->query($query);
@@ -322,68 +323,131 @@ $conn->close();
     </div>
    
     <div class="flex-container">
-        <div class="announcement-widget">
-    <h2>Manage Announcements</h2>
-    <!-- Form for adding a new announcement -->
-    <form method="POST" action="dashadmin_add_announcement.php">
-        <label for="content">New Announcement:</label><br>
-        <textarea id="content" name="content" rows="4" cols="50" required></textarea><br><br>
-        <button type="submit" name="add_announcement">Add Announcement</button>
+    <div class="announcement-widget">
+        <h2>Manage Announcements</h2>
+
+        <!-- Toggle Button to switch between views -->
+        <button id="toggleViewBtn" onclick="toggleView()">Switch to Image Upload</button>
+
+        <!-- Announcement Management Section -->
+        <div id="announcementManagement">
+            <!-- Form for adding a new announcement -->
+            <form method="POST" action="dashadmin_add_announcement.php">
+                <label for="content">New Announcement:</label><br>
+                <textarea id="content" name="content" rows="4" cols="50" required></textarea><br><br>
+                <button type="submit" name="add_announcement">Add Announcement</button>
+            </form>
+
+            <?php if (isset($error)): ?>
+                <p class="error"><?php echo $error; ?></p>
+            <?php endif; ?>
+
+            <h3>Current Announcements</h3>
+            <table id="announcementTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Content</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if ($announcementsResult->num_rows > 0): ?>
+                        <?php 
+                        $count = 0; 
+                        while ($row = $announcementsResult->fetch_assoc()): 
+                            $count++; 
+                        ?>
+                        <tr>
+                            <td><?php echo $row['id']; ?></td>
+                            <td><?php echo htmlspecialchars($row['content']); ?></td>
+                            <td><?php echo date('F d, Y', strtotime($row['date'])); ?></td>
+                            <td>
+                                <a href="#" onclick="openEditModal('<?php echo $row['id']; ?>', '<?php echo htmlspecialchars($row['content']); ?>')">Edit</a>
+                                <a href="?delete_id=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure you want to delete this announcement?');">Delete</a>
+                            </td>
+                        </tr>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="4">No announcements found.</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Image Upload Section -->
+        <div id="announcementImageUpload" style="display:none;">
+    <h3>Upload Announcement Image</h3>
+    <form method="POST" action="upload_announcement_image.php" enctype="multipart/form-data">
+        <label for="imageFile">Select an image to upload:</label><br>
+        <input type="file" id="imageFile" name="imageFile" required><br><br>
+        <button type="submit" name="upload_image">Upload Image</button>
     </form>
 
-    <?php if (isset($error)): ?>
-        <p class="error"><?php echo $error; ?></p>
-    <?php endif; ?>
 
-    <h3>Current Announcements</h3>
-    <table id="announcementTable">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Content</th>
-                <th>Date</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if ($announcementsResult->num_rows > 0): ?>
-                <?php 
-                $count = 0; 
-                while ($row = $announcementsResult->fetch_assoc()): 
-                    $count++; 
-                ?>
-               
-                        <td><?php echo $row['id']; ?></td>
-                        <td><?php echo htmlspecialchars($row['content']); ?></td>
-                        <td><?php echo date('F d, Y', strtotime($row['date'])); ?></td>
-                        <td>
-                        <a href="#" onclick="openEditModal('<?php echo $row['id']; ?>', '<?php echo htmlspecialchars($row['content']); ?>')">Edit</a>
-                        <a href="?delete_id=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure you want to delete this announcement?');">Delete</a>
-                        </td>
+<!-- Display Images Table -->
+<h3>Uploaded Images</h3>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>File Path</th>
+        <th>Image</th>
+        <th>Action</th>
+    </tr>
+    <?php
+    // Database connection to fetch images
+    $servername = "localhost";
+    $username = "u780935822_homeowner";
+    $password = "Boot@o29";
+    $dbname = "u780935822_homeowner";
 
-                    </tr>
-                <?php endwhile; ?>
-            <?php else: ?>
-                <tr>
-                    <td colspan="4">No announcements found.</td>
-                </tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
 
-<!-- Modal for Editing Announcement -->
-<div id="editAnnouncementModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h2>Edit Announcement</h2>
-        <form id="editAnnouncementForm" method="POST" action="">
-            <input type="hidden" id="announcementId" name="id">
-            <label for="editContent">Announcement Content:</label><br>
-            <textarea id="editContent" name="content" rows="4" cols="50" required></textarea><br><br>
-            <button type="submit" name="update_announcement">Update Announcement</button>
-        </form>
-    </div>
+    // Fetch images from the database
+    $query = "SELECT * FROM announcement_images";
+    $result = $conn->query($query);
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr>";
+            echo "<td>" . $row['id'] . "</td>";
+            echo "<td>" . $row['file_path'] . "</td>";
+            echo "<td><img src='" . $row['file_path'] . "' alt='Image' width='100'></td>";
+            echo "<td><a href='delete_announcement_image.php?delete_id=" . $row['id'] . "' onclick='return confirm(\"Are you sure you want to delete this image?\")'>Delete</a></td>";
+            echo "</tr>";
+        }
+    } else {
+        echo "<tr><td colspan='4'>No images found</td></tr>";
+    }
+    ?>
+</table>
 </div>
+    <!-- JavaScript for toggling views -->
+    <script>
+        function toggleView() {
+            const announcementManagement = document.getElementById('announcementManagement');
+            const announcementImageUpload = document.getElementById('announcementImageUpload');
+            const toggleBtn = document.getElementById('toggleViewBtn');
+
+            if (announcementManagement.style.display === 'none') {
+                announcementManagement.style.display = 'block';
+                announcementImageUpload.style.display = 'none';
+                toggleBtn.textContent = 'Switch to Image Upload';
+            } else {
+                announcementManagement.style.display = 'none';
+                announcementImageUpload.style.display = 'block';
+                toggleBtn.textContent = 'Switch to Manage Announcements';
+            }
+        }
+    </script>
+
+
 
 <script>
 
