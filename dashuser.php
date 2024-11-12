@@ -101,6 +101,7 @@ $user_name = $_SESSION['homeowner_name'];
         <div class="announcement-main">
             <div class="carousel">
            <div class="carousel-inner">
+            
     <?php
     if (count($images) > 0) {
         $first = true;
