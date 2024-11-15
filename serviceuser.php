@@ -93,7 +93,6 @@ $conn->close();
                     <button class="btn" id="road-repair" value="Road Repair">Road Repair</button>
                     <button class="btn" id="lawn-cleanup" value="Lawn Cleanup">Lawn Cleanup</button>
                     <button class="btn" id="general-cleaning" value="General Cleaning">General Cleaning</button>
-                    <button class="btn" id="other" value="Other">Other</button>
                 </div>
     
                 <form id="serviceForm" method="POST" action="">

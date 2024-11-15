@@ -108,6 +108,7 @@ if (isset($_POST['delete_id'])) {
                     <span class="complaint-label">Action:</span>
                     <form method="POST" action="view_complaints.php" class="delete-form">
                         <input type="hidden" name="delete_id" value="<?php echo htmlspecialchars($complaint['complaint_id']); ?>">
+                        <button type="button" onclick="confirmDone(event, this, <?php echo $complaint['complaint_id']; ?>)" class="done-btn">Done</button>
                         <button type="button" onclick="confirmDelete(event, this)" class="cancel-btn">Cancel</button>
                     </form>
                 </div>
@@ -120,6 +121,46 @@ if (isset($_POST['delete_id'])) {
         <a href="usercomplaint.php" id="openModalLink">Submit a Complaint</a>
     </div>
 </div>
+<script>
+    function confirmDone(event, button, complaintId) {
+    // Confirm the action
+    if (confirm("Are you sure you want to mark this complaint as resolved?")) {
+        // Create an AJAX request
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "update_complaint.php", true); // Use existing update script
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        
+        // Prepare the data to send
+        var params = "complaint_id=" + complaintId;
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                // Handle the response
+                var response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    alert("Complaint marked as resolved!");
+                    
+                    // Update the status in the corresponding element
+                    var statusElement = button.closest('.complaint-item').querySelector('.complaint-value');
+                    if (statusElement) {
+                        statusElement.textContent = 'Resolved'; // Update the status text
+                    }
+                    
+                    // Optionally update the button style or remove the button
+                    button.setAttribute('disabled', 'true'); // Disable the button
+                    button.textContent = 'Resolved'; // Update button text (optional)
+                } else {
+                    alert("Error: " + response.message);
+                }
+            }
+        };
+
+        // Send the request
+        xhr.send(params);
+    }
+}
+</script>
+
   <!-- The Modal -->
   <div id="termsModal" class="modal">
         <div class="modal-content">

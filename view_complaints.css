@@ -50,6 +50,17 @@ table tr {
 tr:hover {
     background-color: peachpuff;
 }
+.done-btn{
+    background-color: #17810dcb;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
 
 .cancel-btn {
     background-color: #f44336;
