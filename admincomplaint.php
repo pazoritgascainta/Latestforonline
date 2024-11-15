@@ -1,6 +1,7 @@
 <?php
 session_name('admin_session'); // Set a unique session name for admins
 session_start();
+
 $servername = "localhost";
 $username = "u780935822_homeowner";
 $password = "Boot@o29";
@@ -17,29 +18,45 @@ if (isset($_GET['search'])) {
     $search_query = trim($_GET['search']);
 }
 
-// Handle delete request
-if (isset($_POST['delete_id'])) {
-    $delete_id = $_POST['delete_id'];
+// Determine which complaints to display: active or archived
+$view = isset($_GET['view']) ? $_GET['view'] : 'active';
+$is_archived_condition = ($view === 'archived') ? 1 : 0;
 
-    // Prepare and execute the delete query
-    $delete_query = "DELETE FROM complaints WHERE complaint_id = ?";
-    $stmt = $conn->prepare($delete_query);
-    $stmt->bind_param("i", $delete_id);
+// Handle complaint archiving
+if (isset($_POST['archive_id'])) {
+    $archive_id = $_POST['archive_id'];
+
+    // Prepare and execute the archive query
+    $archive_query = "UPDATE complaints SET is_archived = 1 WHERE complaint_id = ?";
+    $stmt = $conn->prepare($archive_query);
+    $stmt->bind_param("i", $archive_id);
 
     if ($stmt->execute()) {
-        echo "<script>alert('Complaint deleted successfully.'); window.location.href='admincomplaint.php';</script>";
+        $redirect_view = ($view === 'archived') ? 'archived' : 'active';
+        echo "<script>alert('Complaint archived successfully.'); window.location.href='admincomplaint.php?view=$redirect_view';</script>";
     } else {
-        echo "<script>alert('Failed to delete the complaint.');</script>";
+        echo "<script>alert('Failed to archive the complaint.');</script>";
     }
 
     $stmt->close();
 }
 
-// Check if any complaints have been edited, and delete all complaints if so
-if (isset($_POST['edit_action'])) {
-    // Assuming this action is triggered when a complaint is edited
-    $delete_all_query = "DELETE FROM complaints";
-    $conn->query($delete_all_query);
+// Handle complaint restoring
+if (isset($_POST['restore_id'])) {
+    $restore_id = $_POST['restore_id'];
+
+    // Prepare and execute the restore query
+    $restore_query = "UPDATE complaints SET is_archived = 0 WHERE complaint_id = ?";
+    $stmt = $conn->prepare($restore_query);
+    $stmt->bind_param("i", $restore_id);
+
+    if ($stmt->execute()) {
+        echo "<script>alert('Complaint restored successfully.'); window.location.href='admincomplaint.php?view=archived';</script>";
+    } else {
+        echo "<script>alert('Failed to restore the complaint.');</script>";
+    }
+
+    $stmt->close();
 }
 
 // Get sort option
@@ -51,6 +68,40 @@ $valid_sort_options = ['created_at', 'updated_at'];
 if (!in_array($sort_by, $valid_sort_options)) {
     $sort_by = 'updated_at';
 }
+
+// Pagination variables
+$results_per_page = 10;
+$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+$offset = ($page - 1) * $results_per_page;
+
+// Query to fetch complaints based on active/archived view and search input
+$query = "
+    SELECT complaints.*, homeowners.name 
+    FROM complaints 
+    JOIN homeowners ON complaints.homeowner_id = homeowners.id
+    WHERE homeowners.name LIKE ? AND complaints.is_archived = ?
+    ORDER BY 
+        CASE 
+            WHEN complaints.status = 'Pending' THEN 1
+            WHEN complaints.status = 'In Progress' THEN 2
+            WHEN complaints.status = 'Resolved' THEN 3
+            ELSE 4
+        END,
+        $order DESC
+    LIMIT ?, ?";
+$stmt = $conn->prepare($query);
+
+$search_param = '%' . $search_query . '%';
+$stmt->bind_param("siii", $search_param, $is_archived_condition, $offset, $results_per_page);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Fetch complaints
+$complaints = [];
+while ($row = $result->fetch_assoc()) {
+    $complaints[] = $row;
+}
+$stmt->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -123,26 +174,28 @@ $(document).ready(function() {
     <div class="container">
 
         <!-- Search and Sort Form -->
- <!-- Search Form -->
+        <!-- Search Form -->
+        <form method="GET" action="admincomplaint.php" class="search-form">
+            <div class="form-group" style="position: relative;"> <!-- Set position relative here -->
+                <input type="text" name="search" value="<?= htmlspecialchars($search_query) ?>" placeholder="Search by Homeowner Name..." autocomplete="off">
+                <div id="suggestions" class="suggestions"></div> <!-- Suggestions will be placed here -->
+            </div>
+            <button type="submit">Search</button>
+        </form>
 
- <form method="GET" action="admincomplaint.php" class="search-form">
-    <div class="form-group" style="position: relative;"> <!-- Set position relative here -->
-        <input type="text" name="search" value="<?= htmlspecialchars($search_query) ?>" placeholder="Search by Homeowner Name..." autocomplete="off">
-        <div id="suggestions" class="suggestions"></div> <!-- Suggestions will be placed here -->
-    </div>
-    <button type="submit">Search</button>
-</form>
+        <!-- Sort Form -->
+        <form method="GET" action="admincomplaint.php" class="sort-form" style="display:inline;">
+            <select name="sort_by" onchange="this.form.submit()">
+                <option value="updated_at" <?= $sort_by === 'updated_at' ? 'selected' : '' ?>>Sort by Updated Date</option>
+                <option value="created_at" <?= $sort_by === 'created_at' ? 'selected' : '' ?>>Sort by Created Date</option>
+            </select>
+            <input type="hidden" name="search" value="<?= htmlspecialchars($search_query) ?>"> <!-- Keep the search query when sorting -->
+        </form>
+        <br> <br>
 
-
-<!-- Sort Form -->
-<form method="GET" action="admincomplaint.php" class="sort-form" style="display:inline;">
-    <select name="sort_by" onchange="this.form.submit()">
-        <option value="updated_at" <?= $sort_by === 'updated_at' ? 'selected' : '' ?>>Sort by Updated Date</option>
-        <option value="created_at" <?= $sort_by === 'created_at' ? 'selected' : '' ?>>Sort by Created Date</option>
-    </select>
-    <input type="hidden" name="search" value="<?= htmlspecialchars($search_query) ?>"> <!-- Keep the search query when sorting -->
-</form>
-
+        <!-- View Archived and Active Complaints Links -->
+        <a href="admincomplaint.php?view=archived" class="btn">View Archived Complaints</a>
+        <a href="admincomplaint.php?view=active" class="btn">View Active Complaints</a>
 
         <table class="table">
             <thead>
@@ -158,19 +211,30 @@ $(document).ready(function() {
             </thead>
             <tbody>
                 <?php
+                // Set view to 'active' by default
+                $view = isset($_GET['view']) ? $_GET['view'] : 'active';
+
                 // Pagination settings
                 $results_per_page = 10; // Number of results per page
 
-                // Adjust total count query to handle search
+                // Adjust total count query to handle search and view filter
                 $query_total = "
                 SELECT COUNT(*) AS total 
                 FROM complaints 
                 JOIN homeowners ON complaints.homeowner_id = homeowners.id
                 WHERE homeowners.name LIKE '%$search_query%'";
-            $result_total = mysqli_query($conn, $query_total);
-            $row_total = mysqli_fetch_assoc($result_total);
-            $total_results = $row_total['total'];
-            $total_pages = ceil($total_results / $results_per_page);
+
+                // Add the 'view' condition to the query
+                if ($view === 'archived') {
+                    $query_total .= " AND complaints.is_archived = 1";
+                } else {
+                    $query_total .= " AND complaints.is_archived = 0";
+                }
+
+                $result_total = mysqli_query($conn, $query_total);
+                $row_total = mysqli_fetch_assoc($result_total);
+                $total_results = $row_total['total'];
+                $total_pages = ceil($total_results / $results_per_page);
 
                 // Get current page from URL or default to 1
                 $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -185,8 +249,16 @@ $(document).ready(function() {
                 SELECT complaints.*, homeowners.name 
                 FROM complaints 
                 JOIN homeowners ON complaints.homeowner_id = homeowners.id
-                WHERE homeowners.name LIKE '%$search_query%' 
-                ORDER BY 
+                WHERE homeowners.name LIKE '%$search_query%'";
+
+                // Add the 'view' condition to the query
+                if ($view === 'archived') {
+                    $query .= " AND complaints.is_archived = 1";
+                } else {
+                    $query .= " AND complaints.is_archived = 0";
+                }
+
+                $query .= " ORDER BY 
                     CASE 
                         WHEN complaints.status = 'Pending' THEN 1
                         WHEN complaints.status = 'In Progress' THEN 2
@@ -195,20 +267,19 @@ $(document).ready(function() {
                     END,
                     $order DESC
                 LIMIT ?, ?";
-                
 
                 $stmt = $conn->prepare($query);
                 $stmt->bind_param("ii", $offset, $results_per_page);
                 $stmt->execute();
                 $result = $stmt->get_result();
-                
+
                 if ($result && mysqli_num_rows($result) > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
                         echo "<tr>";
                         echo "<td>" . htmlspecialchars($row['name']) . "</td>"; // Display the homeowner name
                         echo "<td>" . htmlspecialchars($row['subject']) . "</td>";
                         echo "<td>" . htmlspecialchars($row['description']) . "</td>";
-                
+
                         // Set status color
                         $status_color = "";
                         if ($row['status'] === 'In Progress') {
@@ -218,26 +289,33 @@ $(document).ready(function() {
                         } elseif ($row['status'] === 'Pending') {
                             $status_color = "style='color: orange;'";
                         }
-                
+
                         echo "<td $status_color>" . htmlspecialchars($row['status']) . "</td>";
                         echo "<td>" . htmlspecialchars($row['created_at']) . "</td>";
                         echo "<td>" . htmlspecialchars($row['updated_at']) . "</td>";
                         echo "<td>";
                         echo "<a class='btn btn-edit' href='admin_view_complaints.php?id=" . htmlspecialchars($row['complaint_id']) . "'>View</a>";
-                        echo "<form method='POST' action='admincomplaint.php' class='delete-form' style='display:inline; margin-left:10px;'>";
-                
-                        // Add loader element
-                        echo "<input type='hidden' name='delete_id' value='" . htmlspecialchars($row['complaint_id']) . "'>";
-                        echo "<a href='#' onclick='confirmDelete(event, this)' class='btn'>Delete</a>";
-                        echo "<div class='loader' id='loader-". htmlspecialchars($row['complaint_id']) ."'></div>";
-                        echo "</form>";
+
+                        // Actions for Restore or Archive based on the view status
+                        if ($view === 'archived') {
+                            echo "<form method='POST' action='admincomplaint.php' style='display:inline;'>";
+                            echo "<input type='hidden' name='restore_id' value='" . htmlspecialchars($row['complaint_id']) . "'>";
+                            echo "<button type='submit' class='btn btn-restore'>Restore</button>";
+                            echo "</form>";
+                        } else {
+                            echo "<form method='POST' action='admincomplaint.php' class='delete-form' style='display:inline; margin-left:10px;'>";
+                            echo "<input type='hidden' name='archive_id' value='" . htmlspecialchars($row['complaint_id']) . "'>";
+                            echo "<a href='#' onclick='confirmArchive(event, this)' class='btn'>Archive</a>";
+                            echo "<div class='loader' id='loader-" . htmlspecialchars($row['complaint_id']) . "'></div>";
+                            echo "</form>";
+                        }
+
                         echo "</td>";
                         echo "</tr>";
                     }
                 } else {
                     echo "<tr><td colspan='7'>No complaints found for this Homeowner ID.</td></tr>";
                 }
-                
                 ?>
             </tbody>
         </table>
@@ -277,16 +355,19 @@ $(document).ready(function() {
         </div>
     </div>
 </div>
+</body>
+
 
 <script>
-function confirmDelete(event, element) {
+function confirmArchive(event, element) {
     event.preventDefault(); // Prevent the default anchor behavior
     var loader = element.parentElement.querySelector('.loader');
-    if (confirm('Are you sure you want to delete this complaint?')) {
+    if (confirm('Are you sure you want to archive this complaint?')) {
         loader.style.display = 'block'; // Show the loader
-        element.parentElement.submit(); // Submit the form to delete the complaint
+        element.parentElement.submit(); // Submit the form to archive the complaint
     }
 }
+
 </script>
 </body>
 </html>

@@ -43,6 +43,7 @@ $sql = "
         sr.urgency, 
         sr.type, 
         sr.status,
+        sr.is_archived,
         h.address,
         h.phone_number,
         h.name,
@@ -52,7 +53,6 @@ $sql = "
     JOIN 
         homeowners h ON sr.homeowner_id = h.id
 ";
-
 
 // Add search condition to search by homeowner name
 if (!empty($search_query)) {
@@ -94,9 +94,38 @@ if ($result->num_rows > 0) {
     }
 }
 
+// Handle archive action
+if (isset($_POST['archive'])) {
+    $service_req_id = (int)$_POST['service_req_id'];
+
+    // Archive the request by updating the 'is_archived' field
+    $archive_sql = "UPDATE serreq SET is_archived = 1 WHERE service_req_id = ?";
+    $archive_stmt = $conn->prepare($archive_sql);
+    $archive_stmt->bind_param('i', $service_req_id);
+    if ($archive_stmt->execute()) {
+        echo "Service request archived successfully!";
+    } else {
+        echo "Failed to archive service request.";
+    }
+}
+
+// Handle restore action
+if (isset($_POST['restore'])) {
+    $service_req_id = (int)$_POST['service_req_id'];
+
+    // Restore the request by updating the 'is_archived' field to 0
+    $restore_sql = "UPDATE serreq SET is_archived = 0 WHERE service_req_id = ?";
+    $restore_stmt = $conn->prepare($restore_sql);
+    $restore_stmt->bind_param('i', $service_req_id);
+    if ($restore_stmt->execute()) {
+        echo "Service request restored successfully!";
+    } else {
+        echo "Failed to restore service request.";
+    }
+}
+
 $conn->close();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -107,42 +136,40 @@ $conn->close();
     <link rel="stylesheet" href="Serviceadmin.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
- function fetchSuggestions() {
-    let searchQuery = document.getElementById('search-input').value;
-    
-    if (searchQuery.length >= 1) {
-        $.ajax({
-            url: 'search_suggestions.php',
-            method: 'GET',
-            data: { search: searchQuery },
-            success: function(data) {
-                let suggestions = $('#suggestions');
-                suggestions.empty(); // Clear previous suggestions
-                
-                if (data.length > 0) {
-                    data.forEach(function(item) {
-                        suggestions.append(`<div class="suggestion-item" data-email="${item.email}">${item.name}</div>`);
-                    });
-                }
-            },
-            error: function() {
-                console.log('Error fetching suggestions');
+        function fetchSuggestions() {
+            let searchQuery = document.getElementById('search-input').value;
+            
+            if (searchQuery.length >= 1) {
+                $.ajax({
+                    url: 'search_suggestions.php',
+                    method: 'GET',
+                    data: { search: searchQuery },
+                    success: function(data) {
+                        let suggestions = $('#suggestions');
+                        suggestions.empty(); // Clear previous suggestions
+                        
+                        if (data.length > 0) {
+                            data.forEach(function(item) {
+                                suggestions.append(`<div class="suggestion-item" data-email="${item.email}">${item.name}</div>`);
+                            });
+                        }
+                    },
+                    error: function() {
+                        console.log('Error fetching suggestions');
+                    }
+                });
+            } else {
+                $('#suggestions').empty(); // Clear suggestions if input is empty
             }
+        }
+
+        // Event delegation for suggestions click
+        $(document).on('click', '.suggestion-item', function() {
+            $('#search-input').val($(this).text());
+            $('#homeowner_id').val($(this).data('email')); // Set the hidden input value
+            $('#suggestions').empty(); // Clear suggestions after selection
         });
-    } else {
-        $('#suggestions').empty(); // Clear suggestions if input is empty
-    }
-}
-
-// Event delegation for suggestions click
-$(document).on('click', '.suggestion-item', function() {
-    $('#search-input').val($(this).text());
-    $('#homeowner_id').val($(this).data('email')); // Set the hidden input value
-    $('#suggestions').empty(); // Clear suggestions after selection
-});
-
     </script>
-</head>
 </head>
 <body>
     <?php include 'sidebar.php'; ?>
@@ -150,17 +177,14 @@ $(document).on('click', '.suggestion-item', function() {
         <h1>St. Monique Service Requests</h1>
 
         <div class="container">
-
-
-  <form id="search-form" class="search-form">
-    <div class="form-group" style="position: relative;"> <!-- Set position relative here -->
-        <input type="text" id="search-input" name="search" placeholder="Search by name or email" value="<?= htmlspecialchars($search_query); ?>" oninput="fetchSuggestions()">
-        <input type="hidden" id="homeowner_id" name="homeowner_id">
-        <div id="suggestions" class="suggestions"></div> <!-- Suggestions will be placed here -->
-    </div>
-    <button type="submit">Search</button> <!-- Search button added -->
-</form>
-
+            <form id="search-form" class="search-form">
+                <div class="form-group" style="position: relative;">
+                    <input type="text" id="search-input" name="search" placeholder="Search by name or email" value="<?= htmlspecialchars($search_query); ?>" oninput="fetchSuggestions()">
+                    <input type="hidden" id="homeowner_id" name="homeowner_id">
+                    <div id="suggestions" class="suggestions"></div>
+                </div>
+                <button type="submit">Search</button>
+            </form>
 
             <!-- Sort Form -->
             <form method="GET" action="serviceadmin.php" class="sort-form">
@@ -172,6 +196,15 @@ $(document).on('click', '.suggestion-item', function() {
                 </select>
             </form>
 
+            <!-- Button to switch between active and archived service requests -->
+            <form method="GET" action="serviceadmin.php" style="margin-top: 10px;">
+                <input type="hidden" name="search" value="<?= htmlspecialchars($search_query) ?>">
+                <input type="hidden" name="sort" value="<?= htmlspecialchars($sort_order) ?>">
+                <button type="submit" name="view" value="active" class="btn <?= (!isset($_GET['view']) || $_GET['view'] == 'active') ? 'active' : '' ?>">Active Requests</button>
+                <button type="submit" name="view" value="archived" class="btn <?= (isset($_GET['view']) && $_GET['view'] == 'archived') ? 'active' : '' ?>">Archived Requests</button>
+            </form>
+
+            <!-- Table for Service Requests -->
             <table id="requestsTable" class="table">
                 <thead>
                     <tr>
@@ -187,76 +220,103 @@ $(document).on('click', '.suggestion-item', function() {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if (count($requests) > 0): ?>
-                        <?php foreach ($requests as $request): ?>
-                            <tr>
-                                <td><?php echo htmlspecialchars($request['name']); ?></td>
-                                <td><?php echo htmlspecialchars($request['email']); ?></td>
-                                <td><?php echo htmlspecialchars($request['phone_number']); ?></td>
-                                <td><?php echo htmlspecialchars($request['address']); ?></td>
-                                <td><?php echo htmlspecialchars($request['details']); ?></td>
-                                <td><?php echo htmlspecialchars($request['urgency']); ?></td>
-                                <td><?php echo htmlspecialchars($request['type']); ?></td>
-                                <td><?php echo htmlspecialchars($request['status']); ?></td>
-                                <td>
-                                    <form method="GET" action="view_admin_service.php" style="display:inline;">
-                                        <input type="hidden" name="id" value="<?php echo htmlspecialchars($request['service_req_id']); ?>">
-                                        <button type="submit" class="btn button-margin">View</button>
-                                    </form>
-                                    <form method="POST" action="delete_service.php" style="display:inline;">
-                                        <input type="hidden" name="service_req_id" value="<?php echo htmlspecialchars($request['service_req_id']); ?>">
-                                        <button type="submit" class="btn" onclick="return confirm('Are you sure you want to delete this request?');">Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr>
-                            <td colspan="9">No service requests found.</td>
-                        </tr>
+                    <?php
+                    // Determine if the user wants to see active or archived requests
+                    $view = isset($_GET['view']) && $_GET['view'] == 'archived' ? 1 : 0;
+
+                    // Pagination logic
+                    $limit = 10; // Number of records per page
+                    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+                    $offset = ($page - 1) * $limit;
+
+                    // Modify the query to filter based on the view (active or archived) and apply pagination
+                    $sql = "
+                        SELECT 
+                            sr.service_req_id, 
+                            sr.homeowner_id, 
+                            sr.details, 
+                            sr.urgency, 
+                            sr.type, 
+                            sr.status, 
+                            sr.is_archived,
+                            h.address,
+                            h.phone_number,
+                            h.name,
+                            h.email
+                        FROM 
+                            serreq sr
+                        JOIN 
+                            homeowners h ON sr.homeowner_id = h.id
+                        WHERE
+                            sr.is_archived = ?
+                        LIMIT ?, ?";
+
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param('iii', $view, $offset, $limit);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+
+                    // Display service requests
+                    if ($result->num_rows > 0):
+                        while ($request = $result->fetch_assoc()):
+                    ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($request['name']); ?></td>
+                        <td><?php echo htmlspecialchars($request['email']); ?></td>
+                        <td><?php echo htmlspecialchars($request['phone_number']); ?></td>
+                        <td><?php echo htmlspecialchars($request['address']); ?></td>
+                        <td><?php echo htmlspecialchars($request['details']); ?></td>
+                        <td><?php echo htmlspecialchars($request['urgency']); ?></td>
+                        <td><?php echo htmlspecialchars($request['type']); ?></td>
+                        <td><?php echo htmlspecialchars($request['status']); ?></td>
+                        <td>
+                            <?php if ($view == 0): // Active requests ?>
+                                <form method="POST" action="serviceadmin.php" style="display:inline;">
+                                    <input type="hidden" name="service_req_id" value="<?php echo htmlspecialchars($request['service_req_id']); ?>">
+                                    <button type="submit" name="archive" class="btn" onclick="return confirm('Are you sure you want to archive this request?');">Archive</button>
+                                </form>
+                            <?php else: // Archived requests ?>
+                                <form method="POST" action="serviceadmin.php" style="display:inline;">
+                                    <input type="hidden" name="service_req_id" value="<?php echo htmlspecialchars($request['service_req_id']); ?>">
+                                    <button type="submit" name="restore" class="btn" onclick="return confirm('Are you sure you want to restore this request?');">Restore</button>
+                                </form>
+                            <?php endif; ?>
+
+                            <form method="GET" action="view_admin_service.php" style="display:inline;">
+                                <input type="hidden" name="id" value="<?php echo htmlspecialchars($request['service_req_id']); ?>">
+                                <button type="submit" class="btn button-margin">View</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <?php endwhile; else: ?>
+                    <tr>
+                        <td colspan="9">No service requests found.</td>
+                    </tr>
                     <?php endif; ?>
                 </tbody>
             </table>
 
-            <!-- Pagination -->
-            <div id="pagination">
-                <?php if ($total_pages > 1): ?>
-                    <!-- Previous button -->
-                    <?php if ($current_page > 1): ?>
-                        <form method="GET" action="serviceadmin.php" style="display: inline;">
-                            <input type="hidden" name="page" value="<?= $current_page - 1 ?>">
-                            <input type="hidden" name="search" value="<?= htmlspecialchars($search_query) ?>">
-                            <input type="hidden" name="sort" value="<?= htmlspecialchars($sort_order) ?>">
-                            <button type="submit" class="btn">&lt;</button>
-                        </form>
-                    <?php endif; ?>
+          <!-- Pagination controls -->
+<div id="pagination">
+    <?php if ($total_pages > 1): ?>
+    
 
-                    <!-- Page input for user to change the page -->
-                    <form method="GET" action="serviceadmin.php" style="display: inline;">
-                        <input type="number" name="page" value="<?= $current_page ?>" min="1" max="<?= $total_pages ?>" class="pagination-input">
-                        <input type="hidden" name="search" value="<?= htmlspecialchars($search_query) ?>">
-                        <input type="hidden" name="sort" value="<?= htmlspecialchars($sort_order) ?>">
-                    </form>
+        <!-- Current page input -->
+        <form method="GET" action="serviceadmin.php" style="display: inline;">
+            <input type="number" name="page" value="<?= $current_page ?>" min="1" max="<?= $total_pages ?>" class="pagination-input">
+            <input type="hidden" name="search" value="<?= htmlspecialchars($search_query) ?>">
+            <input type="hidden" name="sort" value="<?= htmlspecialchars($sort_order) ?>">
+        </form>
 
-                    <!-- "of" text and last page link -->
-                    <?php if ($total_pages > 1): ?>
-                        <span>of</span>
-                        <a href="serviceadmin.php?page=<?= $total_pages ?>&search=<?= htmlspecialchars($search_query) ?>&sort=<?= htmlspecialchars($sort_order) ?>" class="page-link <?= ($current_page == $total_pages) ? 'active' : '' ?>"><?= $total_pages ?></a>
-                    <?php endif; ?>
+    
 
-                    <!-- Next button -->
-                    <?php if ($current_page < $total_pages): ?>
-                        <form method="GET" action="serviceadmin.php" style="display: inline;">
-                            <input type="hidden" name="page" value="<?= $current_page + 1 ?>">
-                            <input type="hidden" name="search" value="<?= htmlspecialchars($search_query) ?>">
-                            <input type="hidden" name="sort" value="<?= htmlspecialchars($sort_order) ?>">
-                            <button type="submit" class="btn">&gt;</button>
-                        </form>
-                    <?php endif; ?>
-                <?php endif; ?>
-            </div>
+        <!-- Total pages link -->
+       
+
+    <?php endif; ?>
+</div>
+
         </div>
     </div>
 </body>
-
 </html>

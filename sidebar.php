@@ -165,9 +165,9 @@ $profile_image = isset($admin['profile_image']) && !empty($admin['profile_image'
         <li>
             <a href="admin_approval.php">
                 <img src="schedule.png" alt="schedule" class="sideimg">
-                <span class="nav-item">Appointment</span>
+                <span class="nav-item">Book</span>
             </a>
-            <span class="tooltip">Appointment</span>
+            <span class="tooltip">Book</span>
         </li>
         <li>
             <a href="serviceadmin.php">
