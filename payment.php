@@ -201,7 +201,34 @@ $amenity_names = [
     <h3>Pay Here</h3>
     <a href="payment_page.php" target="_blank" id="pay-here-link">Proceed to Payment</a>
 </section>
-
+<!-- The Modal -->
+<div id="paymentTermsModal" class="modal">
+        <div class="modal-content">
+            <h2 class="modal-header">Payment Terms and Conditions</h2>
+            <div class="modal-body">
+                <p>By using the Payment Module, you agree to the following terms:</p>
+                <ol>
+                    <li>You are responsible for ensuring the payment information is accurate.</li>
+                    <li>All payments are non-refundable unless stated otherwise.</li>
+                    <li>Payments will be processed according to our Payment Policy.</li>
+                    <li>Your payment details will be handled in accordance with our <a href="privacy_policy_page.php" target="_blank" class="privacy-policy">Privacy Policy</a>.</li>
+                    <li>Misuse of the Payment Module may result in account suspension.</li>
+                </ol>
+                <div class="checkbox-group">
+                    <label>
+                        <input type="checkbox" id="paymentCheckbox1">
+                        I confirm that the payment information provided is correct.
+                    </label>
+                    <label>
+                        <input type="checkbox" id="paymentCheckbox2">
+                        I agree to the Payment Terms and Conditions.
+                    </label>
+                </div>
+            </div>
+            <button id="paymentAcceptBtn" class="btn" disabled>Accept and Proceed</button>
+            <button class="btn btn-close" id="closePaymentModal">Close</button>
+        </div>
+    </div>
 
 <section class="proof-of-payment">
     <h3>View Billing Statement</h3>

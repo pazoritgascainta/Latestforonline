@@ -170,10 +170,9 @@ if (isset($_POST['delete_id'])) {
                 <ol>
                     <li>You are responsible for the accuracy of the complaint information submitted.</li>
                     <li>Do not submit any false, misleading, or inappropriate content.</li>
-                    <li>Your information will be handled in accordance with our Privacy Policy.</li>
+                    <li>Your information will be handled in accordance with our <a href="privacy_policy_page.php" target="_blank" class="privacy-policy">Privacy Policy</a>.</li>
                     <li>Complaints may be shared with relevant personnel for resolution.</li>
                     <li>Misuse of the Complaints Module may lead to account suspension.</li>
-                    <li>[Additional Terms as per your system]</li>
                 </ol>
                 <div class="checkbox-group">
                     <label>

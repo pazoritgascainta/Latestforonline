@@ -1,0 +1,60 @@
+/* General Styles for Privacy Policy Page */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    background-image: url('WideshotMonique.jpg');
+    background-size: cover; /* Ensures the image covers the entire page */
+    background-position: center center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+}
+
+.privacy-policy-container {
+    width: 80%;
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.privacy-policy-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.privacy-policy-header h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.privacy-policy-content p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.privacy-policy-content h2 {
+    font-size: 1.5rem;
+    color: #007bff;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.back-to-terms {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.back-link {
+    font-size: 1rem;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}

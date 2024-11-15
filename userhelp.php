@@ -77,6 +77,18 @@ if (session_status() === PHP_SESSION_NONE) {
         A: Your Monthly due on the next billing will be stacked with maximum of 2 months only.</p>
         <p><strong>Q: Where i can see my Billing Statement for the month?</strong><br>
         A: Your Billing Statement can be seen also inside the Payment Module.</p>
+        <p><strong>Q: How long does it take to verify my payment?</strong><br>
+        A: Uploaded payment proofs are usually reviewed within 2-3 business days. You will receive a notification once your payment is verified.
+        <p><strong>Q: Are there any late payment fees?</strong><br>
+        A: Late fees may apply if your payments are not made within the allowed grace period of 2 months. The exact fee will be specified in your Billing Statement.
+        <p><strong>Q: What should I do if my payment is not confirmed?</strong><br>
+        A: If your payment remains unconfirmed after 3 business days, please contact our support team at stmoniquevalais@gmail.com or on Contact Us in Landingpage for assistance.
+        <p><strong>Q: Can I get a refund if I overpay?</strong><br>
+        A: Yes, overpayments can be applied as a credit to your next billing cycle. For refunds, please reach out to our support team.
+        <p><strong>Q: Is my payment information secure?</strong><br>
+        A: Yes, we take data privacy seriously. All payment-related information is securely stored and handled in accordance with our [Privacy Policy].
+        <p><strong>Q: Will these terms change over time?</strong><br>
+        A: We may update these terms periodically to reflect changes in our payment policies. Continued use of the Payment Module implies acceptance of the updated terms.
     </div>
     <div id="Appointment" class="faq" style="display:none;">
         <h3>FAQ on Appointment Module</h3>

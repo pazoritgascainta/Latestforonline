@@ -31,3 +31,54 @@
             alert("File uploaded: " + fileInput.files[0].name);
         }
     });
+            // Get elements
+            const paymentModal = document.getElementById("paymentTermsModal");
+            const payHereLink = document.getElementById("pay-here-link");
+            const closePaymentModal = document.getElementById("closePaymentModal");
+            const paymentAcceptBtn = document.getElementById("paymentAcceptBtn");
+            const paymentCheckbox1 = document.getElementById("paymentCheckbox1");
+            const paymentCheckbox2 = document.getElementById("paymentCheckbox2");
+    
+            // Function to check if user has already accepted terms
+            function hasUserAcceptedPaymentTerms() {
+                return localStorage.getItem("paymentTermsAccepted") === "true";
+            }
+    
+            // Open the modal only if user hasn't accepted terms
+            payHereLink.addEventListener("click", function (event) {
+                if (hasUserAcceptedPaymentTerms()) {
+                    // Proceed to payment page if terms already accepted
+                    window.open("payment_page.php", "_blank");
+                } else {
+                    event.preventDefault(); // Prevent link default behavior
+                    paymentModal.style.display = "block";
+                }
+            });
+    
+            // Close the modal
+            closePaymentModal.addEventListener("click", function () {
+                paymentModal.style.display = "none";
+            });
+    
+            // Enable the Accept button only when both checkboxes are checked
+            function togglePaymentAcceptButton() {
+                paymentAcceptBtn.disabled = !(paymentCheckbox1.checked && paymentCheckbox2.checked);
+            }
+    
+            paymentCheckbox1.addEventListener("change", togglePaymentAcceptButton);
+            paymentCheckbox2.addEventListener("change", togglePaymentAcceptButton);
+    
+            // Accept and Proceed button
+            paymentAcceptBtn.addEventListener("click", function () {
+                // Save user's acknowledgment in localStorage
+                localStorage.setItem("paymentTermsAccepted", "true");
+                // Proceed to payment page
+                window.open("payment_page.php", "_blank");
+            });
+    
+            // Close the modal when clicking outside of it
+            window.onclick = function (event) {
+                if (event.target == paymentModal) {
+                    paymentModal.style.display = "none";
+                }
+            };

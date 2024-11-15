@@ -196,6 +196,8 @@ $(document).ready(function() {
         <!-- View Archived and Active Complaints Links -->
         <a href="admincomplaint.php?view=archived" class="btn">View Archived Complaints</a>
         <a href="admincomplaint.php?view=active" class="btn">View Active Complaints</a>
+        <a href="admincomplaint.php?view=resolved" class="btn">View Resolved Complaints</a>
+
 
         <table class="table">
             <thead>
@@ -252,12 +254,22 @@ $(document).ready(function() {
                 JOIN homeowners ON complaints.homeowner_id = homeowners.id
                 WHERE homeowners.name LIKE '%$search_query%'";
 
-                // Add the 'view' condition to the query
-                if ($view === 'archived') {
-                    $query .= " AND complaints.is_archived = 1";
-                } else {
-                    $query .= " AND complaints.is_archived = 0";
-                }
+/// Add the 'view' condition to the query
+if ($view === 'resolved') {
+    // Show only resolved complaints
+    $query .= " AND complaints.status = 'Resolved'";
+} elseif ($view === 'archived') {
+    // Show only archived complaints
+    $query .= " AND complaints.is_archived = 1";
+} elseif ($view === 'active') {
+    // Show only active complaints (exclude resolved and archived)
+    $query .= " AND complaints.status != 'Resolved' AND complaints.is_archived = 0";
+} else {
+    // Default view: show all active (non-archived) complaints
+    $query .= " AND complaints.is_archived = 0";
+}
+
+
 
                 $query .= " ORDER BY 
                     CASE 
