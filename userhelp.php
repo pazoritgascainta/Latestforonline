@@ -54,6 +54,20 @@ if (session_status() === PHP_SESSION_NONE) {
         A: We aim to respond to all complaints within 48 hours. You will receive a notification once your complaint is reviewed.</p>
         <p><strong>Q: Can I track the status of my complaint?</strong><br>
         A: Yes, you can track the status of your complaint in the "View Your Complaints" section of your account.</p>
+        <p><strong>Q: Who can use the Complaints Module?</strong><br>
+        A: Only registered users are allowed to submit complaints. By using this module, you confirm that the information you provide is accurate and truthful.
+        <p><strong>Q: How is my data used?</strong><br>
+        A: Your complaint details are confidential and will only be shared with relevant departments for resolution.
+        <p><strong>Q: Are there any restrictions on complaint content?</strong><br>
+        A: Yes, you may not submit false, offensive, or inappropriate content. Complaints with abusive language or threats will be rejected.
+        <p><strong>Q: How long is complaint data stored?</strong><br>
+        A: Data may be stored for follow-up and resolution purposes but can be anonymized for analytical use.
+        <p><strong>Q: Can I access the system at all times?</strong><br>
+        A: While we aim for continuous availability, we do not guarantee that the system will be free from interruptions.
+        <p><strong>Q: What if I misuse the Complaints Module?</strong><br>
+        A: Misuse, including unauthorized access, spreading malware, or using the system for unlawful purposes, may result in account suspension.
+        <p><strong>Q: Are these terms subject to change?</strong><br>
+        A: Yes, we may update these terms periodically. Continued use of the module implies acceptance of any changes.
     </div>
     <div id="payment" class="faq" style="display:none;">
         <h3>FAQ on Payment Module</h3>
@@ -81,6 +95,22 @@ if (session_status() === PHP_SESSION_NONE) {
         A: You can request a variety of services, including technical support, maintenance, and general inquiries.</p>
         <p><strong>Q: How long does it take to process a service request?</strong><br>
         A: We aim to process all service requests within 72 hours and will notify you once your request is complete.</p>
+        <p><strong>Q: Can I track the status of my service request?</strong><br>
+        A: Yes, you can track the status of your request by logging into your account and visiting the "Service Requests" section.
+        <p><strong>Q: Is there a limit to the number of service requests I can submit?</strong><br>
+        A: While there is no strict limit, we encourage users to submit only necessary requests to ensure efficient processing for all users.
+        <p><strong>Q: Are my service request details kept confidential?</strong><br>
+        A: Yes, all information provided in your service requests is confidential and will only be used to address your specific needs, in line with our [Privacy Policy].
+        <p><strong>Q: Can my request be denied?</strong><br>
+        A: We reserve the right to deny requests that are inappropriate, irrelevant, or outside the scope of our services. You will be notified if your request is not accepted.
+        <p><strong>Q: Are there any guidelines for submitting service requests?</strong><br>
+        A: Please provide clear and accurate details to help us understand your needs better. Incomplete or vague requests may delay processing.
+        <p><strong>Q: What happens if I misuse the Service Requests Module?</strong><br>
+        A: Misuse of the system, including submitting fraudulent, malicious, or excessive requests, may result in restricted access to the module or suspension of your account.
+        <p><strong>Q: Will there be changes to these terms?</strong><br>
+        A: Yes, we may update these terms periodically. Please review them regularly, as continued use of the module implies acceptance of any changes.
+        <p><strong>Q: Who do I contact if I have issues with my service request?</strong><br>
+        A: If you encounter any issues or have questions regarding your service request, please contact our support team at [Your Contact Email].
     </div>
 </div>
     </div>

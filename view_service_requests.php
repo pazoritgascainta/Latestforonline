@@ -2,16 +2,16 @@
 session_name('user_session');
 session_start();
 
-// Redirect to login if homeowner is not logged in
+
 if (!isset($_SESSION['homeowner_id'])) {
     header('Location: login.php');
     exit();
 }
 
-// Retrieve the homeowner ID from the session
+
 $homeowner_id = $_SESSION['homeowner_id'];
 
-// Database connection
+
 $servername = "localhost";
 $username = "u780935822_homeowner";
 $password = "Boot@o29";
@@ -22,12 +22,12 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Pagination settings
-$limit = 3; // Number of service requests per page
+
+$limit = 3; 
 $current_page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $offset = ($current_page - 1) * $limit;
 
-// Fetch total number of service requests
+
 $sql_count = "SELECT COUNT(*) as total FROM serreq WHERE homeowner_id = ?";
 $stmt_count = $conn->prepare($sql_count);
 $stmt_count->bind_param("i", $homeowner_id);
@@ -37,7 +37,7 @@ $row_count = $result_count->fetch_assoc();
 $total_service_requests = $row_count['total'];
 $total_pages = max(ceil($total_service_requests / $limit), 1);
 
-// Fetch service requests with pagination
+
 $sql_requests = "SELECT * FROM serreq WHERE homeowner_id = ? LIMIT ?, ?";
 $stmt_requests = $conn->prepare($sql_requests);
 $stmt_requests->bind_param("iii", $homeowner_id, $offset, $limit);
@@ -45,20 +45,20 @@ $stmt_requests->execute();
 $result_requests = $stmt_requests->get_result();
 $service_requests = $result_requests->fetch_all(MYSQLI_ASSOC);
 
-// Handle search query
+
 $search_query = isset($_GET['search']) ? $_GET['search'] : '';
 
-// Handle cancellation
+
 if (isset($_POST['cancel_request_id'])) {
     $request_id_to_cancel = $_POST['cancel_request_id'];
 
-    // Prepare cancellation query
+
     $sql_cancel = "DELETE FROM serreq WHERE service_req_id = ? AND homeowner_id = ?";
     $stmt_cancel = $conn->prepare($sql_cancel);
     $stmt_cancel->bind_param("ii", $request_id_to_cancel, $homeowner_id);
     $stmt_cancel->execute();
 
-    // Redirect to avoid resubmission
+
     header("Location: " . $_SERVER['PHP_SELF']);
     exit();
 }
@@ -113,12 +113,92 @@ $conn->close();
         <?php endif; ?>
 
         <div class="submit-service-request">
-            <a href="serviceuser.php" class="submit-link">Submit a Service Request</a>
+        <a href="serviceuser.php" class="submit-link" id="openServiceModal">Submit a Service Request</a>
         </div>
     </div>
+    <div id="serviceTermsModal" class="modal">
+        <div class="modal-content">
+            <h2 class="modal-header">Service Request Terms and Conditions</h2>
+            <div class="modal-body">
+                <p>By using the Service Request Module, you agree to the following terms:</p>
+                <ol>
+                    <li>You are responsible for the accuracy of the service request information submitted.</li>
+                    <li>Do not submit any false, misleading, or inappropriate requests.</li>
+                    <li>Your request details will be handled in accordance with our Privacy Policy.</li>
+                    <li>Service requests may be shared with relevant personnel for resolution.</li>
+                    <li>Misuse of the Service Request Module may lead to account suspension.</li>
+                    <li>[Additional Terms as per your system]</li>
+                </ol>
+                <div class="checkbox-group">
+                    <label>
+                        <input type="checkbox" id="serviceCheckbox1">
+                        I acknowledge that the information provided is accurate.
+                    </label>
+                    <label>
+                        <input type="checkbox" id="serviceCheckbox2">
+                        I agree to the Terms and Conditions.
+                    </label>
+                </div>
+            </div>
+            <button id="serviceAcceptBtn" class="btn" disabled>Accept and Proceed</button>
+            <button class="btn btn-close" id="closeServiceModal">Close</button>
+        </div>
+    <script>
+        // Get elements
+        const serviceModal = document.getElementById("serviceTermsModal");
+        const openServiceModal = document.getElementById("openServiceModal");
+        const closeServiceModal = document.getElementById("closeServiceModal");
+        const serviceAcceptBtn = document.getElementById("serviceAcceptBtn");
+        const serviceCheckbox1 = document.getElementById("serviceCheckbox1");
+        const serviceCheckbox2 = document.getElementById("serviceCheckbox2");
+
+        // Function to check if user has already accepted terms
+        function hasUserAcceptedServiceTerms() {
+            return localStorage.getItem("serviceTermsAccepted") === "true";
+        }
+
+        // Open the modal only if user hasn't accepted terms
+        openServiceModal.addEventListener("click", function (event) {
+            if (hasUserAcceptedServiceTerms()) {
+                // Redirect to service request page if terms already accepted
+                window.location.href = "serviceuser.php";
+            } else {
+                event.preventDefault(); // Prevent link default behavior
+                serviceModal.style.display = "block";
+            }
+        });
+
+        // Close the modal
+        closeServiceModal.addEventListener("click", function () {
+            serviceModal.style.display = "none";
+        });
+
+        // Enable the Accept button only when both checkboxes are checked
+        function toggleServiceAcceptButton() {
+            serviceAcceptBtn.disabled = !(serviceCheckbox1.checked && serviceCheckbox2.checked);
+        }
+
+        serviceCheckbox1.addEventListener("change", toggleServiceAcceptButton);
+        serviceCheckbox2.addEventListener("change", toggleServiceAcceptButton);
+
+        // Accept and Proceed button
+        serviceAcceptBtn.addEventListener("click", function () {
+            // Save user's acknowledgment in localStorage
+            localStorage.setItem("serviceTermsAccepted", "true");
+            // Redirect to service request page
+            window.location.href = "serviceuser.php";
+        });
+
+        // Close the modal when clicking outside of it
+        window.onclick = function (event) {
+            if (event.target == serviceModal) {
+                serviceModal.style.display = "none";
+            }
+        };
+    </script>
 
 
-            <!-- Pagination controls -->
+         
             <div id="pagination">
                 <?php if ($current_page > 1): ?>
                     <form method="GET" action="view_service_requests.php" style="display: inline;">
@@ -142,7 +222,7 @@ $conn->close();
                     </form>
                 <?php endif; ?>
 
-                <!-- Last page link -->
+              
                 <?php if ($total_pages > 1): ?>
                     <span>of</span>
                     <a href="?search=<?= urlencode($search_query); ?>&page=<?= $total_pages ?>" class="<?= ($current_page == $total_pages) ? 'active' : '' ?>"><?= $total_pages ?></a>

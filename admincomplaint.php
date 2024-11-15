@@ -203,6 +203,7 @@ $(document).ready(function() {
                     <th>Homeowner Name</th>
                     <th>Subject</th>
                     <th>Description</th>
+                    <th>Address</th>
                     <th>Status</th>
                     <th>Created At</th>
                     <th>Updated At</th>
@@ -246,7 +247,7 @@ $(document).ready(function() {
 
                 // Query to fetch complaints filtered by homeowner_id with pagination and sorting by status
                 $query = "
-                SELECT complaints.*, homeowners.name 
+                SELECT complaints.*, homeowners.name ,homeowners.address
                 FROM complaints 
                 JOIN homeowners ON complaints.homeowner_id = homeowners.id
                 WHERE homeowners.name LIKE '%$search_query%'";
@@ -279,6 +280,8 @@ $(document).ready(function() {
                         echo "<td>" . htmlspecialchars($row['name']) . "</td>"; // Display the homeowner name
                         echo "<td>" . htmlspecialchars($row['subject']) . "</td>";
                         echo "<td>" . htmlspecialchars($row['description']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['address']) . "</td>";
+
 
                         // Set status color
                         $status_color = "";

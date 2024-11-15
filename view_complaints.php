@@ -2,13 +2,13 @@
 session_name('user_session');
 session_start();
 
-// Redirect to login if homeowner is not logged in
+
 if (!isset($_SESSION['homeowner_id'])) {
     header('Location: login.php');
     exit();
 }
 
-// Retrieve the homeowner ID from the session
+
 $homeowner_id = $_SESSION['homeowner_id'];
 
 $servername = "localhost";
@@ -21,18 +21,18 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Function to sanitize input data
+
 function sanitize_input($data) {
     global $conn;
     return $conn->real_escape_string(trim(htmlspecialchars($data)));
 }
 
-// Pagination settings
-$limit = 3; // Number of complaints per page
+
+$limit = 3; 
 $current_page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $offset = ($current_page - 1) * $limit;
 
-// Fetch total number of complaints
+
 $sql_count = "SELECT COUNT(*) as total FROM complaints WHERE homeowner_id = ?";
 $stmt_count = $conn->prepare($sql_count);
 $stmt_count->bind_param("i", $homeowner_id);
@@ -42,7 +42,7 @@ $row_count = $result_count->fetch_assoc();
 $total_complaints = $row_count['total'];
 $total_pages = max(ceil($total_complaints / $limit), 1);
 
-// Fetch complaints with pagination
+
 $sql_complaints = "SELECT * FROM complaints WHERE homeowner_id = ? LIMIT ?, ?";
 $stmt_complaints = $conn->prepare($sql_complaints);
 $stmt_complaints->bind_param("iii", $homeowner_id, $offset, $limit);
@@ -53,7 +53,7 @@ $complaints = $result_complaints->fetch_all(MYSQLI_ASSOC);
 if (isset($_POST['delete_id'])) {
     $delete_id = $_POST['delete_id'];
 
-    // Prepare and execute the delete query
+  
     $delete_query = "DELETE FROM complaints WHERE complaint_id = ?";
     $stmt = $conn->prepare($delete_query);
     $stmt->bind_param("i", $delete_id);
@@ -117,19 +117,101 @@ if (isset($_POST['delete_id'])) {
         <p>No complaints found.</p>
     <?php endif; ?>
     <div class="submit-complaint">
-        <a href="usercomplaint.php">Submit a Complaint</a>
+        <a href="usercomplaint.php" id="openModalLink">Submit a Complaint</a>
     </div>
 </div>
+  <!-- The Modal -->
+  <div id="termsModal" class="modal">
+        <div class="modal-content">
+            <h2 class="modal-header">Terms and Conditions</h2>
+            <div class="modal-body">
+                <p>By using the Complaints Module, you agree to the following terms:</p>
+                <ol>
+                    <li>You are responsible for the accuracy of the complaint information submitted.</li>
+                    <li>Do not submit any false, misleading, or inappropriate content.</li>
+                    <li>Your information will be handled in accordance with our Privacy Policy.</li>
+                    <li>Complaints may be shared with relevant personnel for resolution.</li>
+                    <li>Misuse of the Complaints Module may lead to account suspension.</li>
+                    <li>[Additional Terms as per your system]</li>
+                </ol>
+                <div class="checkbox-group">
+                    <label>
+                        <input type="checkbox" id="checkbox1">
+                        I acknowledge that the information provided is accurate.
+                    </label>
+                    <label>
+                        <input type="checkbox" id="checkbox2">
+                        I agree to the Terms and Conditions.
+                    </label>
+                </div>
+            </div>
+            <button id="acceptBtn" class="btn" disabled>Accept and Proceed</button>
+            <button class="btn btn-close" id="closeModalBtn">Close</button>
+        </div>
+    </div>
+    <script>
+        // Get elements
+        const modal = document.getElementById("termsModal");
+        const openModalLink = document.getElementById("openModalLink");
+        const closeModalBtn = document.getElementById("closeModalBtn");
+        const acceptBtn = document.getElementById("acceptBtn");
+        const checkbox1 = document.getElementById("checkbox1");
+        const checkbox2 = document.getElementById("checkbox2");
+
+        // Function to check if user has already accepted terms
+        function hasUserAcceptedTerms() {
+            return localStorage.getItem("termsAccepted") === "true";
+        }
+
+        // Open the modal only if user hasn't accepted terms
+        openModalLink.addEventListener("click", function (event) {
+            if (hasUserAcceptedTerms()) {
+                // Redirect to complaint page if terms already accepted
+                window.location.href = "usercomplaint.php";
+            } else {
+                event.preventDefault(); // Prevent link default behavior
+                modal.style.display = "block";
+            }
+        });
+
+        // Close the modal
+        closeModalBtn.addEventListener("click", function () {
+            modal.style.display = "none";
+        });
+
+        // Enable the Accept button only when both checkboxes are checked
+        function toggleAcceptButton() {
+            acceptBtn.disabled = !(checkbox1.checked && checkbox2.checked);
+        }
+
+        checkbox1.addEventListener("change", toggleAcceptButton);
+        checkbox2.addEventListener("change", toggleAcceptButton);
+
+        // Accept and Proceed button
+        acceptBtn.addEventListener("click", function () {
+            // Save user's acknowledgment in localStorage
+            localStorage.setItem("termsAccepted", "true");
+            // Redirect to complaint page
+            window.location.href = "usercomplaint.php";
+        });
+
+        // Close the modal when clicking outside of it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
+    </script>
 
 
 
-          <!-- Pagination controls -->
+         
 <div id="pagination">
     <?php
-    $total_pages = max($total_pages, 1); // Ensure there's at least 1 page
-    $input_page = $current_page; // Default to the current page for the input
+    $total_pages = max($total_pages, 1); 
+    $input_page = $current_page; 
 
-    // Previous button
+
     if ($current_page > 1): ?>
         <form method="GET" action="view_complaints.php" style="display: inline;">
             <input type="hidden" name="search" value="<?= htmlspecialchars($search_query); ?>">
@@ -138,19 +220,19 @@ if (isset($_POST['delete_id'])) {
         </form>
     <?php endif; ?>
 
-    <!-- Page input for user to change the page -->
+
     <form method="GET" action="view_complaints.php" style="display: inline;">
         <input type="hidden" name="search" value="<?= htmlspecialchars($search_query); ?>">
         <input type="number" name="page" value="<?= $input_page ?>" min="1" max="<?= $total_pages ?>" style="width: 50px;">
     </form>
 
-    <!-- "of" text and last page link -->
+
     <?php if ($total_pages > 1): ?>
         <span>of</span>
         <a href="?search=<?= urlencode($search_query); ?>&page=<?= $total_pages ?>" class="<?= ($current_page == $total_pages) ? 'active' : '' ?>"><?= $total_pages ?></a>
     <?php endif; ?>
 
-    <!-- Next button -->
+
     <?php if ($current_page < $total_pages): ?>
         <form method="GET" action="view_complaints.php" style="display: inline;">
             <input type="hidden" name="search" value="<?= htmlspecialchars($search_query); ?>">
@@ -162,12 +244,12 @@ if (isset($_POST['delete_id'])) {
 </div>
 <script>
 function confirmDelete(event, link) {
-    event.preventDefault(); // Prevent the default link behavior
+    event.preventDefault(); 
 
     var confirmation = confirm('Are you sure you want to delete this complaint?');
     if (confirmation) {
         var form = link.closest('form');
-        form.submit(); // Submit the form if confirmed
+        form.submit();
     }
 }
 </script>
