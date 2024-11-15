@@ -282,7 +282,7 @@ $result_billing = fetchBillingRecords($conn, $offset, $limit, $search_query, $so
             <br>
             <section>
                 <a href="create_billing.php" class="btn-action">Create Billing Record</a>
-                <a href="send.php" class="btn-action">SMS History</a>
+               
             </section>
 
         </header>

@@ -52,24 +52,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['appointment_id']) && i
     $appointment_id = intval($_POST['appointment_id']);
     $new_status = $_POST['new_status'];
 
-    // Validate new status
-    if (!in_array($new_status, ['Accepted', 'Rejected', 'Seen'])) {
+    if (!in_array($new_status, ['Accepted', 'Seen'])) {
         $_SESSION['message'] = ['status' => 'error', 'message' => 'Invalid status value.'];
         header('Location: admin_approval.php');
         exit();
     }
-
+    
     // Handle status change based on $new_status value
     if ($new_status == 'Accepted') {
         // Move to accepted_appointments table
         $sql_move = "INSERT INTO accepted_appointments (date, name, email, purpose, homeowner_id, amenity_id, timeslot_id)
-                     SELECT a.date, a.name, a.email, a.purpose, a.homeowner_id, t.amenity_id, t.id
-                     FROM appointments a
-                     JOIN timeslots t ON a.timeslot_id = t.id
-                     WHERE a.id = ?";
-    } elseif ($new_status == 'Rejected') {
-        // Move to rejected_appointments table
-        $sql_move = "INSERT INTO rejected_appointments (date, name, email, purpose, homeowner_id, amenity_id, timeslot_id)
                      SELECT a.date, a.name, a.email, a.purpose, a.homeowner_id, t.amenity_id, t.id
                      FROM appointments a
                      JOIN timeslots t ON a.timeslot_id = t.id
@@ -82,6 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['appointment_id']) && i
                      JOIN timeslots t ON a.timeslot_id = t.id
                      WHERE a.id = ?";
     }
+    
 
     // Execute the status change and move the appointment to the respective table
     $stmt_move = $conn->prepare($sql_move);
@@ -180,9 +173,7 @@ $total_pages = ceil($total_appointments / $records_per_page);
     <div class="view-accepted-appointments">
         <a href="accepted_appointments.php" class="btn-view-accepted">View Accepted Appointments</a>
     </div>
-    <div class="rejected-appointments">
-        <a href="rejected_appointments.php" class="btn-manage-timeslots">Rejected Appointments</a>
-    </div>
+<!-- reject to dati -->
     <div class="passed-appointments">
         <a href="passed_appointments.php" class="btn-view-accepted">Passed Appointments</a>
     </div>
@@ -276,11 +267,7 @@ $total_pages = ceil($total_appointments / $records_per_page);
                                     <input type="hidden" name="new_status" value="Accepted">
                                     <button type="submit">Accept</button>
                                 </form>
-                                <form method="POST" action="admin_approval.php" style="display: inline;">
-                                    <input type="hidden" name="appointment_id" value="<?= htmlspecialchars($row['id']) ?>">
-                                    <input type="hidden" name="new_status" value="Rejected">
-                                    <button type="submit">Reject</button>
-                                </form>
+                           
                             </td>
                         </tr>
                     <?php endwhile; ?>

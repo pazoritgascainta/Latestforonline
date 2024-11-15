@@ -48,39 +48,50 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
-    // Function to handle and display fetched timeslots
     function handleTimeslots(timeslots) {
         if (!timeslotContainer || !noTimeslotsMessage) {
             console.error('Timeslot container or noTimeslotsMessage element not found');
             return;
         }
-
+    
         timeslotContainer.innerHTML = ''; // Clear previous checkboxes
         noTimeslotsMessage.style.display = 'none'; // Hide "no timeslots" message
-
+    
         if (timeslots.length > 0) {
             timeslots.forEach(timeslot => {
                 const div = document.createElement('div');
-
+                div.className = 'timeslot-wrapper'; // Set the class for styling
+    
                 const checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
                 checkbox.name = 'timeslot_ids[]';
                 checkbox.value = timeslot.id;
                 checkbox.id = `timeslot_${timeslot.id}`;
-
+                checkbox.className = 'timeslot-checkbox'; // Optional: for specific styles
+    
                 const label = document.createElement('label');
                 label.htmlFor = checkbox.id;
                 label.textContent = `${timeslot.time_start} - ${timeslot.time_end}`;
-
+    
+                // Append checkbox and label to the wrapper
                 div.appendChild(checkbox);
                 div.appendChild(label);
+    
+                // Event listener to toggle the background color of the wrapper based on checkbox state
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        div.classList.add('checked'); // Add checked class if the checkbox is checked
+                    } else {
+                        div.classList.remove('checked'); // Remove checked class if unchecked
+                    }
+                });
+    
                 timeslotContainer.appendChild(div);
             });
         } else {
             noTimeslotsMessage.style.display = 'block'; // Show "no timeslots" message
         }
     }
-
     // Function to render the calendar
     function renderCalendar() {
         calendar.innerHTML = ''; // Clear previous calendar content

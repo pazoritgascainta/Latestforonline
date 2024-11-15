@@ -22,7 +22,14 @@
     z-index: 100;
     display: none;
 }
+.timeslot-wrapper {
+    margin-bottom: 10px; /* Spacing between timeslot items */
+}
 
+.timeslot-label {
+    margin-left: 5px; /* Add some space between checkbox and label */
+    cursor: pointer; /* Change the cursor to pointer for better UX */
+}
 .modal-content {
     position: fixed;
     top: 40%;
@@ -32,11 +39,11 @@
     padding: 20px;
     border-radius: 8px;
     z-index: 101;
-    max-width: 500px;
+    max-width: 125vh;
     width: 100%;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
-    max-height: 80vh;
+    max-height: 100%;
 }
 
 .modal.show {
@@ -118,11 +125,32 @@
 .collapsible-container {
     margin-bottom: 15px;
 }
+.timeslot {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+    user-select: none; /* Prevent text selection while dragging */
+    background-color: #f8f9fa; /* Light background color */
+    transition: background-color 0.2s; /* Smooth transition for hover */
+}
 
+.timeslot.hover {
+    background-color: #e2e6ea; /* Background color when hovered */
+}
+
+.timeslot.selected {
+    background-color: #007bff; /* Background color when selected */
+    color: white; /* Change text color when selected */
+}
+
+.dragging {
+    opacity: 0.5; /* Make dragged item transparent */
+}
 .collapsible {
     background-color: #f1f1f1;
     color: #444;
-    cursor: pointer;
+    cursor: move; /* Change cursor to indicate dragging */
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -226,4 +254,18 @@
     .collapsible {
         font-size: 14px;
     }
+}
+.timeslot-wrapper {
+    margin-bottom: 10px; /* Spacing between timeslot items */
+    padding: 5px;
+    border: 1px solid #ccc; /* Optional: adds a border for visibility */
+}
+
+.dragging {
+    border: 2px dashed #ff9100; /* Indicate the dragging effect */
+    background-color: #f8f9fa; /* Light background color when dragging */
+}
+.timeslot-wrapper.checked {
+    background-color: #007bff; /* Blue background for checked state */
+    color: white; /* Change text color to white for better readability */
 }

@@ -94,6 +94,34 @@ try {
         sendSms($pdo, $api, $homeownerId, $phoneNumber, $message);
     }
 
+    // Fetch homeowners with paid bills
+    $stmt = $pdo->prepare("
+        SELECT h.id AS homeowner_id, h.phone_number, b.status 
+        FROM homeowners h 
+        JOIN billing b ON h.id = b.homeowner_id 
+        WHERE b.status = 'paid'
+    ");
+    $stmt->execute();
+    $paidHomeowners = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Loop through homeowners with paid bills
+    foreach ($paidHomeowners as $homeowner) {
+        $phoneNumber = $homeowner['phone_number'];
+        $homeownerId = $homeowner['homeowner_id'];
+
+        // Check if the phone number is valid
+        if (!validatePhoneNumber($phoneNumber)) {
+            error_log("Invalid phone number: $phoneNumber");
+            continue;
+        }
+
+        // Prepare confirmation message
+        $message = "Thank you for your payment. Your account is up to date.";
+
+        // Send SMS for paid homeowners
+        sendSms($pdo, $api, $homeownerId, $phoneNumber, $message);
+    }
+
     echo "SMS notifications processed successfully.\n";
 
 } catch (PDOException $e) {
