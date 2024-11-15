@@ -2,7 +2,6 @@
 session_name('admin_session'); // Set a unique session name for admins
 session_start();
 
-
 // Include database connection
 $servername = "localhost";
 $username = "u780935822_homeowner";
@@ -14,8 +13,32 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Check if this is an AJAX request from the user side
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['complaint_id'])) {
+    // Get the complaint ID from the AJAX request
+    $complaintId = intval($_POST['complaint_id']);
 
-// Check if 'id' parameter is present in URL
+    // Update the complaint status to 'Resolved'
+    $update_sql = "UPDATE complaints SET status = 'Resolved' WHERE complaint_id = ?";
+    $update_stmt = $conn->prepare($update_sql);
+    if ($update_stmt === false) {
+        echo json_encode(['success' => false, 'message' => 'Error preparing statement']);
+        exit;
+    }
+    $update_stmt->bind_param("i", $complaintId);
+
+    // Execute the update query
+    if ($update_stmt->execute()) {
+        echo json_encode(['success' => true, 'message' => 'Complaint marked as resolved.']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Error updating complaint status']);
+    }
+    $update_stmt->close();
+    $conn->close();
+    exit;
+}
+
+// Check if 'id' parameter is present in URL for the admin side
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header("Location: admincomplaint.php?error=missing_id");
     exit;
@@ -24,7 +47,7 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 // Get 'id' parameter from URL and sanitize it
 $id = intval($_GET['id']);
 
-// Fetch complaint details using prepared statements
+// Fetch complaint details using prepared statements for the admin side
 $sql = "SELECT * FROM complaints WHERE complaint_id = ?";
 $stmt = $conn->prepare($sql);
 if ($stmt === false) {
@@ -40,11 +63,9 @@ if ($result->num_rows == 1) {
     header("Location: admincomplaint.php?error=complaint_not_found");
     exit;
 }
-
-// Close the result set
 $result->close();
 
-// Handle form submission to update complaint status
+// Handle form submission to update complaint status on the admin side
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['status'])) {
     $status = $_POST['status'];
 
@@ -57,23 +78,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['status'])) {
     $update_stmt->bind_param("si", $status, $id);
 
     if ($update_stmt->execute()) {
-        // Successful update message
         $_SESSION['update_success'] = "Complaint status updated successfully.";
-        header("Location: admincomplaint.php"); // Redirect back to complaints list
+        header("Location: admincomplaint.php");
         exit;
     } else {
-        // Error handling if update fails
         $_SESSION['update_error'] = "Error updating record: " . $update_stmt->error;
         header("Location: admincomplaint.php?error=update_failed");
         exit;
     }
 } else {
-    // Handle case where status is not set in $_POST
     $_SESSION['update_error'] = "Error: Status not provided.";
     header("Location: admincomplaint.php?error=status_not_provided");
     exit;
 }
 
-// Close database connection
 $conn->close();
 ?>
