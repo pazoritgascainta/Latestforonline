@@ -29,8 +29,8 @@ if ($homeowner) {
     $homeowner_name = "Unknown Homeowner";
 }
 
-// Search by billing date if provided
-$search_date = isset($_GET['search']) ? $_GET['search'] : '';
+// Search by billing year if provided
+$search_year = isset($_GET['search']) ? $_GET['search'] : '';
 
 // Pagination variables
 $results_per_page = 10;
@@ -39,13 +39,13 @@ $start_from = ($current_page - 1) * $results_per_page;
 
 // Fetch total records for pagination from billing history
 $sql_total_billing = "SELECT COUNT(*) AS total FROM billing_history WHERE homeowner_id = ?";
-if (!empty($search_date)) {
-    $sql_total_billing .= " AND billing_date = ?";
+if (!empty($search_year)) {
+    $sql_total_billing .= " AND YEAR(billing_date) = ?";
 }
 
 $stmt_total_billing = $conn->prepare($sql_total_billing);
-if (!empty($search_date)) {
-    $stmt_total_billing->bind_param("is", $homeowner_id, $search_date);
+if (!empty($search_year)) {
+    $stmt_total_billing->bind_param("is", $homeowner_id, $search_year);
 } else {
     $stmt_total_billing->bind_param("i", $homeowner_id);
 }
@@ -57,29 +57,29 @@ $total_pages_billing = ceil($total_records_billing / $results_per_page);
 // Fetch billing history records
 $sql_billing = "SELECT history_id, monthly_due, billing_date, due_date, total_amount, paid_date
                 FROM billing_history
-                WHERE homeowner_id = ?" . (!empty($search_date) ? " AND billing_date = ?" : "") . "
+                WHERE homeowner_id = ?" . (!empty($search_year) ? " AND YEAR(billing_date) = ?" : "") . "
                 ORDER BY billing_date DESC
                 LIMIT ?, ?";
 
 $stmt_billing = $conn->prepare($sql_billing);
-if (!empty($search_date)) {
-    $stmt_billing->bind_param("isii", $homeowner_id, $search_date, $start_from, $results_per_page);
+if (!empty($search_year)) {
+    $stmt_billing->bind_param("isii", $homeowner_id, $search_year, $start_from, $results_per_page);
 } else {
     $stmt_billing->bind_param("iii", $homeowner_id, $start_from, $results_per_page);
 }
 $stmt_billing->execute();
 $result_billing = $stmt_billing->get_result();
 
-// Fetch distinct billing dates for suggestions
-$sql_dates = "SELECT DISTINCT billing_date FROM billing_history WHERE homeowner_id = ?";
-$stmt_dates = $conn->prepare($sql_dates);
-$stmt_dates->bind_param("i", $homeowner_id);
-$stmt_dates->execute();
-$result_dates = $stmt_dates->get_result();
+// Fetch distinct billing years for suggestions
+$sql_years = "SELECT DISTINCT YEAR(billing_date) AS billing_year FROM billing_history WHERE homeowner_id = ?";
+$stmt_years = $conn->prepare($sql_years);
+$stmt_years->bind_param("i", $homeowner_id);
+$stmt_years->execute();
+$result_years = $stmt_years->get_result();
 
-$billing_dates = [];
-while ($row = $result_dates->fetch_assoc()) {
-    $billing_dates[] = $row['billing_date'];
+$billing_years = [];
+while ($row = $result_years->fetch_assoc()) {
+    $billing_years[] = $row['billing_year'];
 }
 ?>
 <!DOCTYPE html>
@@ -101,25 +101,26 @@ while ($row = $result_dates->fetch_assoc()) {
 <div class="main-content">
     <div class="container">
         <section>
-            <h2>Payment History for Homeowner ID: <?php echo $homeowner_name; ?></h2>
+            <h2>Payment History for Homeowner: <?php echo $homeowner_name; ?></h2>
             <a href="recordingadmin.php" class="btn">Back</a>
-<a href="accepted_appointments_history.php?homeowner_id=<?= htmlspecialchars($homeowner_id); ?>" class="btn">Appointments</a>
-<a href="payment_history_admin.php?homeowner_id=<?= htmlspecialchars($homeowner_id); ?>" class="btn">See Uploaded Images</a>
-<a href="previous_records.php?homeowner_id=<?= htmlspecialchars($homeowner_id); ?>" class="btn">Add Previous Records</a>
+            <a href="accepted_appointments_history.php?homeowner_id=<?= htmlspecialchars($homeowner_id); ?>" class="btn">Appointments</a>
+            <a href="payment_history_admin.php?homeowner_id=<?= htmlspecialchars($homeowner_id); ?>" class="btn">See Uploaded Images</a>
+            <a href="previous_records.php?homeowner_id=<?= htmlspecialchars($homeowner_id); ?>" class="btn">Add Previous Records</a>
 
-           <!-- Search Form -->
-           <form id="search-form" class="search-form">
-    <input type="hidden" name="homeowner_id" value="<?= htmlspecialchars($homeowner_id); ?>">
-    <div class="custom-dropdown">
-        <input type="text" id="search-input" name="search" placeholder="Search by Month" value="<?= htmlspecialchars($search_date); ?>">
-        <div id="dropdown-options" class="dropdown-options"> 
-            <?php foreach ($billing_dates as $date): ?>
-                <div class="dropdown-option" data-value="<?= htmlspecialchars($date); ?>"><?= htmlspecialchars($date); ?></div>
-            <?php endforeach; ?>
-        </div>
-        <button type="button" id="search-button">Search</button>
-    </div>
-</form>
+            <!-- Search Form -->
+            <form id="search-form" class="search-form">
+                <input type="hidden" name="homeowner_id" value="<?= htmlspecialchars($homeowner_id); ?>">
+                <div class="custom-dropdown">
+                    <input type="text" id="search-input" name="search" placeholder="Search by Year" value="<?= htmlspecialchars($search_year); ?>">
+                    <div id="dropdown-options" class="dropdown-options"> 
+                        <?php foreach ($billing_years as $year): ?>
+                            <div class="dropdown-option" data-value="<?= htmlspecialchars($year); ?>"><?= htmlspecialchars($year); ?></div>
+                        <?php endforeach; ?>
+                    </div>
+                    <button type="button" id="search-button">Search</button>
+                </div>
+            </form>
+
             <h3>Billing History</h3>
             <table id="billing-table" class="table">
                 <thead>
@@ -157,16 +158,16 @@ while ($row = $result_dates->fetch_assoc()) {
                     <?php if ($current_page > 1): ?>
                         <form method="GET" action="input_billing.php" style="display: inline;">
                             <input type="hidden" name="homeowner_id" value="<?= htmlspecialchars($homeowner_id); ?>">
-                            <input type="hidden" name="search" value="<?= htmlspecialchars($search_date); ?>">
+                            <input type="hidden" name="search" value="<?= htmlspecialchars($search_year); ?>">
                             <input type="hidden" name="page" value="<?= $current_page - 1 ?>">
-                            <button type="submit">&lt;</button>
+                            <button type="submit"><</button>
                         </form>
                     <?php endif; ?>
 
                     <!-- Page Input Field for Billing -->
                     <form method="GET" action="input_billing.php" style="display: inline;">
                         <input type="hidden" name="homeowner_id" value="<?= htmlspecialchars($homeowner_id); ?>">
-                        <input type="hidden" name="search" value="<?= htmlspecialchars($search_date); ?>">
+                        <input type="hidden" name="search" value="<?= htmlspecialchars($search_year); ?>">
                         <input type="number" name="page" value="<?= $current_page ?>" min="1" max="<?= $total_pages_billing ?>" style="width: 50px;">
                     </form>
 
@@ -174,9 +175,9 @@ while ($row = $result_dates->fetch_assoc()) {
                     <?php if ($current_page < $total_pages_billing): ?>
                         <form method="GET" action="input_billing.php" style="display: inline;">
                             <input type="hidden" name="homeowner_id" value="<?= htmlspecialchars($homeowner_id); ?>">
-                            <input type="hidden" name="search" value="<?= htmlspecialchars($search_date); ?>">
+                            <input type="hidden" name="search" value="<?= htmlspecialchars($search_year); ?>">
                             <input type="hidden" name="page" value="<?= $current_page + 1 ?>">
-                            <button type="submit">&gt;</button>
+                            <button type="submit">></button>
                         </form>
                     <?php endif; ?>
                 <?php endif; ?>
@@ -224,35 +225,7 @@ while ($row = $result_dates->fetch_assoc()) {
     });
 
     document.getElementById('search-button').addEventListener('click', function() {
-        const homeownerId = document.querySelector('input[name="homeowner_id"]').value;
-        const searchDate = document.getElementById('search-input').value;
-
-        fetch(`search_billing.php?homeowner_id=${homeownerId}&search=${searchDate}`)
-            .then(response => response.json())
-            .then(data => {
-                const tableBody = document.querySelector('#billing-table tbody');
-                tableBody.innerHTML = ''; // Clear existing rows
-
-                if (data.length > 0) {
-                    data.forEach(record => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${record.history_id}</td>
-                            <td>${parseFloat(record.monthly_due).toFixed(2)}</td>
-                            <td>${record.billing_date}</td>
-                            <td>${record.due_date}</td>
-                            <td>${parseFloat(record.total_amount).toFixed(2)}</td>
-                            <td>${record.paid_date}</td>
-                        `;
-                        tableBody.appendChild(row);
-                    });
-                } else {
-                    const row = document.createElement('tr');
-                    row.innerHTML = '<td colspan="6">No billing records found for this homeowner.</td>';
-                    tableBody.appendChild(row);
-                }
-            })
-            .catch(error => console.error('Error fetching billing data:', error));
+        document.getElementById('search-form').submit(); // Submit the form when search button is clicked
     });
 </script>
 </body>

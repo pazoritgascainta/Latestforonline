@@ -42,27 +42,17 @@ function is_timeslot_booked($conn, $homeowner_id, $date, $timeslot_id, $amenity_
 
 // Notify admins about a new appointment
 function notify_admins($conn, $homeowner_id, $user_name, $email, $date, $purpose, $timeslot_id, $amenity_id) {
-    // Prepare the insert statement
     $sql_notify = "INSERT INTO admin_inbox (admin_id, message, date) VALUES (?, ? , NOW())";
-
-    // Fetch all admins
     $admins_result = $conn->query("SELECT id FROM admin");
     while ($admin_row = $admins_result->fetch_assoc()) {
         $admin_id = $admin_row['id'];
-
-        // Create the message
         $message = "New appointment request from homeowner ID $homeowner_id: $user_name ($email) on $date for purpose '$purpose' with timeslot ID $timeslot_id and amenity ID $amenity_id.";
-
-        // Prepare the statement
         $stmt_notify = $conn->prepare($sql_notify);
         if (!$stmt_notify) {
             echo "Failed to prepare SQL statement: " . $conn->error;
             continue;
         }
-        
-        // Bind parameters and execute
         $stmt_notify->bind_param("is", $admin_id, $message);
-        
         if (!$stmt_notify->execute()) {
             echo "Failed to notify admin: " . $stmt_notify->error;
         }
@@ -104,6 +94,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['book_appointment'])) {
         if ($stmt_insert->execute()) {
             // Notify admins about the new appointment
             notify_admins($conn, $homeowner_id, $name, $email, $date, $purpose, $timeslot_id, $amenity_id);
+
+            // Update the is_available column for the timeslot
+            $sql_update = "UPDATE timeslots SET is_available = 0 WHERE id = ?";
+            $stmt_update = $conn->prepare($sql_update);
+            $stmt_update->bind_param("i", $timeslot_id);
+            if (!$stmt_update->execute()) {
+                echo "Failed to update timeslot availability: " . $stmt_update->error;
+            }
+            $stmt_update->close();
         } else {
             $errors[] = "Failed to execute SQL statement: " . $stmt_insert->error;
         }
@@ -121,6 +120,64 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['book_appointment'])) {
     exit();
 }
 
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cancel_appointment'])) {
+    $appointment_id = intval($_POST['appointment_id']);
+    
+    $timeslot_id = null;
+
+    // Step 1: Fetch the timeslot_id for the appointment being canceled
+    $sql_fetch = "SELECT timeslot_id FROM appointments WHERE id = ?";
+    if ($stmt_fetch = $conn->prepare($sql_fetch)) {
+        $stmt_fetch->bind_param("i", $appointment_id);
+        $stmt_fetch->execute();
+        $stmt_fetch->bind_result($timeslot_id);
+        $stmt_fetch->fetch();
+        $stmt_fetch->close();
+    } else {
+        error_log("Fetch Prepare Error: " . $conn->error);
+    }
+
+    if ($timeslot_id === null) {
+        error_log("No timeslot_id found for appointment ID " . $appointment_id);
+    } else {
+        // Log the timeslot_id here
+        error_log("Fetched timeslot ID: " . $timeslot_id);
+
+        // Step 2: Delete the appointment
+        $sql_delete = "DELETE FROM appointments WHERE id = ?";
+        if ($stmt_delete = $conn->prepare($sql_delete)) {
+            $stmt_delete->bind_param("i", $appointment_id);
+            if ($stmt_delete->execute()) {
+                error_log("Successfully deleted appointment ID: " . $appointment_id);
+            } else {
+                error_log("Delete Error: " . $stmt_delete->error);
+            }
+            $stmt_delete->close();
+        } else {
+            error_log("Delete Prepare Error: " . $conn->error);
+        }
+
+        // Step 3: Update the timeslot availability
+        $sql_update = "UPDATE timeslots SET is_available = 1 WHERE id = ?";
+        if ($stmt_update = $conn->prepare($sql_update)) {
+            $stmt_update->bind_param("i", $timeslot_id);
+            if ($stmt_update->execute()) {
+                // Check affected rows
+                if ($stmt_update->affected_rows > 0) {
+                    error_log("Successfully set timeslot ID " . $timeslot_id . " as available.");
+                } else {
+                    error_log("No rows affected for timeslot ID " . $timeslot_id . ". It may already be available or the ID is incorrect.");
+                }
+            } else {
+                error_log("Update Error: " . $stmt_update->error);
+            }
+            $stmt_update->close();
+        } else {
+            error_log("Update Prepare Error: " . $conn->error);
+        }
+    }
+}
 // Fetch amenities for the dropdown
 $sql_amenities = "SELECT * FROM amenities";
 $result_amenities = $conn->query($sql_amenities);
@@ -184,7 +241,6 @@ $stmt_booked_appointments->execute();
 $result_booked_appointments = $stmt_booked_appointments->get_result();
 $booked_appointments = $result_booked_appointments->fetch_all(MYSQLI_ASSOC);
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -514,17 +570,62 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
 <script>
+function fetchAvailableTimeslots() {
+    const selectedDate = document.getElementById('selected-date').value;
+    const amenityId = document.getElementById('hidden-amenity-id').value;
+
+    if (!selectedDate || !amenityId) {
+        document.getElementById('no-timeslots').style.display = 'block';
+        return;
+    }
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', `fetch_timeslots.php?date=${encodeURIComponent(selectedDate)}&amenity_id=${encodeURIComponent(amenityId)}`, true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const timeslotsContainer = document.getElementById('timeslot-container');
+            const timeslots = JSON.parse(xhr.responseText);
+
+            timeslotsContainer.innerHTML = ''; // Clear existing options
+
+            if (timeslots.success && timeslots.data.length > 0) {
+                timeslots.data.forEach(timeslot => {
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.name = 'timeslot_ids[]';
+                    checkbox.value = timeslot.id;
+
+                    const label = document.createElement('label');
+                    label.textContent = `${timeslot.time_start} - ${timeslot.time_end}`;
+
+                    timeslotsContainer.appendChild(checkbox);
+                    timeslotsContainer.appendChild(label);
+                    timeslotsContainer.appendChild(document.createElement('br'));
+                });
+            } else {
+                document.getElementById('no-timeslots').style.display = 'block';
+            }
+        }
+    };
+    xhr.send();
+}
+// JS for handling appointment cancellation
 function cancelAppointment(appointmentId) {
     if (confirm('Are you sure you want to cancel this appointment?')) {
         const xhr = new XMLHttpRequest();
         xhr.open('POST', 'cancel_appointment.php', true);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 const response = JSON.parse(xhr.responseText);
                 if (response.success) {
-                    document.getElementById('appointment-' + appointmentId).remove();
-                    alert('Appointment canceled successfully.');
+                    // Remove the appointment entry from the table
+                    document.getElementById('appointment-' + appointmentId).remove(); 
+                    alert('Appointment canceled successfully. The timeslot is now available.');
+
+                    // Reload timeslots
+                    fetchAvailableTimeslots();
                 } else {
                     alert('Failed to cancel the appointment: ' + response.message);
                 }

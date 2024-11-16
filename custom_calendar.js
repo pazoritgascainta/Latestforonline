@@ -24,14 +24,15 @@ document.addEventListener('DOMContentLoaded', function() {
     function fetchTimeslots() {
         const amenityId = amenitySelect.value;
         const selectedDate = selectedDateInput.value;
-
+    
         if (!amenityId || !selectedDate) {
             console.log('No amenity or date selected.');
+            noTimeslotsMessage.style.display = 'none'; // Hide previous messages
             return;
         }
-
+    
         console.log(`Fetching timeslots for Amenity ID: ${amenityId}, Date: ${selectedDate}`);
-
+    
         fetch(`fetch_timeslots.php?date=${encodeURIComponent(selectedDate)}&amenity_id=${encodeURIComponent(amenityId)}`)
             .then(response => {
                 if (!response.ok) {
@@ -47,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('Error fetching timeslots:', error);
             });
     }
-
+    
     function handleTimeslots(timeslots) {
         if (!timeslotContainer || !noTimeslotsMessage) {
             console.error('Timeslot container or noTimeslotsMessage element not found');
@@ -57,17 +58,17 @@ document.addEventListener('DOMContentLoaded', function() {
         timeslotContainer.innerHTML = ''; // Clear previous checkboxes
         noTimeslotsMessage.style.display = 'none'; // Hide "no timeslots" message
     
-        if (timeslots.length > 0) {
-            timeslots.forEach(timeslot => {
+        if (timeslots.success && timeslots.data.length > 0) {
+            timeslots.data.forEach(timeslot => {
                 const div = document.createElement('div');
                 div.className = 'timeslot-wrapper'; // Set the class for styling
-    
+                
+                // Create checkbox and label
                 const checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
                 checkbox.name = 'timeslot_ids[]';
                 checkbox.value = timeslot.id;
                 checkbox.id = `timeslot_${timeslot.id}`;
-                checkbox.className = 'timeslot-checkbox'; // Optional: for specific styles
     
                 const label = document.createElement('label');
                 label.htmlFor = checkbox.id;
@@ -79,17 +80,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
                 // Event listener to toggle the background color of the wrapper based on checkbox state
                 checkbox.addEventListener('change', function() {
-                    if (this.checked) {
-                        div.classList.add('checked'); // Add checked class if the checkbox is checked
-                    } else {
-                        div.classList.remove('checked'); // Remove checked class if unchecked
-                    }
+                    div.classList.toggle('checked', this.checked); // Using toggle for simplicity
                 });
     
                 timeslotContainer.appendChild(div);
             });
         } else {
-            noTimeslotsMessage.style.display = 'block'; // Show "no timeslots" message
+            noTimeslotsMessage.style.display = 'block'; // Show "no timeslots" message if none found
         }
     }
     // Function to render the calendar
