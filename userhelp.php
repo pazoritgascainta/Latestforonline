@@ -32,7 +32,7 @@ if (session_status() === PHP_SESSION_NONE) {
         <div class="topic" onclick="showFAQ('Account')">St.Monique Account FAQ</div>
         <div class="topic" onclick="showFAQ('complaints')">FAQ on Complaints Module</div>
         <div class="topic" onclick="showFAQ('payment')">FAQ on on Payment Module</div>
-        <div class="topic" onclick="showFAQ('Appointment')">FAQ on Appointment Module</div>
+        <div class="topic" onclick="showFAQ('Appointment')">FAQ on Booking Module</div>
         <div class="topic" onclick="showFAQ('Request')">FAQ on Service Request Module</div>
       </div>
       <div class="faq-content">
@@ -91,13 +91,24 @@ if (session_status() === PHP_SESSION_NONE) {
         A: We may update these terms periodically to reflect changes in our payment policies. Continued use of the Payment Module implies acceptance of the updated terms.
     </div>
     <div id="Appointment" class="faq" style="display:none;">
-        <h3>FAQ on Appointment Module</h3>
-        <p><strong>Q: How do I schedule an appointment?</strong><br>
-        A: You can schedule an appointment of any Amenities by navigating to the "Appointments" module  and you will see a Calendar and select your preferred date and time.</p>
-        <p><strong>Q: Can I reschedule my appointment?</strong><br>
-        A: Yes, you can reschedule your appointment by going to the "My Appointments" section and selecting the reschedule option.</p>
-        <p><strong>Q: What should I do if I need to cancel my appointment?</strong><br>
-        A: If you need to cancel, please do so at least 24 hours in advance through the "Appointments" module and see your "Pending Appointments" and on the Action click "Cancel".</p>
+        <h3>FAQ on Booking Module</h3>
+        <p><strong>Q: How do I schedule an Booking?</strong><br>
+        A: You can schedule an Booking of any Amenities by navigating to the "Booking" module  and you will see a Calendar and select your preferred date and time.</p>
+        <p><strong>Q: Can I reschedule my Booking?</strong><br>
+        A: Yes, you can reschedule your Booking by going to the "My Booking" section and selecting the reschedule option.</p>
+        <p><strong>Q: What should I do if I need to cancel my Booking?</strong><br>
+        A: If you need to cancel, please do so at least 24 hours in advance through the "Booking" module and see your "Pending Booking" and on the Action click "Cancel".</p>
+        <p><strong>Q: Will I receive a confirmation after booking?</strong><br>
+        A: Yes, you will receive a notification once your booking is confirmed. Please keep this confirmation as proof of your scheduled slot.
+        <p><strong>Q: What happens if I don't show up for my booking?</strong><br>
+        A: If you do not show up for your booking without prior cancellation, it may affect your ability to book future slots. Please make sure to cancel or reschedule if you cannot attend.
+        <p><strong>Q: Are there any guidelines I need to follow while using the amenities?</strong><br>
+        A: Yes, please use the amenities for their intended purposes and follow all community guidelines. Any damages caused during use may result in additional charges.
+        <p><strong>Q:  What if the amenity I want to book is already allotted to someone else?</strong><br>
+        A: If an amenity is already allotted for a specific date and time, it will not be available for booking. You will see these time slots marked as unavailable on the booking calendar. Please select a different time or check other amenities for availability.
+        <p><strong>Q:  What should I do if I encounter issues with my booking?</strong><br>
+        A: If you face any issues while booking, or canceling, please contact us in our email stmoniquevalais@gmail.com.
+
     </div>
     <div id="Request" class="faq" style="display:none;">
         <h3>FAQ on Service Request Module</h3>

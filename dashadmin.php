@@ -525,38 +525,66 @@ window.onclick = function(event) {
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-    // Data for the chart
-    const totalEarnings = <?php echo json_encode($totalEarnings); ?>;
-    const acceptedAppointmentsEarnings = <?php echo json_encode($acceptedAppointmentsEarnings); ?>;
+// Data for the chart
+const totalEarnings = <?php echo json_encode($totalEarnings); ?>;
+const acceptedAppointmentsEarnings = <?php echo json_encode($acceptedAppointmentsEarnings); ?>;
 
-    // Create the chart
-    const ctx = document.getElementById('combinedEarningsChart').getContext('2d');
-    const combinedEarningsChart = new Chart(ctx, {
-        type: 'bar', // You can change the type to 'line', 'pie', etc.
-        data: {
-            labels: ['Total Earnings', 'Accepted Appointments Earnings'],
-            datasets: [{
-                label: 'Earnings',
-                data: [totalEarnings, acceptedAppointmentsEarnings],
-                backgroundColor: [
-                    'rgba(75, 192, 192, 0.2)', // Color for total earnings
-                    'rgba(255, 99, 132, 0.2)' // Color for accepted appointments earnings
-                ],
-                borderColor: [
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(255, 99, 132, 1)'
-                ],
-                borderWidth: 1
-            }]
+// Create the chart
+const ctx = document.getElementById('combinedEarningsChart').getContext('2d');
+const combinedEarningsChart = new Chart(ctx, {
+    type: 'line', // Change type to 'line'
+    data: {
+        labels: ['Total Earnings', 'Accepted Appointments Earnings'], // This can remain the same
+        datasets: [{
+            label: 'Total Earnings',
+            data: [totalEarnings, 0], // Only show total earnings for the first point
+            backgroundColor: 'rgba(75, 192, 192, 0.2)', // Color for total earnings
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 2,
+            fill: false, // Do not fill under the line
+            tension: 0.1, // Smooth the line
+        }, {
+            label: 'Accepted Appointments Earnings',
+            data: [0, acceptedAppointmentsEarnings], // Only show accepted appointments earnings for the second point
+            backgroundColor: 'rgba(255, 99, 132, 0.2)', // Color for accepted appointments earnings
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 2,
+            fill: false, // Do not fill under the line
+            tension: 0.1, // Smooth the line
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Earnings Type' // X-axis title
+                }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'Earnings (in PHP)' // Y-axis title
+                },
+                beginAtZero: true // Start y-axis at 0
+            }
         },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
+        plugins: {
+            legend: {
+                display: true, // Show legend
+                position: 'top' // Position of the legend
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(tooltipItem) {
+                        return tooltipItem.dataset.label + ': ₱' + tooltipItem.formattedValue; // Format tooltip
+                    }
                 }
             }
         }
-    });
+    }
+});
 </script>
 
 <script>

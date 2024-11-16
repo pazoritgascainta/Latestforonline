@@ -28,22 +28,62 @@ const visitorChart = new Chart(ctxVisitor, {
 });
 
 const ctxRevenue = document.getElementById('revenueChart').getContext('2d');
+
 const revenueChart = new Chart(ctxRevenue, {
-    type: 'bar',
+    type: 'line', // Type of the chart
     data: {
         labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
         datasets: [
             {
                 label: 'Online Sales',
                 data: [12000, 14000, 18000, 16000, 20000, 22000, 25000],
-                backgroundColor: '#3498db',
+                backgroundColor: 'rgba(52, 152, 219, 0.2)', // Light blue background
+                borderColor: '#3498db', // Line color
+                borderWidth: 2,
+                fill: false, // Don't fill the area under the line
+                tension: 0.3, // Makes the line smooth
             },
             {
                 label: 'Offline Sales',
                 data: [8000, 10000, 12000, 15000, 18000, 14000, 20000],
-                backgroundColor: '#2ecc71',
+                backgroundColor: 'rgba(46, 204, 113, 0.2)',  // Light green background
+                borderColor: '#2ecc71', // Line color
+                borderWidth: 2,
+                fill: false, // Don't fill the area under the line
+                tension: 0.3, // Makes the line smooth
             }
         ]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Days of the Week'
+                }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'Sales in PHP'
+                },
+                beginAtZero: true, // Start y-axis at 0
+            }
+        },
+        plugins: {
+            legend: {
+                display: true,
+                position: 'top', // Legend position
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(tooltipItem) {
+                        return tooltipItem.dataset.label + ': ₱' + tooltipItem.formattedValue; // Formatting tooltip
+                    }
+                }
+            }
+        }
     }
 });
 

@@ -61,10 +61,5 @@ $homeowner_id = $_SESSION['homeowner_id'];
             <p>We may update this Privacy Policy from time to time. Any changes will be posted on this page, and the effective date will be updated accordingly.</p>
             <p>If you have any questions or concerns about this Privacy Policy, please contact us at Stmoniquevalais@gmail.com</p>
         </div>
-        <div class="back-to-terms">
-            <a href="payment.php" class="back-link">Back to Payment Module</a>
-        </div>
-    </div>
-
 </body>
 </html>

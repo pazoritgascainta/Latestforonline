@@ -195,8 +195,7 @@ $totalCombinedEarnings = $totalEarnings + $acceptedAppointmentsEarnings; // Comb
 <?php include 'sidebar.php'; ?>
 <div class="main-content">
     <h1>St. Monique Reports</h1>
-    <div class="report-wrapper"> <!-- Added wrapper for flex layout -->
-    <!-- Move side-container to be on top -->
+    <div class="report-wrapper">
     <div class="side-container">
         <div class="widget">
             <h2>Total Homeowners</h2>

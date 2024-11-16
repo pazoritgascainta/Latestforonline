@@ -108,21 +108,18 @@ while ($row = $result_dates->fetch_assoc()) {
 <a href="previous_records.php?homeowner_id=<?= htmlspecialchars($homeowner_id); ?>" class="btn">Add Previous Records</a>
 
            <!-- Search Form -->
-<form id="search-form" class="search-form">
+           <form id="search-form" class="search-form">
     <input type="hidden" name="homeowner_id" value="<?= htmlspecialchars($homeowner_id); ?>">
     <div class="custom-dropdown">
-        <input type="text" id="search-input" name="search" placeholder="Search by billing date (YYYY-MM-DD)" value="<?= htmlspecialchars($search_date); ?>">
-        <div id="dropdown-options" class="dropdown-options">
+        <input type="text" id="search-input" name="search" placeholder="Search by Month" value="<?= htmlspecialchars($search_date); ?>">
+        <div id="dropdown-options" class="dropdown-options"> 
             <?php foreach ($billing_dates as $date): ?>
                 <div class="dropdown-option" data-value="<?= htmlspecialchars($date); ?>"><?= htmlspecialchars($date); ?></div>
             <?php endforeach; ?>
-
         </div>
         <button type="button" id="search-button">Search</button>
     </div>
-  
 </form>
-
             <h3>Billing History</h3>
             <table id="billing-table" class="table">
                 <thead>
@@ -190,37 +187,41 @@ while ($row = $result_dates->fetch_assoc()) {
 
 <script>
     const input = document.getElementById('search-input');
-const options = document.getElementById('dropdown-options');
+    const options = document.getElementById('dropdown-options');
 
-input.addEventListener('focus', function() {
-    options.style.display = 'block'; // Show dropdown on focus
-});
+    // Show dropdown on input focus
+    input.addEventListener('focus', function() {
+        options.style.display = 'block'; // Show dropdown on focus
+    });
 
-input.addEventListener('input', function() {
-    const filter = input.value.toLowerCase();
-    const items = options.querySelectorAll('.dropdown-option');
+    // Filter options based on user input
+    input.addEventListener('input', function() {
+        const filter = input.value.toLowerCase();
+        const items = options.querySelectorAll('.dropdown-option');
 
-    items.forEach(item => {
-        if (item.textContent.toLowerCase().includes(filter)) {
-            item.style.display = 'block'; // Show matching items
-        } else {
-            item.style.display = 'none'; // Hide non-matching items
+        items.forEach(item => {
+            if (item.textContent.toLowerCase().includes(filter)) {
+                item.style.display = 'block'; // Show matching items
+            } else {
+                item.style.display = 'none'; // Hide non-matching items
+            }
+        });
+    });
+
+    // Handle clicking on an option
+    options.addEventListener('click', function(event) {
+        if (event.target.classList.contains('dropdown-option')) {
+            input.value = event.target.dataset.value; // Set input value
+            options.style.display = 'none'; // Hide dropdown
         }
     });
-});
 
-options.addEventListener('click', function(event) {
-    if (event.target.classList.contains('dropdown-option')) {
-        input.value = event.target.dataset.value; // Set input value
-        options.style.display = 'none'; // Hide dropdown
-    }
-});
-
-document.addEventListener('click', function(event) {
-    if (!input.contains(event.target) && !options.contains(event.target)) {
-        options.style.display = 'none'; // Hide dropdown if click outside
-    }
-});
+    // Hide dropdown if click outside
+    document.addEventListener('click', function(event) {
+        if (!input.contains(event.target) && !options.contains(event.target)) {
+            options.style.display = 'none'; // Hide dropdown if click outside
+        }
+    });
 
     document.getElementById('search-button').addEventListener('click', function() {
         const homeownerId = document.querySelector('input[name="homeowner_id"]').value;

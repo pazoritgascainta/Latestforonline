@@ -103,6 +103,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['homeowner_id'])) {
     <?php include 'sidebar.php'; ?>
 
     <div class="main-content">
+    <button onclick="history.back()" class="back-button">Go Back</button>
+
         <div class="container">
             <h1>Create Billing History Record</h1>
 

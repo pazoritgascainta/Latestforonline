@@ -57,7 +57,7 @@ $result_appointments = $stmt_appointments->get_result();
     <div class="container">
         <section>
             <h2>Accepted Appointments for Homeowner ID: <?php echo htmlspecialchars($homeowner_id); ?></h2>
-            <a href="input_billing.php?homeowner_id=<?= htmlspecialchars($homeowner_id); ?>">Back</a>
+            <button onclick="history.back()" class="back-button">Go Back</button>
             <!-- Accepted Appointments Table -->
             <h3>Accepted Appointments</h3>
             <table class="table">

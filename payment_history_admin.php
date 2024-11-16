@@ -62,6 +62,18 @@ $result_images = $stmt_images->get_result();
     <title>Uploaded Images - Admin</title>
     <link rel="stylesheet" href="uploaded_payment.css">
     <style>
+        .back-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #ff8b2c;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 160vh;
+    margin-bottom: 20px;
+}
        .modal {
             display: none; /* Hidden by default */
             position: fixed; /* Stay in place */
@@ -135,6 +147,8 @@ $result_images = $stmt_images->get_result();
 
     <div class="main-content">
     <h2>Uploaded Images of Homeowner ID: <?php echo htmlspecialchars($homeowner_id); ?></h2> <!-- Add this line -->
+    <button onclick="history.back()" class="back-button">Go Back</button>
+
 
         <div class="recent-payments">
             <?php if ($result_images->num_rows > 0): ?>
