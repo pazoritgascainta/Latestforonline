@@ -4,7 +4,19 @@
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-
+.unread-count {
+    color: white; /* Change to your preferred color */
+    font-weight: bold;
+    background-color: red; /* Background color */
+    border-radius: 50%; /* Make it round */
+ 
+    position: absolute; /* Absolute positioning */
+    top: -10px; /* Adjust this value as needed */
+    right: -90px; /* Adjust this value as needed */
+    min-width: 20px; /* Minimum width for the circle */
+    text-align: center; /* Center the text */
+    font-size: 12px; /* Font size */
+}
 nav {
     background: #ffdab9;
     width: 100%;

@@ -39,7 +39,22 @@ if ($result->num_rows > 0) {
     die("Homeowner not found.");
 }
 
+// Count unseen messages in the inbox
+$sql_count = "SELECT COUNT(*) as unread_messages FROM inbox WHERE homeowner_id = ? AND seen = 0";
+$stmt_count = $conn->prepare($sql_count);
+
+if ($stmt_count === false) {
+    die("Failed to prepare SQL statement for counting unread messages: " . $conn->error);
+}
+
+$stmt_count->bind_param("i", $homeowner_id);
+$stmt_count->execute();
+$result_count = $stmt_count->get_result();
+$row = $result_count->fetch_assoc();
+$unread_messages = $row['unread_messages'];
+
 $stmt->close();
+$stmt_count->close();
 $conn->close();
 
 // Default profile image
@@ -54,24 +69,28 @@ $profile_image = $homeowner['profile_image'] ? $homeowner['profile_image'] : $de
             <img src="monique logo.png" alt="logo" id="logo-img">
         </a>
         <div class="nav-links-wrapper">
-        <ul>
-    <li><a href="dashuser.php" class="nav-link home-link">Home</a></li>
-    <li>
-        <a href="#" class="nav-link notifications-link">Notifications 
-            <div class="notification-dot" id="inboxNotificationDot"></div> <!-- Notification dot -->
-        </a>
-        <div class="sub-menu-wrap" id="notificationsMenu">
-            <div class="sub-menu">
-                <a href="userinbox.php" class="sub-menu-link">
-                    <img src="inbox.png" alt="">
-                    <p>Inbox</p>
-                    <span>></span>
-                </a>
-            </div>
+            <ul>
+                <li><a href="dashuser.php" class="nav-link home-link">Home</a></li>
+                <li>
+    <a href="#" class="nav-link notifications-link" style="position: relative;">Notifications 
+        <?php if ($unread_messages > 0): ?>
+            <span class="unread-count">
+                <?php echo $unread_messages; ?>
+            </span>
+        <?php endif; ?>
+    </a>
+    <div class="sub-menu-wrap" id="notificationsMenu">
+        <div class="sub-menu">
+            <a href="userinbox.php" class="sub-menu-link">
+                <img src="inbox.png" alt="">
+                <p>Inbox</p>
+                <span>></span>
+            </a>
         </div>
-    </li>
-</ul>
-<audio id="notificationSound" src="Notifationsound.mp3" preload="auto"></audio>
+    </div>
+</li>
+            </ul>
+            <audio id="notificationSound" src="Notifationsound.mp3" preload="auto"></audio>
             
             <a href="#" class="nav-link user-profile-link" onclick="toggleProfileMenu()">
                 <img src="<?php echo htmlspecialchars($profile_image); ?>" class="user-pic" alt="profile picture">
@@ -159,4 +178,3 @@ $profile_image = $homeowner['profile_image'] ? $homeowner['profile_image'] : $de
     </ul>
 </div>
 <script src="usersidebar.js"></script>
-

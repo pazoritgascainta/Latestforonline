@@ -47,19 +47,55 @@ if ($result->num_rows > 0) {
 
 $stmt->close();
 
+// Fetch the unread message count
+$sql_count = "SELECT COUNT(*) as unread_count FROM admin_inbox WHERE admin_id = ? AND seen = 0";
+$stmt_count = $conn->prepare($sql_count);
+
+if ($stmt_count === false) {
+    error_log("Failed to prepare SQL statement for unread count: " . $conn->error);
+    return;
+}
+
+$stmt_count->bind_param("i", $admin_id);
+$stmt_count->execute();
+$result_count = $stmt_count->get_result();
+$unread_message = $result_count->fetch_assoc();
+$unread_messages = $unread_message['unread_count'];
+$stmt_count->close();
+
 // Default profile image handling
 $default_image = 'profile.png';
 $profile_image = isset($admin['profile_image']) && !empty($admin['profile_image']) ? $admin['profile_image'] : $default_image;
 
-// Do not close the connection here if it is needed in another script
-
+// Close the database connection
+$conn->close();
 ?>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="dashbcss.css">
+    <link rel="stylesheet" href="sidebar.css">
+    <style>
+        .unread-count {
+            color: white; /* Change this to your preferred color */
+            background-color: red; /* Color of the badge */
+            border-radius: 50%; /* Make the badge circular */
+            padding: 5px; /* Padding inside the badge */
+            position: absolute; /* Position it absolutely */
+            top: -20px; /* Adjust this value to position the badge */
+            right: -10px; /* Adjust this value to position the badge */
+            min-width: 20px; /* Minimum width to make it look circular */
+            text-align: center; /* Center the count text */
+            font-size: 12px; /* Font size */
+        }
+    </style>
+</head>
+<body>
 
-<!-- Your HTML and rest of the code here -->
-
-<link rel="stylesheet" href="dashbcss.css">
-<link rel="stylesheet" href="sidebar.css">
 <div class="headnavbar">
     <nav>
         <a href="dashadmin.php">
@@ -69,26 +105,30 @@ $profile_image = isset($admin['profile_image']) && !empty($admin['profile_image'
             <ul>
                 <li><a href="dashadmin.php" class="nav-link home-link">Home</a></li>
                 <li>
-        <a href="#" class="nav-link notifications-link">Notifications 
-        <div class="notification-dot" id="inboxNotificationDot" style="display: none;"></div> <!-- Notification dot -->
-        </a>
-        <div class="sub-menu-wrap" id="notificationsMenu">
-            <div class="sub-menu">
-                <a href="inbox.php" class="sub-menu-link">
-                    <img src="inbox.png" alt="">
-                    <p>Inbox</p>
-                    <span>></span>
-                </a>
-            </div>
-        </div>
-    </li>
-    <audio id="notificationSound" src="Notificationsound.mp3" preload="auto"></audio>
-
+                    <a href="#" class="nav-link notifications-link" style="position: relative;">
+                        Notifications 
+                        <?php if ($unread_messages > 0): ?>
+                            <span class="unread-count">
+                                <?php echo htmlspecialchars($unread_messages); ?>
+                            </span>
+                        <?php endif; ?>
+                    </a>
+                    <div class="sub-menu-wrap" id="notificationsMenu">
+                        <div class="sub-menu">
+                            <a href="inbox.php" class="sub-menu-link">
+                                <img src="inbox.png" alt="">
+                                <p>Inbox</p>
+                                <span>></span>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <audio id="notificationSound" src="Notificationsound.mp3" preload="auto"></audio>
             </ul>
-            <img src="<?php echo htmlspecialchars($admin['profile_image'] ?? 'profile.png'); ?>" class="user-pic" onclick="toggleProfileMenu()" alt="profile picture">
+            <img src="<?php echo htmlspecialchars($profile_image); ?>" class="user-pic" onclick="toggleProfileMenu()" alt="profile picture">
             <div class="sub-menu-wrap" id="profileMenu">
                 <div class="sub-menu">
-                    <img src="<?php echo htmlspecialchars($admin['profile_image'] ?? 'profile.png'); ?>" alt="Profile Image" class="profile-img" id="sidebarProfileImage">
+                    <img src="<?php echo htmlspecialchars($profile_image); ?>" alt="Profile Image" class="profile-img" id="sidebarProfileImage">
                     <div>
                         <p class="user-names"><?php echo htmlspecialchars($admin['username'] ?? 'Admin Name'); ?></p>
                         <p>Admin</p>
@@ -118,14 +158,13 @@ $profile_image = isset($admin['profile_image']) && !empty($admin['profile_image'
         <img src="menu.png" alt="menu" class="menu-img" id="btn">
     </div>
     <div class="user">
-        <img src="<?php echo htmlspecialchars($admin['profile_image'] ?? 'profile.png'); ?>" alt="profile picture" class="profile-img">
+        <img src="<?php echo htmlspecialchars($profile_image); ?>" alt="profile picture" class="profile-img">
         <div>
-            <p class="user-names"><?php echo htmlspecialchars($admin['username'] ?? 'Admin Name'); ?></p> <!-- Dynamic admin name -->
+            <p class="user-names"><?php echo htmlspecialchars($admin['username'] ?? 'Admin Name'); ?></p>
             <p>Admin</p>
         </div>
     </div>
     <hr>
-
     <ul>
         <li>
             <a href="dashadmin.php">
@@ -187,3 +226,6 @@ $profile_image = isset($admin['profile_image']) && !empty($admin['profile_image'
 </div>
 
 <script src="sidebar.js"></script>
+
+</body>
+</html>
