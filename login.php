@@ -57,33 +57,9 @@ $logout_message = isset($_GET['message']) && $_GET['message'] == 'loggedout' ? "
     <link rel="stylesheet" href="login.css">
 </head>
 <body>
-    <div class="container my-5">
-        <h2>Login</h2>
-        <?php if (!empty($error)): ?>
-            <div style="color: red;"><?= htmlspecialchars($error); ?></div>
-        <?php endif; ?>
-        <?php if (!empty($logout_message)): ?>
-            <div style="color: green;"><?= htmlspecialchars($logout_message); ?></div>
-        <?php endif; ?>
-        <form method="post">
-            <div class="row">
-                <label class="col-form-label" for="email">Email</label>
-                <div class="col">
-                    <input type="email" id="email" class="form-control" name="email" required>
-                </div>
-            </div>
-            <div class="row">
-                <label class="col-form-label" for="password">Password</label>
-                <div class="col">
-                    <input type="password" id="password" class="form-control" name="password" required>
-                </div>
-            </div>
-            <div class="row mt-3">
-                <div class="col">
-                    <button type="submit" class="btn btn-primary">Login</button>
-                </div>
-            </div>
-        </form>
+<div class="logout-container">
+        <h2>For your security, you have been automatically logged out due to extended inactivity.</h2>
+        <a href="index.php" class="back-button">Go Back to Home</a>
     </div>
 </body>
 </html>
